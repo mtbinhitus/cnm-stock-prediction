@@ -1,0 +1,13 @@
+numpy
+pandas
+plotly
+scikit-learn
+tensorflow
+keras
+Flask
+dash
+dash-html-components
+dash-core-components
+streamlit
+python-binance
+python-dotenv
