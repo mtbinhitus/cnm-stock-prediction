@@ -1,1 +1,1 @@
-# cnm-stock-prediction
+## Server project
