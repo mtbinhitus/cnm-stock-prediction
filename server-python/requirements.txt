@@ -11,3 +11,4 @@ dash-core-components
 streamlit
 python-binance
 python-dotenv
+django
