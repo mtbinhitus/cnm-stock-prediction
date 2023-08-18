@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 const TradingViewChart = () => {
     useEffect(() => {
         const widgetOptions = {
-            // Configure the TradingView widget options here
             widgetType: 'widget',
             autosize: true,
             symbol: 'BINANCE:BTCUSDT',
