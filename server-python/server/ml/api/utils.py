@@ -7,7 +7,8 @@ import time
 # input - key_name: the name of the enviroment variable that you want to get.
 # output - the value of the environment. if the value is not available the fn will return "None"
 def get_env_variable(key_name):
-    dotenv_path = Path('./.env')
+    dotenv_path = Path('../.env')
+    print(dotenv_path)
     is_done= load_dotenv(dotenv_path=dotenv_path)
     if(is_done is True):
         print("Environment Variables file .env loaded Successfully!")
@@ -28,8 +29,9 @@ def countdown(t):
     print('Fire in the hole!!')
 
 
-def df_to_csv(df):
+def df_to_csv(df, filename='btc_bars'):
     # export DataFrame to csv
-    res = df.to_csv('btc_bars.csv')
+    res = df.to_csv(f'{filename}.csv')
+    print("df_to_csv")
     print(res)
     return res

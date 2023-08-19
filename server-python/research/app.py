@@ -9,9 +9,9 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 
 def load_and_predict(token):
-    df = pd.read_csv(f"./{token}.csv")
+    df = pd.read_csv(f"./data/{token}.csv")
 
-    df["Date"]=pd.to_datetime(df.Date,format="mixed").dt.date
+    df["Date"]=pd.to_datetime(df.Date,format="mixed")
     df.index=df['Date']
 
     df = df.sort_index(ascending=True, axis=0)

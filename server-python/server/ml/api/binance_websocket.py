@@ -1,9 +1,12 @@
-import utils
+from ml.api import utils
 import os
 from time import sleep
 from binance import ThreadedWebsocketManager
 from binance.client import Client
 import pandas as pd
+from datetime import datetime
+import datetime as dt
+import numpy as np
 
 class BinanceAPIManager():
     def __init__(self, api_key, api_secret, api_endpoint):
@@ -32,27 +35,35 @@ class BinanceAPIManager():
     def get_earliest_valid_timestamp(self, symbol, interval):
         # get timestamp of earliest date data is available
         timestamp = self.client._get_earliest_valid_timestamp(symbol, interval)
-        print(timestamp)
+  
         return timestamp
     
     # valid intervals - 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
-    def get_historical_klines(self, symbol, interval):
-        timestamp = self.client._get_earliest_valid_timestamp(symbol, interval)
+    def get_historical_klines(self, symbol, interval, startTime, endTime=None):
+        startTime_UTC = str(int(startTime.timestamp() * 1000))
+        endTime_UTC = str(int(endTime.timestamp() * 1000))
+        print("Start time: ", startTime)
+        print("End time: ", endTime)
+
         # request historical candle (or klines) data, limit maximum is 1000 candle
-        bars = self.client.get_historical_klines(symbol, interval, timestamp)
+        bars = self.client.get_historical_klines(symbol, interval, start_str=startTime_UTC, end_str=endTime_UTC, limit=1000)
         
         # delete unwanted data - just keep date, open, high, low, close
         for line in bars:
             del line[5:]
         
-        print(bars)
         return bars
     
     def get_dataframe_from_bars(self, bars):
         # create a Pandas DataFrame and export to CSV
-        df = pd.DataFrame(bars, columns=['date', 'open', 'high', 'low', 'close'])
+        df = pd.DataFrame(bars, columns=['timestamp', 'open', 'high', 'low', 'close'])
+        df['open']=df.open.replace('', np.nan).astype('float64')
+        df['high']=df.high.replace('', np.nan).astype('float64')
+        df['low']=df.low.replace('', np.nan).astype('float64')
+        df['close']=df.close.replace('', np.nan).astype('float64')
+        df['date'] = [datetime.fromtimestamp(x / 1000.0) for x in df.timestamp]
         df.set_index('date', inplace=True)
-        print(df.head())
+
         return df
     
     # start websocket
@@ -67,26 +78,6 @@ class BinanceAPIManager():
     def subscribe_to_a_stream(self, symbol):
         self.bsm.start_symbol_ticker_socket(callback=self.handle_socket_message, symbol=symbol)
 
-
-
-
-# test load env var
-value = utils.get_env_variable("BINANCE_API_SECRET_KEY")
-if value == None:
-    print("checkpoint")
-else:
-    print(value)
-
-# Load historical data from binance api\
-api_key = 'BINANCE_API_KEY'
-api_secret = 'BINANCE_API_SECRET_KEY'
-api_endpoint = 'BINANCE_API_ENDPOINT'
-
-instance = BinanceAPIManager(api_key, api_secret, api_endpoint)
-
-data_btc = instance.get_historical_klines(symbol='BTCUSDT', interval='1d')
-df_btc = instance.get_dataframe_from_bars(bars=data_btc)
-utils.df_to_csv(df=df_btc)
 
 # Stream real-time data from websocket
 # instance.start_websocket()

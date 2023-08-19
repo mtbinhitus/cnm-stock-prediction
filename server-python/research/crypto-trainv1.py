@@ -21,7 +21,7 @@ def training_model(token):
 
     # Load data
     Ticker = yf.Ticker(token)
-    df = Ticker.history(period="max")
+    df = Ticker.history(period="6mo", interval="1h")
     df = pd.DataFrame(df)
 
     # df=pd.read_csv("BTC-USD.csv")
@@ -43,7 +43,7 @@ def training_model(token):
     df[f'SD_{ma_3}'] = df['Close'].rolling(window=ma_3).std()
     df.dropna(inplace=True)
 
-    df.to_csv(f"{token}.csv")
+    df.to_csv(f"data/{token}.csv")
     print("Done Loading Data")
 
     # Process Data
@@ -85,7 +85,7 @@ def training_model(token):
 
     model.compile(optimizer='adam', loss='mean_squared_error')
     model.fit(x_train, y_train, epochs=120, steps_per_epoch=40, use_multiprocessing=True)
-    model.save(f"./models/{token}.h5")
+    model.save(f"models/{token}.h5")
     print("Done Training Model")
 
     # Testing

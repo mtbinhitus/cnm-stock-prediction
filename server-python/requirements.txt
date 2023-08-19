@@ -12,3 +12,5 @@ streamlit
 python-binance
 python-dotenv
 django
+djangorestframework
+path
