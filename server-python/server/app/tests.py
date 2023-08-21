@@ -1,9 +1,10 @@
 from django.test import TestCase
+from rest_framework.test import APIClient
 from ml.btc_sticker.btc_lstm import BTCPredictionUsingLSTM
 from ml.api.binance_websocket import BinanceAPIManager
 import ml.api.utils as utils
-import pandas as pd
 import datetime as dt
+import pandas as pd
 import numpy as np
 import json
 
@@ -48,8 +49,23 @@ class MLTests(TestCase):
         response = my_alg.compute_prediction(input_data)
         print("Date time prediction: ",dt.datetime.fromtimestamp(response['timestamp']))
         print("Price prediction: ", response['prediction'])
-        with open("sample.json", "w") as outfile:
-            json.dump(response, outfile)
+
         self.assertEqual('OK', response['status'])
         self.assertTrue('label' in response)
-        self.assertEqual('BTCPredictionUsingLSTM', response['label'])
+        self.assertEqual('btcusdt_lstm_close_ma_poc', response['label'])
+
+class APITests(TestCase):
+    def test_predict_view(self):
+        client = APIClient()
+        input_data = {
+            "sticker": "BTCUSDT",
+            "model": "LSTM",
+            "indicator": ["Close", "POC", "MA"]
+        }
+        btcsticker_url = "/api/v1/btcsticker/predict"
+        response = client.post(btcsticker_url, input_data, format='json')
+        print(response)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["label"], "btcusdt_lstm_close_ma_poc")
+        self.assertTrue("request_id" in response.data)
+        self.assertTrue("status" in response.data)

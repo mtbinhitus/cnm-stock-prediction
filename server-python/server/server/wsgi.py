@@ -26,7 +26,7 @@ try:
     # add to ML registry
     registry.add_algorithm(endpoint_name="btcsticker",
                             algorithm_object=rf,
-                            algorithm_name="LSTM using ROC, MA, SD",
+                            algorithm_name="btcusdt_lstm_close_ma_poc",
                             algorithm_status="production",
                             algorithm_version="0.0.1",
                             owner="Binh Mai",

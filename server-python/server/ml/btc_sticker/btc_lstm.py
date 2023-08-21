@@ -56,7 +56,7 @@ class BTCPredictionUsingLSTM:
         return prediction
 
     def postprocessing(self, timestamp, prediction):
-        return {"prediction": prediction.astype('float64'), "timestamp": timestamp / 1000.0,"label": "BTCPredictionUsingLSTM", "status": "OK"}
+        return {"prediction": round(prediction.astype('float64'), 2), "timestamp": np.int64(timestamp / 1000.0),"label": "btcusdt_lstm_close_ma_poc", "status": "OK"}
 
     def compute_prediction(self, input_data):
         try:
