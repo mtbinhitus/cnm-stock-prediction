@@ -1,0 +1,136 @@
+body {
+  margin: 0;
+  font-family: "Roboto";
+  --grayishBlue: #d1d4dc;
+  --grayishBlue2: #e2e3e4;
+  --darkBlue: #131722;
+  --darkBlue2: #2d3243;
+  --white: white;
+  --vividBlue: #2962ff;
+}
+
+.App {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#dark {
+  background: var(--darkBlue);
+}
+
+#light {
+  background: var(--white);
+}
+
+.Header {
+  width: 100%;
+  height: 100%;
+}
+
+.Header-1 {
+  width: 100%;
+  height: 60px;
+}
+
+#light.Header {
+  border-bottom: 1px solid var(--grayishBlue2);
+}
+
+#dark.Header {
+  border-bottom: 1px solid var(--darkBlue2);
+}
+
+.App-header {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.App-header-1 {
+  width: 50%;
+  height: 200px;
+  order: 1;
+}
+
+.App-header-2 {
+  width: 50%;
+  height: 200px;
+}
+
+.App-header-2 #tradingview_widget_wrapper {
+  height: 90%;
+}
+
+.App-header-2 #tradingview_widget_wrapper div {
+  height: 100%;
+}
+
+.App-body {
+  width: 100%;
+  height: 600px;
+}
+
+.App-body-1 {
+  width: 100%;
+  height: 600px;
+}
+
+.App-footer {
+  width: 100%;
+  height: 100%;
+}
+
+.App-footer-1 {
+  width: 100%;
+  height: 400px;
+}
+
+.App-footer-1 #tradingview_widget_wrapper {
+  height: 100%;
+}
+
+.App-footer-1 #tradingview_widget_wrapper div {
+  height: 100%;
+}
+
+.Footer {
+  width: 100%;
+  height: 100%;
+}
+
+.Footer-1 {
+  width: 100%;
+  height: 60px;
+}
+
+#light.Footer {
+  border-top: 1px solid var(--grayishBlue2);
+}
+
+#dark.Footer {
+  border-top: 1px solid var(--darkBlue2);
+}
+
+.MuiBox-root.css-i9gxme {
+  background: inherit;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-hip9hq-MuiPaper-root-MuiAppBar-root {
+  background: inherit;
+}
+
+@media (min-width: 600px) {
+  .css-19r6kue-MuiContainer-root {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+@media (min-width: 600px) {
+  .css-1orzy9s {
+    margin-right: 20px !important;
+  }
+}
