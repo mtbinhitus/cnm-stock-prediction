@@ -8,6 +8,6 @@ function App() {
       <Prediction />
     </>
   );
-}
+};
 
 export default App;

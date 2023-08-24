@@ -8,7 +8,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
 import { alpha, createTheme, styled, ThemeProvider } from "@mui/material/styles";
-import ToggleButton from "../components/ToggleButton.js"
+import ToggleButton from "../components/ToggleButton.js";
 import themeColors from "../components/themeColors.js";
 import "../styles.css";
 
@@ -113,12 +113,14 @@ function Header({ updateTheme, theme }) {
                         <Container maxWidth="xl">
                             <Toolbar disableGutters>
                                 <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                                    <Button className="button"
+                                    <Button
+                                        className="button"
                                         variant={theme}
                                         href="/"
                                     >Market</Button>
 
-                                    <Button className="button"
+                                    <Button
+                                        className="button"
                                         variant={theme}
                                         href="/prediction"
                                     >Prediction</Button>
@@ -150,6 +152,6 @@ function Header({ updateTheme, theme }) {
             </ThemeContext.Provider>
         </>
     );
-}
+};
 
 export default Header;

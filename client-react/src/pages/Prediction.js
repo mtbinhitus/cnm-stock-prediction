@@ -4,6 +4,6 @@ function Prediction() {
             hello
         </div>
     );
-}
+};
 
 export default Prediction;

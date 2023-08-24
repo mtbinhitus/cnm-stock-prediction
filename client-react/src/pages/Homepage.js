@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 import { AdvancedRealTimeChart, CompanyProfile, SymbolInfo, Timeline } from "react-ts-tradingview-widgets";
-import Header from "../layouts/Header.js"
-import Footer from "../layouts/Footer.js"
+import Header from "../layouts/Header.js";
+import Footer from "../layouts/Footer.js";
 import "../styles.css";
 
 function Homepage() {
@@ -31,7 +31,7 @@ function Homepage() {
         parent: {
             display: "none"
         }
-    }
+    };
 
     return (
         <div className="App">
@@ -112,6 +112,6 @@ function Homepage() {
             </div>
         </div>
     );
-}
+};
 
 export default Homepage;
