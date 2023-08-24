@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import App from "./App.js";
+import Homepage from "./pages/Homepage.js";
+import Prediction from "./pages/Prediction.js";
 
 const router = createBrowserRouter([
   {
@@ -10,8 +11,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/search/:symbol",
-    element: <App />
+    element: <Homepage />
   },
+  {
+    path: "/prediction",
+    element: <Prediction />
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
