@@ -31,8 +31,8 @@ const LightChart = ({ theme }) => {
                 },
                 textColor: textColor
             },
-            width: chartContainerRef.current.clientWidth,
-            height: 300
+            width: 800,
+            height: 400
         });
 
         const series = chart.addCandlestickSeries();

@@ -31,11 +31,13 @@ function Prediction() {
                 </div>
             </div>
 
-            <div>
-                <LightChart
-                    theme={theme}
-                    updateTheme={updateTheme}
-                ></LightChart>
+            <div className="App-body" id={theme}>
+                <div className="App-body-1">
+                    <LightChart
+                        theme={theme}
+                        updateTheme={updateTheme}
+                    ></LightChart>
+                </div>
             </div>
 
             <div className="Footer" id={theme}>
