@@ -61,8 +61,8 @@ function Header({ updateTheme, theme, showSearchBar }) {
         updateTheme(newTheme);
     };
 
-    const borderColor = theme === "dark" ? themeColors.darkBlue2 : themeColors.grayishBlue2;
     const color = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
+    const borderColor = theme === "dark" ? themeColors.darkBlue2 : themeColors.grayishBlue2;
 
     const commonButtonStyle = {
         fontWeight: 600,

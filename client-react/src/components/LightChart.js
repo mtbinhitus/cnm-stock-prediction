@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { ColorType, createChart } from "lightweight-charts";
 import themeColors from "./themeColors";
 
-const LightChart = () => {
+const LightChart = ({ theme }) => {
     const chartContainerRef = useRef();
 
     useEffect(() => {
@@ -19,14 +19,17 @@ const LightChart = () => {
             { time: '2018-12-31', open: 109.87, high: 114.69, low: 85.66, close: 111.26 }
         ];
 
+        const color = theme === "dark" ? themeColors.darkBlue : themeColors.white;
+        const textColor = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
+
         const chart = createChart(chartContainerRef.current);
         chart.applyOptions({
             layout: {
                 background: {
                     type: ColorType.Solid,
-                    color: themeColors.white
+                    color: color
                 },
-                textColor: themeColors.darkBlue
+                textColor: textColor
             },
             width: chartContainerRef.current.clientWidth,
             height: 300
@@ -68,7 +71,7 @@ const LightChart = () => {
         return () => {
             chart.remove();
         };
-    }, []);
+    }, [theme]);
 
     return (
         <div className="chartContainerRef" ref={chartContainerRef}></div>

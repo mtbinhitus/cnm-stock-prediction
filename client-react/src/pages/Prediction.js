@@ -32,7 +32,10 @@ function Prediction() {
             </div>
 
             <div>
-                <LightChart />
+                <LightChart
+                    theme={theme}
+                    updateTheme={updateTheme}
+                ></LightChart>
             </div>
 
             <div className="Footer" id={theme}>
