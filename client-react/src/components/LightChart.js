@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { ColorType, createChart } from "lightweight-charts";
+import themeColors from "./themeColors";
 
-function LightChart() {
+const LightChart = () => {
     const chartContainerRef = useRef();
 
     useEffect(() => {
@@ -23,9 +24,9 @@ function LightChart() {
             layout: {
                 background: {
                     type: ColorType.Solid,
-                    color: "white"
+                    color: themeColors.white
                 },
-                textColor: "black"
+                textColor: themeColors.darkBlue
             },
             width: chartContainerRef.current.clientWidth,
             height: 300

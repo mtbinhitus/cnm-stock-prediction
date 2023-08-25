@@ -43,7 +43,7 @@ function Prediction() {
                     ></Footer>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
