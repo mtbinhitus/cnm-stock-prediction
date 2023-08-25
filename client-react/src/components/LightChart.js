@@ -7,6 +7,8 @@ const LightChart = ({ theme }) => {
     const legend = document.createElement("div");
 
     useEffect(() => {
+        const chart = createChart(chartContainerRef.current);
+
         // const data = [
         //     { time: "2018-12-22", value: 75.16 },
         //     { time: "2018-12-23", value: 45.12 },
@@ -36,7 +38,6 @@ const LightChart = ({ theme }) => {
         const color = theme === "dark" ? themeColors.darkBlue : themeColors.white;
         const textColor = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
 
-        const chart = createChart(chartContainerRef.current);
         chart.applyOptions({
             layout: {
                 background: {
@@ -46,7 +47,31 @@ const LightChart = ({ theme }) => {
                 textColor: textColor
             },
             width: 800,
-            height: 400
+            height: 400,
+            crosshair: {
+                horzLine: {
+                    visible: false,
+                    labelVisible: false
+                }
+            },
+            grid: {
+                vertLines: {
+                    visible: false
+                },
+                horzLines: {
+                    visible: false
+                }
+            },
+            rightPriceScale: {
+                scaleMargins: {
+                    top: 0.4,
+                    bottom: 0.15
+                },
+                borderColor: textColor
+            },
+            timeScale: {
+                borderColor: textColor
+            }
         });
 
         // const series = chart.addLineSeries();
@@ -108,15 +133,15 @@ const LightChart = ({ theme }) => {
 
             const newCandle = {
                 time: nextTime,
-                high: 58 + Math.random() * 2,
-                open: 52 + Math.random() * 6,
-                low: 50 + Math.random() * 2,
-                close: 52 + Math.random() * 6
+                high: 100 + Math.random() * 2,
+                open: 100 + Math.random() * 2,
+                low: 100 + Math.random() * 2,
+                close: 100 + Math.random() * 2
             };
 
             series.update(newCandle);
             data.push(newCandle);
-        }, 1000);
+        }, 10000);
 
         return () => {
             chart.remove();
