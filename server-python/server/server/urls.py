@@ -22,6 +22,7 @@ from app.views import MLModelViewSet
 from app.views import MLModelStatusViewSet
 from app.views import MLRequestViewSet
 from app.views import PredictView
+from app.views import BinanceAPI
 
 
 router = DefaultRouter(trailing_slash=False)
@@ -34,5 +35,6 @@ router.register(r"mlrequests", MLRequestViewSet, basename="mlrequests")
 urlpatterns = [
     re_path(r"^api/v1/", include(router.urls)),
     re_path(r"^api/v1/(?P<endpoint_name>.+)/predict$", PredictView.as_view(), name="predict"),
+    re_path(r"^api/v1/klines$", BinanceAPI.as_view(), name="kline"),
     path('admin/', admin.site.urls),
 ]

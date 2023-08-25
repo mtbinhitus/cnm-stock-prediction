@@ -27,6 +27,7 @@ from ml.btc_sticker.btc_lstm import BTCPredictionUsingLSTM
 from ml.api.binance_websocket import BinanceAPIManager
 import ml.api.utils as utils
 import datetime as dt
+import pandas as pd
 
 # Create your views here.
 
@@ -148,17 +149,11 @@ class PredictView(views.APIView):
 
         algorithm_object = registry.endpoints[algs[alg_index].id]
 
-        # Load historical data from binance api\
-        api_key = 'BINANCE_API_KEY'
-        api_secret = 'BINANCE_API_SECRET_KEY'
-        api_endpoint = 'BINANCE_API_ENDPOINT'
-
-        instance = BinanceAPIManager(api_key, api_secret, api_endpoint)
-
-        data_btc = instance.get_historical_klines(symbol='BTCUSDT', interval='1h', startTime=dt.datetime.now() - dt.timedelta(days=3), endTime=dt.datetime.now())
-        df_btc = instance.get_dataframe_from_bars(bars=data_btc)
-        utils.df_to_csv(df=df_btc, filename="btc_bars")
-        data_predict = df_btc
+        df_btc = pd.read_csv("./btc_bars.csv")
+        df_btc['date'] = [dt.datetime.fromtimestamp(x / 1000.0) for x in df_btc.timestamp]
+        df_btc.set_index('date', inplace=True)
+        data_predict = df_btc[len(df_btc)-100:]
+        print(data_predict)
 
         prediction = algorithm_object.compute_prediction(data_predict)
 
@@ -175,3 +170,28 @@ class PredictView(views.APIView):
         prediction["request_id"] = ml_request.id
 
         return Response(prediction)
+    
+
+class BinanceAPI(views.APIView):
+    def get(self, request, format=None):
+        # Load historical data from binance api
+
+        # req_symbol = self.request.query_params.get("symbol")
+        req_limit = int(self.request.query_params.get("limit"))
+        try:
+            df_btc = pd.read_csv("./btc_bars.csv")
+            df_btc.drop(df_btc.columns[[0]], axis=1, inplace=True)
+            if req_limit <= len(df_btc):
+                output_data = df_btc[len(df_btc) - req_limit:len(df_btc) - 1].to_dict(orient='records')
+                print(len(output_data))
+                return Response(output_data, status=status.HTTP_200_OK)
+            elif req_limit > len(df_btc):
+                output_data = df_btc.to_dict(orient='records')
+                print(len(output_data))
+                return Response(output_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {"status": "Error", "message": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            ) 

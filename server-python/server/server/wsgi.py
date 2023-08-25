@@ -33,3 +33,4 @@ try:
                             algorithm_description="LSTM using ROC, MA, SD to predict 1h candle price of BTCUSDT.")
 except Exception as e:
     print("Exception while loading the algorithms to the registry,", str(e))
+

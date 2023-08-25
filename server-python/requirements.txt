@@ -8,9 +8,14 @@ Flask
 dash
 dash-html-components
 dash-core-components
-streamlit
 python-binance
 python-dotenv
 django
 djangorestframework
 path
+requests
+Markdown
+django-filter
+django-cors-headers
+daphne
+channels["daphne"]
