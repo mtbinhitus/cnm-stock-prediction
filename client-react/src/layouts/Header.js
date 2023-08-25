@@ -55,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     }
 }));
 
-function Header({ updateTheme, theme }) {
+function Header({ updateTheme, theme, showSearchBar }) {
     const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
         updateTheme(newTheme);
@@ -126,7 +126,7 @@ function Header({ updateTheme, theme }) {
                                     >Prediction</Button>
                                 </Box>
 
-                                <form onSubmit={handleSubmit}>
+                                {showSearchBar && <form onSubmit={handleSubmit}>
                                     <Search style={{ background: "transparent", border: `1px solid ${borderColor}`, borderRadius: "0px" }}>
                                         <SearchIconWrapper>
                                             <SearchIcon style={{ color: color }} />
@@ -139,7 +139,7 @@ function Header({ updateTheme, theme }) {
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                         ></StyledInputBase>
                                     </Search>
-                                </form>
+                                </form>}
 
                                 <ToggleButton
                                     onChange={toggleTheme}

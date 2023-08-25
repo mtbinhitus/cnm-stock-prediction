@@ -40,6 +40,7 @@ function Homepage() {
                     <Header
                         theme={theme}
                         updateTheme={updateTheme}
+                        showSearchBar={true}
                     ></Header>
                 </div>
             </div>
