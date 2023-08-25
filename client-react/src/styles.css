@@ -149,3 +149,7 @@ body {
     margin-right: 20px !important;
   }
 }
+
+.chartContainerRef {
+  position: relative;
+}
