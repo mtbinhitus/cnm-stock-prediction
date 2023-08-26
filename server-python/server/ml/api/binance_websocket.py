@@ -7,6 +7,9 @@ import pandas as pd
 from datetime import datetime
 import datetime as dt
 import numpy as np
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import json
 
 class BinanceAPIManager():
     def __init__(self, api_key, api_secret, api_endpoint):
@@ -42,10 +45,23 @@ class BinanceAPIManager():
             price['high'] = msg['k']['h']
             price['low'] = msg['k']['l']
             price['close'] = msg['k']['c']
+
+            channel_layer = get_channel_layer()
+            print("channel_layer: "+ str(channel_layer))
+            print(price)
+
             price = pd.Series(price)
             # print(price)
             df.loc[price['date']] = price
             utils.df_to_csv(df=df, filename="btc_bars")
+            message = price.copy()
+            message.reset_index()
+            del message['date']
+            message['open'] = np.float64(message['open'])
+            message['high'] = np.float64(message['high'])
+            message['low'] = np.float64(message['low'])
+            message['close'] = np.float64(message['close'])
+            await channel_layer.group_send('btcusdt_realtime', {'type': 'send_message_to_frontend','message': message})
             # print(df[len(df)-2:])
         else:
             price['error'] = True
