@@ -150,7 +150,7 @@ class PredictView(views.APIView):
         algorithm_object = registry.endpoints[algs[alg_index].id]
 
         df_btc = pd.read_csv("./btc_bars.csv")
-        df_btc['date'] = [dt.datetime.fromtimestamp(x / 1000.0) for x in df_btc.timestamp]
+        df_btc['date'] = [dt.datetime.fromtimestamp(x / 1000.0) for x in df_btc.time]
         df_btc.set_index('date', inplace=True)
         data_predict = df_btc[len(df_btc)-100:]
         print(data_predict)

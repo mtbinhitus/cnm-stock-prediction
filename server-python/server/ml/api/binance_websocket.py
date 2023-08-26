@@ -34,13 +34,13 @@ class BinanceAPIManager():
     async def handle_socket_message(self, msg):
         # define how to process incoming WebSocket messages
         df = pd.read_csv("./btc_bars.csv")
-        df['date'] = [datetime.fromtimestamp(x / 1000.0) for x in df.timestamp]
+        df['date'] = [datetime.fromtimestamp(x / 1000.0) for x in df.time]
         df.set_index('date', inplace=True)
         price = {}
         # print(msg)
         if msg['e'] != 'error':
             price['date'] = dt.datetime.fromtimestamp(msg['k']['t']/1000.0)
-            price['timestamp'] = msg['k']['t']
+            price['time'] = msg['k']['t']
             price['open'] = msg['k']['o']
             price['high'] = msg['k']['h']
             price['low'] = msg['k']['l']
@@ -96,12 +96,12 @@ class BinanceAPIManager():
     
     def get_dataframe_from_bars(self, bars):
         # create a Pandas DataFrame and export to CSV
-        df = pd.DataFrame(bars, columns=['timestamp', 'open', 'high', 'low', 'close'])
+        df = pd.DataFrame(bars, columns=['time', 'open', 'high', 'low', 'close'])
         df['open']=df.open.replace('', np.nan).astype('float64')
         df['high']=df.high.replace('', np.nan).astype('float64')
         df['low']=df.low.replace('', np.nan).astype('float64')
         df['close']=df.close.replace('', np.nan).astype('float64')
-        df['date'] = [datetime.fromtimestamp(x / 1000.0) for x in df.timestamp]
+        df['date'] = [datetime.fromtimestamp(x / 1000.0) for x in df.time]
         df.set_index('date', inplace=True)
 
         return df
