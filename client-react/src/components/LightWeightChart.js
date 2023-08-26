@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { ColorType, createChart } from "lightweight-charts";
 import themeColors from "./themeColors";
 
-const LightChart = ({ theme }) => {
+const LightWeightChart = ({ theme }) => {
     const chartContainerRef = useRef();
     const legend = document.createElement("div");
 
@@ -207,4 +207,4 @@ const LightChart = ({ theme }) => {
     );
 };
 
-export default LightChart;
+export default LightWeightChart;

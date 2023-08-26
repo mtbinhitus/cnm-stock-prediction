@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LightChart from "../components/LightChart.js";
+import LightWeightChart from "../components/LightWeightChart.js";
 import Header from "../layouts/Header.js";
 import Footer from "../layouts/Footer.js";
 import "../styles.css";
@@ -33,10 +33,10 @@ function Prediction() {
 
             <div className="App-body" id={theme}>
                 <div className="App-body-1">
-                    <LightChart
+                    <LightWeightChart
                         theme={theme}
                         updateTheme={updateTheme}
-                    ></LightChart>
+                    ></LightWeightChart>
                 </div>
             </div>
 
