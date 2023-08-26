@@ -72,6 +72,9 @@ function Header({ updateTheme, theme, showSearchBar }) {
         borderRadius: "0px",
         "&:hover": {
             color: themeColors.vividBlue
+        },
+        "&:active": {
+            color: color
         }
     };
 

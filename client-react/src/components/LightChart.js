@@ -102,20 +102,74 @@ const LightChart = ({ theme }) => {
             return series.dataByIndex(lastIndex);
         };
 
-        const formatPrice = price => (Math.round(price * 100) / 100).toFixed(2);
-        const setTooltipHtml = (name, date, price) => {
-            legend.innerHTML = `<div style="font-size: 24px; margin: 4px 0px;">${name}</div><div style="font-size: 22px; margin: 4px 0px;">${price}</div><div>${date}</div>`;
-        };
+        const formatOpen = open => open.toFixed(2);
+        const formatHigh = high => high.toFixed(2);
+        const formatLow = low => low.toFixed(2);
+        const formatClose = close => close.toFixed(2);
+
+        const setTooltipHtml = (name, date, open, high, low, close) => {
+            if (close - open > 0) {
+                legend.innerHTML = `
+                    <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
+                    <div style="font-size: 16px; margin: 4px 0px;">
+                        <span>Open</span>
+                        <span style="color: ${themeColors.candlePositive};">${open}</span>
+                        <span>High</span>
+                        <span style="color: ${themeColors.candlePositive};">${high}</span>
+                    </div>
+                    <div style="font-size: 16px; margin: 4px 0px;">
+                        <span>Low</span>
+                        <span style="color: ${themeColors.candlePositive};">${low}</span>
+                        <span>Close</span>
+                        <span style="color: ${themeColors.candlePositive};">${close}</span>
+                    </div>
+                    <div style="font-size: 12px; margin: 4px 0px;">${date}</div>
+                `;
+            } else {
+                legend.innerHTML = `
+                    <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
+                    <div style="font-size: 16px; margin: 4px 0px;">
+                        <span>Open</span>
+                        <span style="color: ${themeColors.candleNegative};">${open}</span>
+                        <span>High</span>
+                        <span style="color: ${themeColors.candleNegative};">${high}</span>
+                    </div>
+                    <div style="font-size: 16px; margin: 4px 0px;">
+                        <span>Low</span>
+                        <span style="color: ${themeColors.candleNegative};">${low}</span>
+                        <span>Close</span>
+                        <span style="color: ${themeColors.candleNegative};">${close}</span>
+                    </div>
+                    <div style="font-size: 12px; margin: 4px 0px;">${date}</div>
+                `;
+            }
+        }
+
+        // const setTooltipHtml = (name, date, price) => {
+        //     legend.innerHTML = `
+        //         <div style="font-size: 24px; margin: 4px 0px;">${name}</div>
+        //         <div style="font-size: 22px; margin: 4px 0px;">${price}</div>
+        //         <div>${date}</div>
+        //     `;
+        // };
 
         const updateLegend = param => {
             const validCrosshairPoint = !(
                 param === undefined || param.time === undefined || param.point.x < 0 || param.point.y < 0
             );
+
             const bar = validCrosshairPoint ? param.seriesData.get(series) : getLastBar(series);
             const time = bar.time;
-            const price = bar.value !== undefined ? bar.value : bar.close;
-            const formattedPrice = formatPrice(price);
-            setTooltipHtml(symbolName, time, formattedPrice);
+            const open = bar.open;
+            const high = bar.high;
+            const low = bar.low;
+            const close = bar.close;
+
+            const formattedOpen = formatOpen(open);
+            const formattedHigh = formatHigh(high);
+            const formattedLow = formatLow(low);
+            const formattedClose = formatClose(close);
+            setTooltipHtml(symbolName, time, formattedOpen, formattedHigh, formattedLow, formattedClose);
         };
 
         chart.subscribeCrosshairMove(updateLegend);
@@ -133,15 +187,15 @@ const LightChart = ({ theme }) => {
 
             const newCandle = {
                 time: nextTime,
-                high: 100 + Math.random() * 2,
-                open: 100 + Math.random() * 2,
-                low: 100 + Math.random() * 2,
-                close: 100 + Math.random() * 2
+                high: 50 + Math.random() * 2,
+                open: 50 + Math.random() * 2,
+                low: 40 + Math.random() * 2,
+                close: 40 + Math.random() * 20
             };
 
             series.update(newCandle);
             data.push(newCandle);
-        }, 10000);
+        }, 1000);
 
         return () => {
             chart.remove();

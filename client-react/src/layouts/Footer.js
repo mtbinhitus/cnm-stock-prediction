@@ -17,6 +17,9 @@ function Footer({ theme }) {
                         color: color,
                         "&:hover": {
                             color: themeColors.vividBlue
+                        },
+                        "&:active": {
+                            color: color
                         }
                     }
                 }]

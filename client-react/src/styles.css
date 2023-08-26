@@ -11,6 +11,8 @@ body {
   --darkBlue2: #2d3243;
   --white: white;
   --vividBlue: #2962ff;
+  --candlePositive: #26a69a;
+  --candleNegative: #ef5350;
 }
 
 .App {
