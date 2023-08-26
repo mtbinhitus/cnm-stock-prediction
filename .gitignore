@@ -178,3 +178,5 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 .VSCodeCounter
+
+btc_bars.csv
