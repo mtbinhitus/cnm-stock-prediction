@@ -3,8 +3,8 @@ import axios from "axios";
 const request = axios.create({
     baseURL: "http://localhost:8000",
     headers: {
-        "Content-type": "application/json; charset=UTF-8",
-    },
+        "Content-type": "application/json; charset=UTF-8"
+    }
 });
 
 export async function getKlineBTCData(limit) {
@@ -12,7 +12,7 @@ export async function getKlineBTCData(limit) {
         .get(`/api/v1/klines?limit=${limit}`, {})
         .then((res) => {
             res.data.forEach(element => {
-                element['time'] = element['time'] / 1000
+                element["time"] = element["time"] / 1000;
             });
             return res.data;
         })
