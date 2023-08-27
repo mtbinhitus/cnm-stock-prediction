@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import useWebSocket from "react-use-websocket";
-import { ColorType, createChart } from "lightweight-charts";
+import { createChart } from "lightweight-charts";
 import themeColors from "./themeColors.js";
 
 const LightWeightChart = ({ theme, data }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
     const chartContainerRef = useRef(null);
-    const seriesRef = useRef(null);
+    const candleStickSeriesRef = useRef(null);
     const legend = document.createElement("div");
 
     const { lastMessage } = useWebSocket(WS_URL, {
@@ -33,8 +33,8 @@ const LightWeightChart = ({ theme, data }) => {
                 close: price.close
             };
 
-            if (seriesRef.current) {
-                seriesRef.current.update(modifiedPrice);
+            if (candleStickSeriesRef.current) {
+                candleStickSeriesRef.current.update(modifiedPrice);
             }
         }
     }, [lastMessage]);
@@ -46,10 +46,7 @@ const LightWeightChart = ({ theme, data }) => {
         const chart = createChart(chartContainerRef.current);
         chart.applyOptions({
             layout: {
-                background: {
-                    type: ColorType.Solid,
-                    color: color
-                },
+                background: { color },
                 textColor: textColor
             },
             width: 800,
@@ -75,7 +72,7 @@ const LightWeightChart = ({ theme, data }) => {
             rightPriceScale: {
                 scaleMargins: {
                     top: 0.4,
-                    bottom: 0.15
+                    bottom: 0.2
                 },
                 borderColor: textColor
             },
@@ -86,9 +83,9 @@ const LightWeightChart = ({ theme, data }) => {
             }
         });
 
-        const series = chart.addCandlestickSeries();
-        series.setData(data);
-        seriesRef.current = series;
+        const candleStickSeries = chart.addCandlestickSeries();
+        candleStickSeries.setData(data);
+        candleStickSeriesRef.current = candleStickSeries;
 
         const symbolName = "BINANCE:BTCUSDT";
         legend.style = `position: absolute; left: 12px; top: 12px; z-index: 1; font-size: 14px; line-height: 18px; font-weight: 300;`;
@@ -133,7 +130,7 @@ const LightWeightChart = ({ theme, data }) => {
             }
         };
 
-        const lastIndex = series.dataByIndex(Math.Infinity, -1);
+        const lastIndex = candleStickSeries.dataByIndex(Math.Infinity, -1);
 
         if (lastIndex) {
             const updateLegend = param => {
@@ -141,7 +138,7 @@ const LightWeightChart = ({ theme, data }) => {
                     param === undefined || param.time === undefined || param.point.x < 0 || param.point.y < 0
                 );
 
-                const bar = validCrosshairPoint ? param.seriesData.get(series) : lastIndex;
+                const bar = validCrosshairPoint ? param.seriesData.get(candleStickSeries) : lastIndex;
 
                 const time = new Date(0);
                 time.setUTCSeconds(bar.time);
