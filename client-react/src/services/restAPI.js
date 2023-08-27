@@ -12,7 +12,10 @@ export async function getKlineBTCData(limit) {
         .get(`/api/v1/klines?limit=${limit}`, {})
         .then((res) => {
             res.data.forEach(element => {
-                element["time"] = element["time"] / 1000;
+                let timeMillis = element["time"];
+                let timeUTC = new Date(timeMillis);
+                timeUTC.setHours(timeUTC.getHours() + 7);
+                element["time"] = timeUTC.getTime() / 1000;
             });
             return res.data;
         })

@@ -1,52 +1,50 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import useWebSocket from "react-use-websocket";
 import { ColorType, createChart } from "lightweight-charts";
 import themeColors from "./themeColors";
 
 const LightWeightChart = ({ theme, data }) => {
-    const WS_URL = 'ws://localhost:8000/ws/socket-server/';
-    // const [series, setSeries] = useState(null);
+    const WS_URL = "ws://localhost:8000/ws/socket-server/";
     const chartContainerRef = useRef(null);
-    const seriesRef = useRef(null); // Ref to store the series
+    const seriesRef = useRef(null);
 
-    const [priceHistory, setPriceHistory] = useState([]);
     const { lastMessage } = useWebSocket(WS_URL, {
         onOpen: (e) => {
-            console.log(e.type)
+            console.log(e.type);
         },
-        shouldReconnect: (closeEvent) => true,
+        shouldReconnect: (closeEvent) => {
+            console.log(closeEvent.reason);
+            return true;
+        }
     });
 
     useEffect(() => {
         if (lastMessage !== null) {
             let price = JSON.parse(lastMessage.data);
 
-            let price2 = {
-                time: price.time / 1000,
+            let priceTimeMillis = price.time;
+            let priceTimeUTC = new Date(priceTimeMillis);
+            priceTimeUTC.setHours(priceTimeUTC.getHours() + 7);
+
+            let modifiedPrice = {
+                time: priceTimeUTC.getTime() / 1000,
                 open: price.open,
                 high: price.high,
                 low: price.low,
-                close: price.close,
-            }
+                close: price.close
+            };
 
-            console.log(lastMessage.data)
             if (seriesRef.current) {
-                seriesRef.current.update(price2);
+                seriesRef.current.update(modifiedPrice);
             }
-            // series.update(price)
         }
     }, [lastMessage]);
 
-    // const chartContainerRef = useRef();
-    // const legend = document.createElement("div");
-
     useEffect(() => {
-        const chart = createChart(chartContainerRef.current);
-        setPriceHistory(data)
-
         const color = theme === "dark" ? themeColors.darkBlue : themeColors.white;
         const textColor = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
 
+        const chart = createChart(chartContainerRef.current);
         chart.applyOptions({
             layout: {
                 background: {
@@ -88,37 +86,6 @@ const LightWeightChart = ({ theme, data }) => {
         const series = chart.addCandlestickSeries();
         series.setData(data);
         seriesRef.current = series;
-
-        chart.timeScale().fitContent();
-
-
-        // if (lastMessage !== null) {
-        //     let price = JSON.parse(lastMessage.data);
-
-        //     const lastItemTime = priceHistory[priceHistory.length - 1].time;
-
-        //     const mappedPrice = {
-        //         'time': price.time,
-        //         'open': price.open,
-        //         'high': price.high,
-        //         'low': price.low,
-        //         'close': price.close
-        //     };
-
-        //     // let temp = priceHistory.filter(kline => kline.time !== price.time);
-        //     // temp.push(mappedPrice)
-        //     // setPriceHistory(temp)
-
-        //     // series.update(newCandle);
-        //     // data.push(newCandle);
-
-        //     // if (price.time > lastItemTime) {
-        //     // series.update(mappedPrice);
-        //     // }
-        //     // else if (price.time === lastItemTime) {
-        //     //     series.update(mappedPrice);
-        //     // }
-        // }
 
         return () => {
             chart.remove();
