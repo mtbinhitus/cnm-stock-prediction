@@ -12,8 +12,7 @@ const LightWeightChart = ({ theme, data }) => {
         onOpen: (e) => {
             console.log(e.type);
         },
-        shouldReconnect: (closeEvent) => {
-            console.log(closeEvent.reason);
+        shouldReconnect: () => {
             return true;
         }
     });
