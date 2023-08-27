@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useWebSocket from "react-use-websocket";
 import { ColorType, createChart } from "lightweight-charts";
-import themeColors from "./themeColors";
+import themeColors from "./themeColors.js";
 
 const LightWeightChart = ({ theme, data }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";

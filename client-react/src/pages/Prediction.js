@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
 import LightWeightChart from "../components/LightWeightChart.js";
+import { getKlineBTCData } from "../services/restAPI.js";
 import Header from "../layouts/Header.js";
 import Footer from "../layouts/Footer.js";
 import "../styles.css";
-import { getKlineBTCData } from "../services/restAPI";
 
 function Prediction() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+
     useEffect(() => {
-        if (loading)
-            getKlineBTCData(1000).then(res => {
-                setData(res.sort((a, b) => a.time > b.time ? 1 : -1))
-            }).catch(err => console.log(err));
-        setLoading(false);
-        console.log(data);
-    }, [loading])
+        getKlineBTCData(1000).then(res => {
+            setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
+        });
+    }, []);
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -29,7 +26,7 @@ function Prediction() {
         setTheme(newTheme);
         localStorage.setItem("theme", newTheme);
     };
-    if (loading) return <>Loading</>
+
     return (
         <div className="App">
             <div className="Header" id={theme}>
