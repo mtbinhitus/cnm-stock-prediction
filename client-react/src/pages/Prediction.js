@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LightWeightChart from "../components/LightWeightChart.js";
+import LightWeightChart2 from "../components/LightWeightChart2.js";
 import { getKlineBTCData } from "../services/restAPI.js";
 import Header from "../layouts/Header.js";
 import Footer from "../layouts/Footer.js";
@@ -41,11 +41,11 @@ function Prediction() {
 
             <div className="App-body" id={theme}>
                 <div className="App-body-1">
-                    <LightWeightChart
+                    <LightWeightChart2
                         theme={theme}
                         updateTheme={updateTheme}
                         data={data}
-                    ></LightWeightChart>
+                    ></LightWeightChart2>
                 </div>
             </div>
 
