@@ -27,13 +27,13 @@ export async function getKlineBTCData(limit) {
 
 export async function getClosePricePredict(sticker = "BTCUSDT", model = "LSTM", indicator = ["Close", "POC", "MA"]) {
     const response = await request
-        .get(`/api/v1/btcsticker/predict`, {
+        .post(`/api/v1/btcsticker/predict`, {
             "sticker": sticker,
             "model": model,
             "indicator": indicator
         })
         .then((res) => {
-            return res.data;
+            return { time: res.data["time"], value: res.data["prediction"] };
         })
         .catch((error) => {
             return error;

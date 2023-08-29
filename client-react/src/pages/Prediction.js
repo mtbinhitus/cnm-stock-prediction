@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import LightWeightChart2 from "../components/LightWeightChart2.js";
+import LightWeightChart from "../components/LightWeightChart.js";
 import { getKlineBTCData } from "../services/restAPI.js";
+import { getClosePricePredict } from "../services/restAPI.js";
 import Header from "../layouts/Header.js";
 import Footer from "../layouts/Footer.js";
 import "../styles.css";
@@ -8,10 +9,23 @@ import "../styles.css";
 function Prediction() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
     const [data, setData] = useState([]);
+    const [prediction, setPrediction] = useState([]);
 
     useEffect(() => {
         getKlineBTCData(1000).then(res => {
             setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
+            console.log("data", res);
+        });
+    }, []);
+
+    const sticker = "BTCUSDT";
+    const model = "LSTM";
+    const indicator = ["Close", "POC", "MA"];
+
+    useEffect(() => {
+        getClosePricePredict(sticker, model, indicator).then(res => {
+            setPrediction(res);
+            console.log("prediction", res);
         });
     }, []);
 
@@ -41,11 +55,11 @@ function Prediction() {
 
             <div className="App-body" id={theme}>
                 <div className="App-body-1">
-                    <LightWeightChart2
+                    <LightWeightChart
                         theme={theme}
                         updateTheme={updateTheme}
                         data={data}
-                    ></LightWeightChart2>
+                    ></LightWeightChart>
                 </div>
             </div>
 

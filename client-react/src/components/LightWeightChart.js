@@ -7,6 +7,7 @@ const LightWeightChart = ({ theme, data }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
     const chartContainerRef = useRef(null);
     const candleStickSeriesRef = useRef(null);
+    const smaLineSeriesRef = useRef(null);
     const legend = document.createElement("div");
 
     const { lastMessage } = useWebSocket(WS_URL, {
@@ -36,14 +37,46 @@ const LightWeightChart = ({ theme, data }) => {
             if (candleStickSeriesRef.current) {
                 candleStickSeriesRef.current.update(modifiedPrice);
             }
+
+            if (smaLineSeriesRef.current) {
+                const smaData = calculateSMA([...data, modifiedPrice], 7);
+                smaLineSeriesRef.current.setData(smaData);
+            }
         }
-    }, [lastMessage]);
+    }, [lastMessage, data]);
+
+    function calculateSMA(data, count) {
+        var avg = function (data) {
+            var sum = 0;
+            for (var i = 0; i < data.length; i++) {
+                sum += data[i].close;
+            }
+            return sum / data.length;
+        };
+
+        var result = [];
+        for (var i = count - 1, len = data.length; i < len; i++) {
+            var val = avg(data.slice(i - count + 1, i));
+            result.push({ time: data[i].time, value: val });
+        }
+        return result;
+    };
 
     useEffect(() => {
         const color = theme === "dark" ? themeColors.darkBlue : themeColors.white;
         const textColor = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
 
         const chart = createChart(chartContainerRef.current);
+
+        var smaLineSeries = chart.addLineSeries({
+            color: 'rgba(4, 111, 232, 1)',
+            lineWidth: 2,
+        });
+
+        var smaData = calculateSMA(data, 7);
+        smaLineSeries.setData(smaData);
+        smaLineSeriesRef.current = smaLineSeries;
+
         chart.applyOptions({
             layout: {
                 background: { color },
@@ -130,7 +163,7 @@ const LightWeightChart = ({ theme, data }) => {
             }
         };
 
-        const lastIndex = candleStickSeries.dataByIndex(Math.Infinity, -1);
+        const lastIndex = candleStickSeries.dataByIndex(data.length - 1);
 
         if (lastIndex) {
             const updateLegend = param => {
