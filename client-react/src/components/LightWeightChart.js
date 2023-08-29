@@ -3,16 +3,17 @@ import useWebSocket from "react-use-websocket";
 import { createChart } from "lightweight-charts";
 import themeColors from "./themeColors.js";
 
-const LightWeightChart = ({ theme, data }) => {
+const LightWeightChart = ({ theme, data, prediction }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
+    const legend = document.createElement("div");
     const chartContainerRef = useRef(null);
     const candleStickSeriesRef = useRef(null);
     const smaLineSeriesRef = useRef(null);
-    const legend = document.createElement("div");
+    const smaCount = 7;
 
     const { lastMessage } = useWebSocket(WS_URL, {
         onOpen: (e) => {
-            console.log(e.type);
+            console.log("socket", e.type);
         },
         shouldReconnect: () => {
             return true;
@@ -39,7 +40,7 @@ const LightWeightChart = ({ theme, data }) => {
             }
 
             if (smaLineSeriesRef.current) {
-                const smaData = calculateSMA([...data, modifiedPrice], 7);
+                const smaData = calculateSMA([...data, modifiedPrice], smaCount);
                 smaLineSeriesRef.current.setData(smaData);
             }
         }
@@ -69,11 +70,11 @@ const LightWeightChart = ({ theme, data }) => {
         const chart = createChart(chartContainerRef.current);
 
         var smaLineSeries = chart.addLineSeries({
-            color: 'rgba(4, 111, 232, 1)',
-            lineWidth: 2,
+            color: themeColors.smaBlue,
+            lineWidth: 1,
         });
 
-        var smaData = calculateSMA(data, 7);
+        var smaData = calculateSMA(data, smaCount);
         smaLineSeries.setData(smaData);
         smaLineSeriesRef.current = smaLineSeries;
 

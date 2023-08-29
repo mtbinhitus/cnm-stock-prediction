@@ -12,17 +12,19 @@ function Prediction() {
     const [prediction, setPrediction] = useState([]);
 
     useEffect(() => {
-        getKlineBTCData(1000).then(res => {
+        const limit = 1000;
+        getKlineBTCData(limit).then(res => {
             setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
             console.log("data", res);
         });
     }, []);
 
-    const sticker = "BTCUSDT";
-    const model = "LSTM";
-    const indicator = ["Close", "POC", "MA"];
 
     useEffect(() => {
+        const sticker = "BTCUSDT";
+        const model = "LSTM";
+        const indicator = ["Close", "POC", "MA"];
+
         getClosePricePredict(sticker, model, indicator).then(res => {
             setPrediction(res);
             console.log("prediction", res);
@@ -59,6 +61,7 @@ function Prediction() {
                         theme={theme}
                         updateTheme={updateTheme}
                         data={data}
+                        prediction={prediction}
                     ></LightWeightChart>
                 </div>
             </div>

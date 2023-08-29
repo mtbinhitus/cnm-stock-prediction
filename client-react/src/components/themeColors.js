@@ -8,7 +8,8 @@ const themeColors = {
     white: getComputedStyle(document.body).getPropertyValue("--white"),
     vividBlue: getComputedStyle(document.body).getPropertyValue("--vividBlue"),
     candlePositive: getComputedStyle(document.body).getPropertyValue("--candlePositive"),
-    candleNegative: getComputedStyle(document.body).getPropertyValue("--candleNegative")
+    candleNegative: getComputedStyle(document.body).getPropertyValue("--candleNegative"),
+    smaBlue: getComputedStyle(document.body).getPropertyValue("--smaBlue")
 };
 
 export default themeColors;
