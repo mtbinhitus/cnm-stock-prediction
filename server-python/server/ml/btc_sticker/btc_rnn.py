@@ -3,12 +3,12 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Dense, Dropout, LSTM
+from tensorflow.keras.layers import Dense, Dropout, SimpleRNN
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import Accuracy
 
 
-class BTCPredictionUsingLSTM:
+class BTCPredictionUsingRNN:
     n = 5
     ma_1 = 7
     ma_2 = 14
@@ -16,8 +16,8 @@ class BTCPredictionUsingLSTM:
     ema_1 = 9
     pre_day = 60
     def __init__(self):
-        path_to_artifacts = "../research/models/lstm/"
-        self.model = load_model(path_to_artifacts + "btcusdt_1m_lstm_close.h5")
+        path_to_artifacts = "../research/models/rnn/"
+        self.model = load_model(path_to_artifacts + "btcusdt_1m_rnn_close.h5")
 
     def preprocessing(self, input_data, indicator):
         # Process Data
@@ -89,9 +89,9 @@ class BTCPredictionUsingLSTM:
             elif (i == 'rsi'):
                 cols_x.append(f'rsi_{ma_2}')
             elif (i == 'sd'):
-                cols_x.append(f'sd_{ma_1}', f'sd_{ma_3}')
+                cols_x.extend([f'sd_{ma_1}', f'sd_{ma_3}'])
             elif (i == 'ma'):
-                cols_x.extend(f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}')
+                cols_x.extend([f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}'])
 
         cols_y = ['close']
         scaled_data_x = self.scala_x.fit_transform(input_data[cols_x].values.reshape(-1, len(cols_x)))
@@ -123,7 +123,7 @@ class BTCPredictionUsingLSTM:
             indicator.sort()
             indicator_str = '_'.join(indicator)
 
-            self.path_to_artifacts = "../research/models/lstm/" + f"btcusdt_1m_lstm_{indicator_str}.h5"
+            self.path_to_artifacts = "../research/models/rnn/" + f"btcusdt_1m_rnn_{indicator_str}.h5"
             self.path_to_artifacts = self.path_to_artifacts.lower()
             self.model = load_model(self.path_to_artifacts)
             input_data = self.preprocessing(input_data, indicator)
@@ -131,11 +131,9 @@ class BTCPredictionUsingLSTM:
             print("Make prediction....")
             prediction = self.predict(input_data)  # 1 mẫu
             print("Return result....!")
-            label = 'lstm_' + indicator_str
+            label = 'rnn_' + indicator_str
             prediction = self.postprocessing(timestamp, prediction[0][0], label=label)
         except Exception as e:
-            if("No file or directory found at" in str(e)):
-                return {"status": "Error", "message": "Model is not available!"}
             print(e)
             return {"status": "Error", "message": str(e)}
 

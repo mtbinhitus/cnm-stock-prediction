@@ -1,14 +1,14 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
-
+import xgboost as xgb
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Dense, Dropout, LSTM
+from tensorflow.keras.layers import Dense, Dropout, SimpleRNN
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import Accuracy
 
 
-class BTCPredictionUsingLSTM:
+class BTCPredictionUsingXGBOOST:
     n = 5
     ma_1 = 7
     ma_2 = 14
@@ -16,8 +16,9 @@ class BTCPredictionUsingLSTM:
     ema_1 = 9
     pre_day = 60
     def __init__(self):
-        path_to_artifacts = "../research/models/lstm/"
-        self.model = load_model(path_to_artifacts + "btcusdt_1m_lstm_close.h5")
+        path_to_artifacts = "../research/models/xgboost/"
+        self.model = xgb.XGBRegressor()
+        self.model.load_model(path_to_artifacts + "btcusdt_1m_xgboost_close.json")
 
     def preprocessing(self, input_data, indicator):
         # Process Data
@@ -77,11 +78,12 @@ class BTCPredictionUsingLSTM:
         ma_3 = 21
         ema_1 = 9
         cols_x = []
+        cols_x = ['close']
         for i in indicator:
+            if(i == 'close'):
+                cols_x.extend(['open', 'high', 'low'])
             if(i == 'bb'):
                 cols_x.extend([f'middleband_{ma_3}', f'upperband_{ma_3}', f'lowerband_{ma_3}'])
-            elif (i == 'close'):
-                cols_x.append('close')
             elif (i == 'macd'):
                 cols_x.extend(['macd', 'macd_signal'])
             elif (i == 'roc'):
@@ -89,19 +91,13 @@ class BTCPredictionUsingLSTM:
             elif (i == 'rsi'):
                 cols_x.append(f'rsi_{ma_2}')
             elif (i == 'sd'):
-                cols_x.append(f'sd_{ma_1}', f'sd_{ma_3}')
+                cols_x.extend([f'sd_{ma_1}', f'sd_{ma_3}'])
             elif (i == 'ma'):
-                cols_x.extend(f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}')
+                cols_x.extend([f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}'])
 
-        cols_y = ['close']
-        scaled_data_x = self.scala_x.fit_transform(input_data[cols_x].values.reshape(-1, len(cols_x)))
-        scaled_data_y = self.scala_y.fit_transform(input_data[cols_y].values.reshape(-1, len(cols_y)))
 
-        x_predict = input_data[len(input_data)- 1 - self.pre_day: len(input_data) - 1][cols_x].values.reshape(-1, len(cols_x))
-        x_predict = self.scala_x.transform(x_predict)
-
-        x_predict = np.array(x_predict)
-        x_predict = x_predict.reshape(1, x_predict.shape[0], len(cols_x))
+        test_df = input_data[cols_x].copy().drop('close', axis='columns')
+        x_predict = test_df.tail(1)
         
         print("End pre-processing...")
         print(x_predict.shape)
@@ -110,7 +106,7 @@ class BTCPredictionUsingLSTM:
 
     def predict(self, input_data):
         prediction = self.model.predict(input_data)
-        prediction = self.scala_y.inverse_transform(prediction)
+
         return prediction
 
     def postprocessing(self, timestamp, prediction, label):
@@ -123,19 +119,17 @@ class BTCPredictionUsingLSTM:
             indicator.sort()
             indicator_str = '_'.join(indicator)
 
-            self.path_to_artifacts = "../research/models/lstm/" + f"btcusdt_1m_lstm_{indicator_str}.h5"
+            self.path_to_artifacts = "../research/models/xgboost/" + f"btcusdt_1m_xgboost_{indicator_str}.json"
             self.path_to_artifacts = self.path_to_artifacts.lower()
-            self.model = load_model(self.path_to_artifacts)
+            self.model.load_model(self.path_to_artifacts)
             input_data = self.preprocessing(input_data, indicator)
 
             print("Make prediction....")
             prediction = self.predict(input_data)  # 1 mẫu
             print("Return result....!")
-            label = 'lstm_' + indicator_str
-            prediction = self.postprocessing(timestamp, prediction[0][0], label=label)
+            label = 'xgboost_' + indicator_str
+            prediction = self.postprocessing(timestamp, prediction[0], label=label)
         except Exception as e:
-            if("No file or directory found at" in str(e)):
-                return {"status": "Error", "message": "Model is not available!"}
             print(e)
             return {"status": "Error", "message": str(e)}
 
