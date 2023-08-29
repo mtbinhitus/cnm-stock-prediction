@@ -2,11 +2,11 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import themeColors from "../components/themeColors.js";
+import ThemeColors from "../components/ThemeColors.js";
 import "../styles.css";
 
 function Footer({ theme }) {
-    const color = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
+    const color = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
 
     const themeMUI = createTheme({
         components: {
@@ -16,7 +16,7 @@ function Footer({ theme }) {
                     style: {
                         color: color,
                         "&:hover": {
-                            color: themeColors.vividBlue
+                            color: ThemeColors.vividBlue
                         },
                         "&:active": {
                             color: color

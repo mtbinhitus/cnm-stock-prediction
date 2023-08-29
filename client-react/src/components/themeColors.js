@@ -1,6 +1,6 @@
 import "../styles.css";
 
-const themeColors = {
+const ThemeColors = {
     darkBlue: getComputedStyle(document.body).getPropertyValue("--darkBlue"),
     darkBlue2: getComputedStyle(document.body).getPropertyValue("--darkBlue2"),
     grayishBlue: getComputedStyle(document.body).getPropertyValue("--grayishBlue"),
@@ -12,4 +12,4 @@ const themeColors = {
     smaBlue: getComputedStyle(document.body).getPropertyValue("--smaBlue")
 };
 
-export default themeColors;
+export default ThemeColors;

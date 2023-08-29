@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LightWeightChart from "../components/LightWeightChart.js";
-import { getKlineBTCData } from "../services/restAPI.js";
-import { getClosePricePredict } from "../services/restAPI.js";
+import { getKlineBTCData } from "../services/RestApi.js";
+import { getClosePricePredict } from "../services/RestApi.js";
 import Header from "../layouts/Header.js";
 import Footer from "../layouts/Footer.js";
 import "../styles.css";

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useWebSocket from "react-use-websocket";
 import { createChart } from "lightweight-charts";
-import themeColors from "./themeColors.js";
+import ThemeColors from "./ThemeColors.js";
 
 const LightWeightChart = ({ theme, data, prediction }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
@@ -64,13 +64,13 @@ const LightWeightChart = ({ theme, data, prediction }) => {
     };
 
     useEffect(() => {
-        const color = theme === "dark" ? themeColors.darkBlue : themeColors.white;
-        const textColor = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
+        const color = theme === "dark" ? ThemeColors.darkBlue : ThemeColors.white;
+        const textColor = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
 
         const chart = createChart(chartContainerRef.current);
 
         var smaLineSeries = chart.addLineSeries({
-            color: themeColors.smaBlue,
+            color: ThemeColors.smaBlue,
             lineWidth: 1,
         });
 
@@ -132,15 +132,15 @@ const LightWeightChart = ({ theme, data, prediction }) => {
                     <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
                     <div style="font-size: 16px; margin: 4px 0px;">
                         <span>Open</span>
-                        <span style="color: ${themeColors.candlePositive};">${open}</span>
+                        <span style="color: ${ThemeColors.candlePositive};">${open}</span>
                         <span>High</span>
-                        <span style="color: ${themeColors.candlePositive};">${high}</span>
+                        <span style="color: ${ThemeColors.candlePositive};">${high}</span>
                     </div>
                     <div style="font-size: 16px; margin: 4px 0px;">
                         <span>Low</span>
-                        <span style="color: ${themeColors.candlePositive};">${low}</span>
+                        <span style="color: ${ThemeColors.candlePositive};">${low}</span>
                         <span>Close</span>
-                        <span style="color: ${themeColors.candlePositive};">${close}</span>
+                        <span style="color: ${ThemeColors.candlePositive};">${close}</span>
                     </div>
                     <div style="font-size: 12px; margin: 4px 0px;">${time}</div>
                 `;
@@ -149,15 +149,15 @@ const LightWeightChart = ({ theme, data, prediction }) => {
                     <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
                     <div style="font-size: 16px; margin: 4px 0px;">
                         <span>Open</span>
-                        <span style="color: ${themeColors.candleNegative};">${open}</span>
+                        <span style="color: ${ThemeColors.candleNegative};">${open}</span>
                         <span>High</span>
-                        <span style="color: ${themeColors.candleNegative};">${high}</span>
+                        <span style="color: ${ThemeColors.candleNegative};">${high}</span>
                     </div>
                     <div style="font-size: 16px; margin: 4px 0px;">
                         <span>Low</span>
-                        <span style="color: ${themeColors.candleNegative};">${low}</span>
+                        <span style="color: ${ThemeColors.candleNegative};">${low}</span>
                         <span>Close</span>
-                        <span style="color: ${themeColors.candleNegative};">${close}</span>
+                        <span style="color: ${ThemeColors.candleNegative};">${close}</span>
                     </div>
                     <div style="font-size: 12px; margin: 4px 0px;">${time}</div>
                 `;

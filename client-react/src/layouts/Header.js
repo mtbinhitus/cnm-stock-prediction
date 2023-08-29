@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
 import { alpha, createTheme, styled, ThemeProvider } from "@mui/material/styles";
 import ToggleButton from "../components/ToggleButton.js";
-import themeColors from "../components/themeColors.js";
+import ThemeColors from "../components/ThemeColors.js";
 import "../styles.css";
 
 export const ThemeContext = createContext(null);
@@ -61,8 +61,8 @@ function Header({ updateTheme, theme, showSearchBar }) {
         updateTheme(newTheme);
     };
 
-    const color = theme === "dark" ? themeColors.grayishBlue : themeColors.darkBlue;
-    const borderColor = theme === "dark" ? themeColors.darkBlue2 : themeColors.grayishBlue2;
+    const color = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
+    const borderColor = theme === "dark" ? ThemeColors.darkBlue2 : ThemeColors.grayishBlue2;
 
     const commonButtonStyle = {
         fontWeight: 600,
@@ -71,7 +71,7 @@ function Header({ updateTheme, theme, showSearchBar }) {
         textTransform: "none",
         borderRadius: "0px",
         "&:hover": {
-            color: themeColors.vividBlue
+            color: ThemeColors.vividBlue
         },
         "&:active": {
             color: color
@@ -85,14 +85,14 @@ function Header({ updateTheme, theme, showSearchBar }) {
                     props: { variant: "light" },
                     style: {
                         ...commonButtonStyle,
-                        color: themeColors.darkBlue
+                        color: ThemeColors.darkBlue
                     }
                 },
                 {
                     props: { variant: "dark" },
                     style: {
                         ...commonButtonStyle,
-                        color: themeColors.grayishBlue
+                        color: ThemeColors.grayishBlue
                     }
                 }]
             }
