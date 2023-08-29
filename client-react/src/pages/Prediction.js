@@ -44,7 +44,7 @@ function Prediction() {
     };
 
     return (
-        <div className="App">
+        <div className="App" id={theme}>
             <div className="Header" id={theme}>
                 <div className="Header-1">
                     <Header

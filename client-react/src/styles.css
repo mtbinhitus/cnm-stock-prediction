@@ -2,6 +2,11 @@
   display: none;
 }
 
+#root {
+  width: 100%;
+  height: 100vh;
+}
+
 body {
   margin: 0;
   font-family: "Roboto";
@@ -33,12 +38,12 @@ body {
 
 .Header {
   width: 100%;
-  height: 100%;
+  height: 60px;
 }
 
 .Header-1 {
   width: 100%;
-  height: 60px;
+  height: 100%;
 }
 
 #light.Header {
@@ -51,19 +56,19 @@ body {
 
 .App-header {
   width: 100%;
-  height: 100%;
+  height: 200px;
   display: flex;
   flex-direction: row;
 }
 
 .App-header-1 {
   width: 50%;
-  height: 200px;
+  height: 100%;
 }
 
 .App-header-2 {
   width: 50%;
-  height: 200px;
+  height: 100%;
 }
 
 .App-header-2 #tradingview_widget_wrapper {
@@ -98,7 +103,7 @@ body {
 
 .App-footer {
   width: 100%;
-  height: 100%;
+  height: 400px;
 }
 
 .App-footer-1 {
@@ -116,12 +121,12 @@ body {
 
 .Footer {
   width: 100%;
-  height: 100%;
+  height: 60px;
 }
 
 .Footer-1 {
   width: 100%;
-  height: 60px;
+  height: 100%;
 }
 
 #light.Footer {
@@ -138,6 +143,12 @@ body {
 
 .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-hip9hq-MuiPaper-root-MuiAppBar-root {
   background: inherit;
+}
+
+@media (min-width: 1536px) {
+  .css-19r6kue-MuiContainer-root {
+    max-width: none !important;
+  }
 }
 
 @media (min-width: 600px) {
