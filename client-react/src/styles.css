@@ -1,3 +1,5 @@
+/* Core css initialization */
+
 #webpack-dev-server-client-overlay {
   display: none;
 }
@@ -56,6 +58,26 @@ body {
   height: 100%;
 }
 
+.Footer {
+  width: 100%;
+  height: 60px;
+}
+
+.Footer #light {
+  border-top: 1px solid var(--grayishBlue2);
+}
+
+.Footer #dark {
+  border-top: 1px solid var(--darkBlue2);
+}
+
+.Footer-1 {
+  width: 100%;
+  height: 100%;
+}
+
+/* Market page */
+
 .App-header {
   width: 100%;
   height: 200px;
@@ -103,6 +125,26 @@ body {
   width: 100%;
 }
 
+.App-footer {
+  width: 100%;
+  height: 400px;
+}
+
+.App-footer-1 {
+  width: 100%;
+  height: 400px;
+}
+
+.App-footer-1 #tradingview_widget_wrapper {
+  height: 100%;
+}
+
+.App-footer-1 #tradingview_widget_wrapper div {
+  height: 100%;
+}
+
+/* Prediction page */
+
 .Prediction-body {
   width: 100%;
   height: 800px;
@@ -149,41 +191,7 @@ body {
   align-items: center;
 }
 
-.App-footer {
-  width: 100%;
-  height: 400px;
-}
-
-.App-footer-1 {
-  width: 100%;
-  height: 400px;
-}
-
-.App-footer-1 #tradingview_widget_wrapper {
-  height: 100%;
-}
-
-.App-footer-1 #tradingview_widget_wrapper div {
-  height: 100%;
-}
-
-.Footer {
-  width: 100%;
-  height: 60px;
-}
-
-.Footer #light {
-  border-top: 1px solid var(--grayishBlue2);
-}
-
-.Footer #dark {
-  border-top: 1px solid var(--darkBlue2);
-}
-
-.Footer-1 {
-  width: 100%;
-  height: 100%;
-}
+/* MUI css override */
 
 .MuiBox-root.css-i9gxme {
   background: inherit !important;

@@ -9,7 +9,9 @@ const ThemeColors = {
     vividBlue: getComputedStyle(document.body).getPropertyValue("--vividBlue"),
     candlePositive: getComputedStyle(document.body).getPropertyValue("--candlePositive"),
     candleNegative: getComputedStyle(document.body).getPropertyValue("--candleNegative"),
-    smaBlue: getComputedStyle(document.body).getPropertyValue("--smaBlue")
+    smaBlue: getComputedStyle(document.body).getPropertyValue("--smaBlue"),
+    placeholderLight: getComputedStyle(document.body).getPropertyValue("--placeholderLight"),
+    placeholderDark: getComputedStyle(document.body).getPropertyValue("--placeholderDark")
 };
 
 export default ThemeColors;
