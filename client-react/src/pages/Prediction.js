@@ -1,35 +1,39 @@
 import { useEffect, useState } from "react";
+import ChartMenu from "../components/ChartMenu.js";
 import LightWeightChart from "../components/LightWeightChart.js";
-import { getKlineBTCData } from "../services/RestApi.js";
 import { getClosePricePredict } from "../services/RestApi.js";
+import { getKlineBTCData } from "../services/RestApi.js";
 import Header from "../layouts/Header.js";
 import Footer from "../layouts/Footer.js";
 import "../styles.css";
 
 function Prediction() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
     const [data, setData] = useState([]);
+    const [limit] = useState("2000");
+
     const [prediction, setPrediction] = useState([]);
+    const [crypto, setCrypto] = useState("btcusdt");
+    const [model, setModel] = useState("lstm");
+    const [indicator, setIndicator] = useState(["bb"]);
+    // console.log("crypto", crypto);
+    // console.log("model", model);
+    // console.log("indicator", indicator);
 
     useEffect(() => {
-        const limit = 1000;
         getKlineBTCData(limit).then(res => {
             setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
-            console.log("data", res);
+            // console.log("data", res);
         });
-    }, []);
-
+    }, [limit]);
 
     useEffect(() => {
-        const sticker = "BTCUSDT";
-        const model = "LSTM";
-        const indicator = ["Close", "POC", "MA"];
-
-        getClosePricePredict(sticker, model, indicator).then(res => {
+        getClosePricePredict(crypto, model, indicator).then(res => {
             setPrediction(res);
-            console.log("prediction", res);
+            // console.log("prediction", res);
         });
-    }, []);
+    }, [crypto, model, indicator]);
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -55,8 +59,23 @@ function Prediction() {
                 </div>
             </div>
 
-            <div className="App-body" id={theme}>
-                <div className="App-body-1">
+            <div className="Prediction-body" id={theme}>
+                <div className="Prediction-body-1" id={theme}>
+                    <div className="Prediction-body-1-body" id={theme}>
+                        <ChartMenu
+                            theme={theme}
+                            updateTheme={updateTheme}
+                            crypto={crypto}
+                            model={model}
+                            indicator={indicator}
+                            setCrypto={setCrypto}
+                            setModel={setModel}
+                            setIndicator={setIndicator}
+                        ></ChartMenu>
+                    </div>
+                </div>
+
+                <div className="Prediction-body-2">
                     <LightWeightChart
                         theme={theme}
                         updateTheme={updateTheme}

@@ -102,8 +102,8 @@ function Header({ updateTheme, theme, showSearchBar }) {
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
         navigate(`/search/${encodeURIComponent(searchQuery)}`);
         setSearchQuery("");
     };
@@ -139,7 +139,7 @@ function Header({ updateTheme, theme, showSearchBar }) {
                                             placeholder="BINANCE:BTCUSDT"
                                             style={{ color: color }}
                                             value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            onChange={(event) => setSearchQuery(event.target.value)}
                                         ></StyledInputBase>
                                     </Search>
                                 </form>}

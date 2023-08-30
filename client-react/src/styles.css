@@ -45,11 +45,11 @@ body {
   height: 60px;
 }
 
-.Header #light {
+#light.Header {
   border-bottom: 1px solid var(--grayishBlue2);
 }
 
-.Header #dark {
+#dark.Header {
   border-bottom: 1px solid var(--darkBlue2);
 }
 
@@ -63,11 +63,11 @@ body {
   height: 60px;
 }
 
-.Footer #light {
+#light.Footer {
   border-top: 1px solid var(--grayishBlue2);
 }
 
-.Footer #dark {
+#dark.Footer {
   border-top: 1px solid var(--darkBlue2);
 }
 
@@ -161,11 +161,11 @@ body {
   white-space: nowrap;
 }
 
-.Prediction-body-1 #light {
+#light.Prediction-body-1 {
   border-bottom: 1px solid var(--grayishBlue2);
 }
 
-.Prediction-body-1 #dark {
+#dark.Prediction-body-1 {
   border-bottom: 1px solid var(--darkBlue2);
 }
 
@@ -174,11 +174,11 @@ body {
   display: flex;
 }
 
-.Prediction-body-1-body #light {
+#light.Prediction-body-1-body {
   border: 1px solid var(--grayishBlue2);
 }
 
-.Prediction-body-1-body #dark {
+#dark.Prediction-body-1-body {
   border: 1px solid var(--darkBlue2);
 }
 
