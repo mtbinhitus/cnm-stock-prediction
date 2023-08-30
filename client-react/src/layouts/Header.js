@@ -1,12 +1,12 @@
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
+import Toolbar from "@mui/material/Toolbar";
 import { alpha, createTheme, styled, ThemeProvider } from "@mui/material/styles";
 import ToggleButton from "../components/ToggleButton.js";
 import ThemeColors from "../components/ThemeColors.js";

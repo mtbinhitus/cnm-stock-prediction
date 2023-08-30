@@ -1,6 +1,5 @@
-import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material/styles";
-import "../styles.css";
+import Switch from "@mui/material/Switch";
 
 const ToggleButton = styled(Switch)(({ theme }) => ({
     padding: 8,
