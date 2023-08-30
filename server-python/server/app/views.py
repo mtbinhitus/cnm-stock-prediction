@@ -6,7 +6,7 @@ from numpy.random import rand
 from rest_framework import views, status
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
-from server.wsgi import registry
+from server.asgi import registry
 
 from rest_framework import viewsets
 from rest_framework import mixins
@@ -123,12 +123,13 @@ class PredictView(views.APIView):
         model = request.data['model']
         indicator = request.data['indicator']
         indicator.sort()
-        algorithm_name = sticker + '_' + model + '_' + '_'.join(indicator)
+
+        algorithm_name = sticker + '_' + model
         algorithm_name = algorithm_name.lower()
         # return Response(algorithm_name)
 
         algs = MLModel.objects.filter(parent_endpoint__name = endpoint_name, name = algorithm_name, status__status = algorithm_status, status__active=True)
-
+        
         if algorithm_version is not None:
             algs = algs.filter(version = algorithm_version)
 
@@ -152,10 +153,10 @@ class PredictView(views.APIView):
         df_btc = pd.read_csv("./btc_bars.csv")
         df_btc['date'] = [dt.datetime.fromtimestamp(x / 1000.0) for x in df_btc.time]
         df_btc.set_index('date', inplace=True)
-        data_predict = df_btc[len(df_btc)-100:]
+        data_predict = df_btc[len(df_btc)-200:]
         print(data_predict)
 
-        prediction = algorithm_object.compute_prediction(data_predict)
+        prediction = algorithm_object.compute_prediction(data_predict, indicator=indicator)
 
         label = prediction["label"] if "label" in prediction else "error"
         ml_request = MLRequest(

@@ -18,4 +18,5 @@ Markdown
 django-filter
 django-cors-headers
 daphne
-# channels["daphne"]
+channels["daphne"]
+xgboost
