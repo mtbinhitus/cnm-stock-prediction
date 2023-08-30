@@ -25,10 +25,10 @@ export async function getKlineBTCData(limit) {
     return response;
 };
 
-export async function getClosePricePredict(sticker = "BTCUSDT", model = "LSTM", indicator = ["Close", "POC", "MA"]) {
+export async function getClosePricePredict(crypto, model, indicator) {
     const response = await request
         .post(`/api/v1/btcsticker/predict`, {
-            "sticker": sticker,
+            "sticker": crypto,
             "model": model,
             "indicator": indicator
         })

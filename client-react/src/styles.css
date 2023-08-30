@@ -2,11 +2,6 @@
   display: none;
 }
 
-#root {
-  width: 100%;
-  height: 100vh;
-}
-
 body {
   margin: 0;
   font-family: "Roboto";
@@ -19,6 +14,13 @@ body {
   --candlePositive: #26a69a;
   --candleNegative: #ef5350;
   --smaBlue: #046fe8;
+  --placeholderLight: grey;
+  --placeholderDark: darkgrey;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
 }
 
 .App {
@@ -28,12 +30,12 @@ body {
   flex-direction: column;
 }
 
-#dark {
-  background: var(--darkBlue);
-}
-
 #light {
   background: var(--white);
+}
+
+#dark {
+  background: var(--darkBlue);
 }
 
 .Header {
@@ -41,17 +43,17 @@ body {
   height: 60px;
 }
 
-.Header-1 {
-  width: 100%;
-  height: 100%;
-}
-
-#light.Header {
+.Header #light {
   border-bottom: 1px solid var(--grayishBlue2);
 }
 
-#dark.Header {
+.Header #dark {
   border-bottom: 1px solid var(--darkBlue2);
+}
+
+.Header-1 {
+  width: 100%;
+  height: 100%;
 }
 
 .App-header {
@@ -101,6 +103,52 @@ body {
   width: 100%;
 }
 
+.Prediction-body {
+  width: 100%;
+  height: 800px;
+}
+
+.Prediction-body-1 {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.Prediction-body-1 #light {
+  border-bottom: 1px solid var(--grayishBlue2);
+}
+
+.Prediction-body-1 #dark {
+  border-bottom: 1px solid var(--darkBlue2);
+}
+
+.Prediction-body-1-body {
+  margin: auto;
+  display: flex;
+}
+
+.Prediction-body-1-body #light {
+  border: 1px solid var(--grayishBlue2);
+}
+
+.Prediction-body-1-body #dark {
+  border: 1px solid var(--darkBlue2);
+}
+
+.Prediction-body-2 {
+  width: 100%;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .App-footer {
   width: 100%;
   height: 400px;
@@ -124,25 +172,25 @@ body {
   height: 60px;
 }
 
+.Footer #light {
+  border-top: 1px solid var(--grayishBlue2);
+}
+
+.Footer #dark {
+  border-top: 1px solid var(--darkBlue2);
+}
+
 .Footer-1 {
   width: 100%;
   height: 100%;
 }
 
-#light.Footer {
-  border-top: 1px solid var(--grayishBlue2);
-}
-
-#dark.Footer {
-  border-top: 1px solid var(--darkBlue2);
-}
-
 .MuiBox-root.css-i9gxme {
-  background: inherit;
+  background: inherit !important;
 }
 
 .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-hip9hq-MuiPaper-root-MuiAppBar-root {
-  background: inherit;
+  background: inherit !important;
 }
 
 @media (min-width: 1536px) {
@@ -164,6 +212,10 @@ body {
   }
 }
 
-.chartContainerRef {
-  position: relative;
+.css-j204z7-MuiFormControlLabel-root {
+  margin-right: 0px !important;
+}
+
+.css-1nrlq1o-MuiFormControl-root {
+  margin: 20px !important;
 }
