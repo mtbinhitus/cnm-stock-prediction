@@ -12,8 +12,8 @@ const LightWeightChart = ({ theme, data, prediction }) => {
     const smaCount = 7;
 
     const { lastMessage } = useWebSocket(WS_URL, {
-        onOpen: (e) => {
-            console.log("socket", e.type);
+        onOpen: (event) => {
+            console.log("socket", event.type);
         },
         shouldReconnect: () => {
             return true;
@@ -203,7 +203,7 @@ const LightWeightChart = ({ theme, data, prediction }) => {
     }, [theme, data]);
 
     return (
-        <div className="chartContainerRef" ref={chartContainerRef}></div>
+        <div style={{ position: "relative" }} ref={chartContainerRef}></div>
     );
 };
 
