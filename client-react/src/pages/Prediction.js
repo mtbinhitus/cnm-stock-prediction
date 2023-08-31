@@ -10,7 +10,7 @@ function Prediction() {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
     const [data, setData] = useState([]);
-    const [limit] = useState("2000");
+    const [candle, setCandle] = useState("1000");
 
     const [prediction, setPrediction] = useState([]);
     const [crypto, setCrypto] = useState("btcusdt");
@@ -21,11 +21,11 @@ function Prediction() {
     // console.log("indicator", indicator);
 
     useEffect(() => {
-        getKlineBTCData(limit).then(res => {
+        getKlineBTCData(candle).then(res => {
             setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
             // console.log("data", res);
         });
-    }, [limit]);
+    }, [candle]);
 
     useEffect(() => {
         getClosePricePredict(crypto, model, indicator).then(res => {
@@ -64,9 +64,11 @@ function Prediction() {
                         <ChartMenu
                             theme={theme}
                             updateTheme={updateTheme}
+                            candle={candle}
                             crypto={crypto}
                             model={model}
                             indicator={indicator}
+                            setCandle={setCandle}
                             setCrypto={setCrypto}
                             setModel={setModel}
                             setIndicator={setIndicator}

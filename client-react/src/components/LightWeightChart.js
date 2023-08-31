@@ -83,8 +83,8 @@ const LightWeightChart = ({ theme, data, prediction }) => {
                 background: { color },
                 textColor: textColor
             },
-            width: 800,
-            height: 400,
+            width: 1000,
+            height: 500,
             crosshair: {
                 horzLine: {
                     visible: false,
