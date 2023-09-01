@@ -8,7 +8,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ThemeColors from "./ThemeColors.js";
 
-const ChartMenu = ({ theme, candle, crypto, model, indicator, setCandle, setCrypto, setModel, setIndicator }) => {
+const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandle, setSmaCount, setCrypto, setModel, setIndicator }) => {
     const textColor = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
     const borderColor = theme === "dark" ? ThemeColors.grayishBlue2 : ThemeColors.darkBlue2;
     const seperateLineColor = theme === "dark" ? ThemeColors.darkBlue2 : ThemeColors.grayishBlue2;
@@ -55,6 +55,25 @@ const ChartMenu = ({ theme, candle, crypto, model, indicator, setCandle, setCryp
         }
     });
 
+    const handleSmaCount = (event) => {
+        const arrayOfSmaCount = [...smaCount];
+        const indexOfSelected = arrayOfSmaCount.indexOf(event.target.value);
+
+        if (arrayOfSmaCount.length === 1 && indexOfSelected !== -1) {
+            return;
+        }
+
+        if (indexOfSelected === -1) {
+            arrayOfSmaCount.push(event.target.value);
+        } else {
+            arrayOfSmaCount.splice(indexOfSelected, 1);
+        }
+
+        setSmaCount(arrayOfSmaCount);
+
+
+    };
+
     const handleCandle = (event) => {
         setCandle(event.target.value);
     };
@@ -88,9 +107,9 @@ const ChartMenu = ({ theme, candle, crypto, model, indicator, setCandle, setCryp
         <ThemeProvider theme={themeMUI}>
             <div>
                 <div style={{ display: "flex" }}>
-                    <div style={{ width: "50%", borderRight: `1px solid ${seperateLineColor}` }}>
+                    <div style={{ borderRight: `1px solid ${seperateLineColor}` }}>
                         <FormControl>
-                            <FormLabel style={{ color: textColor, fontWeight: 600 }}>Volume candles</FormLabel>
+                            <FormLabel style={{ color: textColor, fontWeight: 600 }}>Number of candles</FormLabel>
                             <RadioGroup row value={candle} onChange={handleCandle}>
                                 <div style={{ marginRight: "20px" }}>
                                     <FormControlLabel
@@ -131,46 +150,74 @@ const ChartMenu = ({ theme, candle, crypto, model, indicator, setCandle, setCryp
                         </FormControl>
                     </div>
 
-                    <div style={{ width: "50%" }}>
+                    <div>
                         <FormControl>
                             <FormLabel style={{ color: textColor, fontWeight: 600 }}>Simple moving average</FormLabel>
-                            <RadioGroup row value={candle} onChange={handleCandle}>
+                            <div style={{ display: "flex" }}>
                                 <div style={{ marginRight: "20px" }}>
-                                    <FormControlLabel
-                                        value="5"
-                                        label="5 candles"
-                                        control={<Radio variant="theme" />}
-                                        style={{ color: textColor }}
-                                    ></FormControlLabel>
+                                    <FormGroup>
+                                        <FormControlLabel
+                                            onChange={handleSmaCount}
+                                            value="5"
+                                            label="5 data points"
+                                            control={
+                                                <Checkbox
+                                                    variant="theme"
+                                                ></Checkbox>
+                                            }
+                                            style={{ color: textColor }}
+                                        ></FormControlLabel>
+                                    </FormGroup>
                                 </div>
 
                                 <div style={{ marginRight: "20px" }}>
-                                    <FormControlLabel
-                                        value="10"
-                                        label="10 candles"
-                                        control={<Radio variant="theme" />}
-                                        style={{ color: textColor }}
-                                    ></FormControlLabel>
+                                    <FormGroup>
+                                        <FormControlLabel
+                                            onChange={handleSmaCount}
+                                            value="10"
+                                            label="10 data points"
+                                            control={
+                                                <Checkbox
+                                                    variant="theme"
+                                                ></Checkbox>
+                                            }
+                                            style={{ color: textColor }}
+                                        ></FormControlLabel>
+                                    </FormGroup>
                                 </div>
 
                                 <div style={{ marginRight: "20px" }}>
-                                    <FormControlLabel
-                                        value="20"
-                                        label="20 candles"
-                                        control={<Radio variant="theme" />}
-                                        style={{ color: textColor }}
-                                    ></FormControlLabel>
+                                    <FormGroup>
+                                        <FormControlLabel
+                                            onChange={handleSmaCount}
+                                            value="20"
+                                            label="20 data points"
+                                            control={
+                                                <Checkbox
+                                                    variant="theme"
+                                                ></Checkbox>
+                                            }
+                                            style={{ color: textColor }}
+                                        ></FormControlLabel>
+                                    </FormGroup>
                                 </div>
 
                                 <div>
-                                    <FormControlLabel
-                                        value="40"
-                                        label="40 candles"
-                                        control={<Radio variant="theme" />}
-                                        style={{ color: textColor }}
-                                    ></FormControlLabel>
+                                    <FormGroup>
+                                        <FormControlLabel
+                                            onChange={handleSmaCount}
+                                            value="40"
+                                            label="40 data points"
+                                            control={
+                                                <Checkbox
+                                                    variant="theme"
+                                                ></Checkbox>
+                                            }
+                                            style={{ color: textColor }}
+                                        ></FormControlLabel>
+                                    </FormGroup>
                                 </div>
-                            </RadioGroup>
+                            </div>
                         </FormControl>
                     </div>
                 </div>

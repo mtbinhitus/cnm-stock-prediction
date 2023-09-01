@@ -11,26 +11,22 @@ function Prediction() {
 
     const [data, setData] = useState([]);
     const [candle, setCandle] = useState("1000");
+    const [smaCount, setSmaCount] = useState(["0"]);
 
     const [prediction, setPrediction] = useState([]);
     const [crypto, setCrypto] = useState("btcusdt");
     const [model, setModel] = useState("lstm");
     const [indicator, setIndicator] = useState(["bb"]);
-    // console.log("crypto", crypto);
-    // console.log("model", model);
-    // console.log("indicator", indicator);
 
     useEffect(() => {
         getKlineBTCData(candle).then(res => {
             setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
-            // console.log("data", res);
         });
     }, [candle]);
 
     useEffect(() => {
         getClosePricePredict(crypto, model, indicator).then(res => {
             setPrediction(res);
-            // console.log("prediction", res);
         });
     }, [crypto, model, indicator]);
 
@@ -65,10 +61,12 @@ function Prediction() {
                             theme={theme}
                             updateTheme={updateTheme}
                             candle={candle}
+                            smaCount={smaCount}
                             crypto={crypto}
                             model={model}
                             indicator={indicator}
                             setCandle={setCandle}
+                            setSmaCount={setSmaCount}
                             setCrypto={setCrypto}
                             setModel={setModel}
                             setIndicator={setIndicator}
@@ -81,6 +79,7 @@ function Prediction() {
                         theme={theme}
                         updateTheme={updateTheme}
                         data={data}
+                        smaCount={smaCount}
                         prediction={prediction}
                     ></LightWeightChart>
                 </div>

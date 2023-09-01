@@ -3,13 +3,15 @@ import useWebSocket from "react-use-websocket";
 import { createChart } from "lightweight-charts";
 import ThemeColors from "./ThemeColors.js";
 
-const LightWeightChart = ({ theme, data, prediction }) => {
+const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
     const legend = document.createElement("div");
     const chartContainerRef = useRef(null);
     const candleStickSeriesRef = useRef(null);
-    const smaLineSeriesRef = useRef(null);
-    const smaCount = 7;
+    const sma5LineSeriesRef = useRef(null);
+    const sma10LineSeriesRef = useRef(null);
+    const sma20LineSeriesRef = useRef(null);
+    const sma40LineSeriesRef = useRef(null);
 
     const { lastMessage } = useWebSocket(WS_URL, {
         onOpen: (event) => {
@@ -39,25 +41,44 @@ const LightWeightChart = ({ theme, data, prediction }) => {
                 candleStickSeriesRef.current.update(modifiedPrice);
             }
 
-            if (smaLineSeriesRef.current) {
-                const smaData = calculateSMA([...data, modifiedPrice], smaCount);
-                smaLineSeriesRef.current.setData(smaData);
+            if (smaCount.includes("5") && sma5LineSeriesRef.current) {
+                const smaData = calculateSMA([...data, modifiedPrice], "5");
+                sma5LineSeriesRef.current.setData(smaData);
+            }
+
+            if (smaCount.includes("10") && sma10LineSeriesRef.current) {
+                const smaData = calculateSMA([...data, modifiedPrice], "10");
+                sma10LineSeriesRef.current.setData(smaData);
+            }
+
+            if (smaCount.includes("20") && sma20LineSeriesRef.current) {
+                const smaData = calculateSMA([...data, modifiedPrice], "20");
+                sma20LineSeriesRef.current.setData(smaData);
+            }
+
+            if (smaCount.includes("40") && sma40LineSeriesRef.current) {
+                const smaData = calculateSMA([...data, modifiedPrice], "40");
+                sma40LineSeriesRef.current.setData(smaData);
             }
         }
-    }, [lastMessage, data]);
+    }, [lastMessage, data, smaCount]);
 
     function calculateSMA(data, count) {
-        var avg = function (data) {
-            var sum = 0;
-            for (var i = 0; i < data.length; i++) {
+        if (count === 0) {
+            return [];
+        }
+
+        const avg = function (data) {
+            let sum = 0;
+            for (let i = 0; i < data.length; i++) {
                 sum += data[i].close;
             }
             return sum / data.length;
         };
 
-        var result = [];
-        for (var i = count - 1, len = data.length; i < len; i++) {
-            var val = avg(data.slice(i - count + 1, i));
+        const result = [];
+        for (let i = count - 1, len = data.length; i < len; i++) {
+            const val = avg(data.slice(i - count + 1, i));
             result.push({ time: data[i].time, value: val });
         }
         return result;
@@ -69,14 +90,45 @@ const LightWeightChart = ({ theme, data, prediction }) => {
 
         const chart = createChart(chartContainerRef.current);
 
-        var smaLineSeries = chart.addLineSeries({
-            color: ThemeColors.smaBlue,
-            lineWidth: 1,
-        });
+        if (smaCount.includes("5")) {
+            const sma5LineSeries = chart.addLineSeries({
+                color: ThemeColors.smaBlue,
+                lineWidth: 1,
+            });
 
-        var smaData = calculateSMA(data, smaCount);
-        smaLineSeries.setData(smaData);
-        smaLineSeriesRef.current = smaLineSeries;
+            const smaData = calculateSMA(data, "5");
+            sma5LineSeries.setData(smaData);
+        }
+
+        if (smaCount.includes("10")) {
+            const sma10LineSeries = chart.addLineSeries({
+                color: "#ff9b00",
+                lineWidth: 1,
+            });
+
+            const smaData = calculateSMA(data, "10");
+            sma10LineSeries.setData(smaData);
+        }
+
+        if (smaCount.includes("20")) {
+            const sma20LineSeries = chart.addLineSeries({
+                color: "#a3cc52",
+                lineWidth: 1,
+            });
+
+            const smaData = calculateSMA(data, "20");
+            sma20LineSeries.setData(smaData);
+        }
+
+        if (smaCount.includes("40")) {
+            const sma40LineSeries = chart.addLineSeries({
+                color: "#e84a5f",
+                lineWidth: 1,
+            });
+
+            const smaData = calculateSMA(data, "40");
+            sma40LineSeries.setData(smaData);
+        }
 
         chart.applyOptions({
             layout: {
@@ -200,7 +252,7 @@ const LightWeightChart = ({ theme, data, prediction }) => {
             chart.remove();
         };
         // eslint-disable-next-line
-    }, [theme, data]);
+    }, [theme, data, smaCount]);
 
     return (
         <div style={{ position: "relative" }} ref={chartContainerRef}></div>
