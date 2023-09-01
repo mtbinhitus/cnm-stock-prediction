@@ -28,7 +28,7 @@ function Footer({ theme }) {
     });
 
     return (
-        <>
+        <div>
             <ThemeProvider theme={themeMUI}>
                 <BottomNavigation showLabels style={{ background: "transparent" }}>
                     <BottomNavigationAction
@@ -46,7 +46,7 @@ function Footer({ theme }) {
                     ></BottomNavigationAction>
                 </BottomNavigation>
             </ThemeProvider>
-        </>
+        </div>
     );
 };
 

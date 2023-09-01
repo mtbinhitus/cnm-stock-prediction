@@ -59,10 +59,6 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
         const arrayOfSmaCount = [...smaCount];
         const indexOfSelected = arrayOfSmaCount.indexOf(event.target.value);
 
-        if (arrayOfSmaCount.length === 1 && indexOfSelected !== -1) {
-            return;
-        }
-
         if (indexOfSelected === -1) {
             arrayOfSmaCount.push(event.target.value);
         } else {
@@ -70,8 +66,6 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
         }
 
         setSmaCount(arrayOfSmaCount);
-
-
     };
 
     const handleCandle = (event) => {

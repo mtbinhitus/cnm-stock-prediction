@@ -64,10 +64,6 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
     }, [lastMessage, data, smaCount]);
 
     function calculateSMA(data, count) {
-        if (count === 0) {
-            return [];
-        }
-
         const avg = function (data) {
             let sum = 0;
             for (let i = 0; i < data.length; i++) {
@@ -217,7 +213,6 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
         };
 
         const lastIndex = candleStickSeries.dataByIndex(data.length - 1);
-
         if (lastIndex) {
             const updateLegend = param => {
                 const validCrosshairPoint = !(

@@ -109,7 +109,7 @@ function Header({ updateTheme, theme, showSearchBar }) {
     };
 
     return (
-        <>
+        <div>
             <ThemeContext.Provider value={{ theme, toggleTheme }}>
                 <ThemeProvider theme={themeMUI}>
                     <AppBar position="static">
@@ -153,7 +153,7 @@ function Header({ updateTheme, theme, showSearchBar }) {
                     </AppBar>
                 </ThemeProvider>
             </ThemeContext.Provider>
-        </>
+        </div>
     );
 };
 
