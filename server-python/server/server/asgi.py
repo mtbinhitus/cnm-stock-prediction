@@ -91,7 +91,7 @@ class RealTimeThread(Thread):
             api_endpoint = 'BINANCE_API_ENDPOINT'
 
             instance = BinanceAPIManager(api_key, api_secret, api_endpoint)
-            data_btc = instance.get_historical_klines(symbol='BTCUSDT', interval='1m', startTime=dt.datetime.now() - dt.timedelta(days=2), endTime=dt.datetime.now())
+            data_btc = instance.get_historical_klines(symbol='BTCUSDT', interval='1m', startTime=dt.datetime.now() - dt.timedelta(days=7), endTime=dt.datetime.now())
             df_btc = instance.get_dataframe_from_bars(bars=data_btc)
             utils.df_to_csv(df=df_btc, filename="btc_bars")
             
