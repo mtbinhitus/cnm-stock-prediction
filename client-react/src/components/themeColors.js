@@ -9,9 +9,13 @@ const ThemeColors = {
     vividBlue: getComputedStyle(document.body).getPropertyValue("--vividBlue"),
     candlePositive: getComputedStyle(document.body).getPropertyValue("--candlePositive"),
     candleNegative: getComputedStyle(document.body).getPropertyValue("--candleNegative"),
-    smaBlue: getComputedStyle(document.body).getPropertyValue("--smaBlue"),
+    predictionColor: getComputedStyle(document.body).getPropertyValue("--predictionColor"),
     placeholderLight: getComputedStyle(document.body).getPropertyValue("--placeholderLight"),
-    placeholderDark: getComputedStyle(document.body).getPropertyValue("--placeholderDark")
+    placeholderDark: getComputedStyle(document.body).getPropertyValue("--placeholderDark"),
+    sma5Color: getComputedStyle(document.body).getPropertyValue("--sma5Color"),
+    sma10Color: getComputedStyle(document.body).getPropertyValue("--sma10Color"),
+    sma20Color: getComputedStyle(document.body).getPropertyValue("--sma20Color"),
+    sma40Color: getComputedStyle(document.body).getPropertyValue("--sma40Color")
 };
 
 export default ThemeColors;

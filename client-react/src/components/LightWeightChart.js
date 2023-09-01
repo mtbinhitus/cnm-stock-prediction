@@ -92,8 +92,8 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
 
         if (smaCount.includes("5")) {
             const sma5LineSeries = chart.addLineSeries({
-                color: ThemeColors.smaBlue,
-                lineWidth: 1,
+                color: ThemeColors.sma5Color,
+                lineWidth: 1
             });
 
             const smaData = calculateSMA(data, "5");
@@ -102,8 +102,8 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
 
         if (smaCount.includes("10")) {
             const sma10LineSeries = chart.addLineSeries({
-                color: "#ff9b00",
-                lineWidth: 1,
+                color: ThemeColors.sma10Color,
+                lineWidth: 1
             });
 
             const smaData = calculateSMA(data, "10");
@@ -112,8 +112,8 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
 
         if (smaCount.includes("20")) {
             const sma20LineSeries = chart.addLineSeries({
-                color: "#a3cc52",
-                lineWidth: 1,
+                color: ThemeColors.sma20Color,
+                lineWidth: 1
             });
 
             const smaData = calculateSMA(data, "20");
@@ -122,8 +122,8 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
 
         if (smaCount.includes("40")) {
             const sma40LineSeries = chart.addLineSeries({
-                color: "#e84a5f",
-                lineWidth: 1,
+                color: ThemeColors.sma40Color,
+                lineWidth: 1
             });
 
             const smaData = calculateSMA(data, "40");
