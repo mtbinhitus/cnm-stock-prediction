@@ -89,9 +89,9 @@ class BTCPredictionUsingLSTM:
             elif (i == 'rsi'):
                 cols_x.append(f'rsi_{ma_2}')
             elif (i == 'sd'):
-                cols_x.append(f'sd_{ma_1}', f'sd_{ma_3}')
+                cols_x.extend([f'sd_{ma_1}', f'sd_{ma_3}'])
             elif (i == 'ma'):
-                cols_x.extend(f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}')
+                cols_x.extend([f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}'])
 
         cols_y = ['close']
         scaled_data_x = self.scala_x.fit_transform(input_data[cols_x].values.reshape(-1, len(cols_x)))

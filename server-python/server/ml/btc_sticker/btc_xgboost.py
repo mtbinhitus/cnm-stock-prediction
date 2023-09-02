@@ -97,7 +97,7 @@ class BTCPredictionUsingXGBOOST:
 
 
         test_df = input_data[cols_x].copy().drop('close', axis='columns')
-        x_predict = test_df.tail(1)
+        x_predict = test_df.tail(2)
         
         print("End pre-processing...")
         print(x_predict.shape)
