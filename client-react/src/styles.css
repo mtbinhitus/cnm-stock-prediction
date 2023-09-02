@@ -25,8 +25,9 @@ body {
 }
 
 #root {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 .App {
@@ -34,6 +35,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 #light {
@@ -163,7 +165,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-x: auto;
+  overflow: auto;
   white-space: nowrap;
 }
 
@@ -176,8 +178,9 @@ body {
 }
 
 .Prediction-body-1-body {
-  margin: auto;
   display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 
 #light.Prediction-body-1-body {
@@ -195,6 +198,24 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: auto;
+}
+
+.Prediction-body-2-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 26px;
+  margin: auto;
+}
+
+#light.Prediction-body-2-body {
+  border: 1px solid var(--grayishBlue2);
+}
+
+#dark.Prediction-body-2-body {
+  border: 1px solid var(--darkBlue2);
 }
 
 /* MUI css override */
@@ -232,4 +253,8 @@ body {
 
 .css-1nrlq1o-MuiFormControl-root {
   margin: 20px !important;
+}
+
+.MuiFormGroup-root.MuiFormGroup-row.css-qfz70r-MuiFormGroup-root {
+  flex-wrap: nowrap !important;
 }

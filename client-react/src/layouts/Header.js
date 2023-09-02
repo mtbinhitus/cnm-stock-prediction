@@ -109,51 +109,49 @@ function Header({ updateTheme, theme, showSearchBar }) {
     };
 
     return (
-        <div>
-            <ThemeContext.Provider value={{ theme, toggleTheme }}>
-                <ThemeProvider theme={themeMUI}>
-                    <AppBar position="static">
-                        <Container maxWidth="xl">
-                            <Toolbar disableGutters>
-                                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                                    <Button
-                                        className="button"
-                                        variant={theme}
-                                        href="/"
-                                    >Market</Button>
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            <ThemeProvider theme={themeMUI}>
+                <AppBar position="static">
+                    <Container maxWidth="xl">
+                        <Toolbar disableGutters>
+                            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                                <Button
+                                    className="button"
+                                    variant={theme}
+                                    href="/"
+                                >Market</Button>
 
-                                    <Button
-                                        className="button"
-                                        variant={theme}
-                                        href="/prediction"
-                                    >Prediction</Button>
-                                </Box>
+                                <Button
+                                    className="button"
+                                    variant={theme}
+                                    href="/prediction"
+                                >Prediction</Button>
+                            </Box>
 
-                                {showSearchBar && <form onSubmit={handleSubmit}>
-                                    <Search style={{ background: "transparent", border: `1px solid ${borderColor}`, borderRadius: "0px" }}>
-                                        <SearchIconWrapper>
-                                            <SearchIcon style={{ color: color }} />
-                                        </SearchIconWrapper>
+                            {showSearchBar && <form onSubmit={handleSubmit}>
+                                <Search style={{ background: "transparent", border: `1px solid ${borderColor}`, borderRadius: "0px" }}>
+                                    <SearchIconWrapper>
+                                        <SearchIcon style={{ color: color }} />
+                                    </SearchIconWrapper>
 
-                                        <StyledInputBase
-                                            placeholder="BINANCE:BTCUSDT"
-                                            style={{ color: color }}
-                                            value={searchQuery}
-                                            onChange={(event) => setSearchQuery(event.target.value)}
-                                        ></StyledInputBase>
-                                    </Search>
-                                </form>}
+                                    <StyledInputBase
+                                        placeholder="BINANCE:BTCUSDT"
+                                        style={{ color: color }}
+                                        value={searchQuery}
+                                        onChange={(event) => setSearchQuery(event.target.value)}
+                                    ></StyledInputBase>
+                                </Search>
+                            </form>}
 
-                                <ToggleButton
-                                    onChange={toggleTheme}
-                                    checked={theme === "dark"}
-                                ></ToggleButton>
-                            </Toolbar>
-                        </Container>
-                    </AppBar>
-                </ThemeProvider>
-            </ThemeContext.Provider>
-        </div>
+                            <ToggleButton
+                                onChange={toggleTheme}
+                                checked={theme === "dark"}
+                            ></ToggleButton>
+                        </Toolbar>
+                    </Container>
+                </AppBar>
+            </ThemeProvider>
+        </ThemeContext.Provider>
     );
 };
 

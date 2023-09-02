@@ -74,14 +74,16 @@ function Prediction() {
                     </div>
                 </div>
 
-                <div className="Prediction-body-2">
-                    <LightWeightChart
-                        theme={theme}
-                        updateTheme={updateTheme}
-                        data={data}
-                        smaCount={smaCount}
-                        prediction={prediction}
-                    ></LightWeightChart>
+                <div className="Prediction-body-2" id={theme}>
+                    <div className="Prediction-body-2-body" id={theme}>
+                        <LightWeightChart
+                            theme={theme}
+                            updateTheme={updateTheme}
+                            data={data}
+                            smaCount={smaCount}
+                            prediction={prediction}
+                        ></LightWeightChart>
+                    </div>
                 </div>
             </div>
 

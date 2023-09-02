@@ -5,13 +5,13 @@ import ThemeColors from "./ThemeColors.js";
 
 const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
-    const legend = document.createElement("div");
     const chartContainerRef = useRef(null);
     const candleStickSeriesRef = useRef(null);
     const sma5LineSeriesRef = useRef(null);
     const sma10LineSeriesRef = useRef(null);
     const sma20LineSeriesRef = useRef(null);
     const sma40LineSeriesRef = useRef(null);
+    const legendRef = useRef(null);
 
     const { lastMessage } = useWebSocket(WS_URL, {
         onOpen: (event) => {
@@ -170,13 +170,16 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
         candleStickSeriesRef.current = candleStickSeries;
 
         const symbolName = "BINANCE:BTCUSDT";
-        legend.style = `position: absolute; left: 12px; top: 12px; z-index: 1; font-size: 14px; line-height: 18px; font-weight: 300;`;
-        legend.style.color = textColor;
-        chartContainerRef.current.appendChild(legend);
+
+        // const legend = document.createElement("div");
+        // legend.style = `position: absolute; left: 12px; top: 12px; z-index: 1; font-size: 14px; line-height: 18px; font-weight: 300;`;
+        // legend.style.color = textColor;
+        // legendRef.current = legend;
+        // chartContainerRef.current.appendChild(legend);
 
         const setTooltipHtml = (name, time, open, high, low, close) => {
             if (close - open >= 0) {
-                legend.innerHTML = `
+                legendRef.current.innerHTML = `
                     <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
                     <div style="font-size: 16px; margin: 4px 0px;">
                         <span>Open</span>
@@ -193,7 +196,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
                     <div style="font-size: 12px; margin: 4px 0px;">${time}</div>
                 `;
             } else {
-                legend.innerHTML = `
+                legendRef.current.innerHTML = `
                     <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
                     <div style="font-size: 16px; margin: 4px 0px;">
                         <span>Open</span>
@@ -235,6 +238,14 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
                 const close = bar.close.toFixed(2);
 
                 const formattedTime = `${day} ${month} ${year} ${hours}:${minutes}`;
+
+                if (!legendRef.current) {
+                    const legendElement = document.createElement("div");
+                    legendElement.style = `position: absolute; left: 12px; top: 12px; z-index: 1; font-size: 14px; line-height: 18px; font-weight: 300;`;
+                    legendElement.style.color = textColor;
+                    chartContainerRef.current.appendChild(legendElement);
+                    legendRef.current = legendElement;
+                }
 
                 setTooltipHtml(symbolName, formattedTime, open, high, low, close);
             };

@@ -28,25 +28,23 @@ function Footer({ theme }) {
     });
 
     return (
-        <div>
-            <ThemeProvider theme={themeMUI}>
-                <BottomNavigation showLabels style={{ background: "transparent" }}>
-                    <BottomNavigationAction
-                        variant="hover"
-                        label="Github"
-                        href="/"
-                        icon={<GitHubIcon />}
-                    ></BottomNavigationAction>
+        <ThemeProvider theme={themeMUI}>
+            <BottomNavigation showLabels style={{ background: "transparent" }}>
+                <BottomNavigationAction
+                    variant="hover"
+                    label="Github"
+                    href="/"
+                    icon={<GitHubIcon />}
+                ></BottomNavigationAction>
 
-                    <BottomNavigationAction
-                        variant="hover"
-                        label="Demo"
-                        href="/"
-                        icon={<OndemandVideoIcon />}
-                    ></BottomNavigationAction>
-                </BottomNavigation>
-            </ThemeProvider>
-        </div>
+                <BottomNavigationAction
+                    variant="hover"
+                    label="Demo"
+                    href="/"
+                    icon={<OndemandVideoIcon />}
+                ></BottomNavigationAction>
+            </BottomNavigation>
+        </ThemeProvider>
     );
 };
 
