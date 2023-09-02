@@ -406,7 +406,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                     </div>
                 </FormControl>
             </div>
-        </ThemeProvider >
+        </ThemeProvider>
     );
 };
 
