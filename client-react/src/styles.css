@@ -274,3 +274,9 @@ body {
 .MuiFormGroup-root.MuiFormGroup-row.css-qfz70r-MuiFormGroup-root {
   flex-wrap: nowrap !important;
 }
+
+@media (min-width: 0px) {
+  .css-1t6c9ts {
+    display: block !important;
+  }
+}
