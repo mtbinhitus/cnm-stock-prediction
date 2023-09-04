@@ -182,8 +182,9 @@ class BinanceAPI(views.APIView):
         try:
             df_btc = pd.read_csv("./btc_bars.csv")
             df_btc.drop(df_btc.columns[[0]], axis=1, inplace=True)
+            print(df_btc.tail(5))
             if req_limit <= len(df_btc):
-                output_data = df_btc[len(df_btc) - req_limit:len(df_btc) - 1].to_dict(orient='records')
+                output_data = df_btc[len(df_btc) - req_limit:].to_dict(orient='records')
                 print(len(output_data))
                 return Response(output_data, status=status.HTTP_200_OK)
             elif req_limit > len(df_btc):
