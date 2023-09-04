@@ -196,3 +196,64 @@ class BinanceAPI(views.APIView):
                 {"status": "Error", "message": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             ) 
+
+import plotly.express as px
+from django.shortcuts import render
+from ml.btc_sticker.btc_xgboost import BTCPredictionUsingXGBOOST
+from ml.btc_sticker.btc_rnn import BTCPredictionUsingRNN
+from ml.btc_sticker.btc_lstm import BTCPredictionUsingLSTM
+def plotly(request):
+    indicator = ["close"]
+    model = 'xgboost'
+    algo = BTCPredictionUsingXGBOOST()
+    if request.method == 'POST':
+        model = request.POST.getlist('model')
+        model = model[0]
+        indicator = request.POST.getlist('indicator')
+        if(len(indicator) == 0):
+            indicator = ["close"]
+        print("Indicator request",indicator)
+        print("Model request",model)
+    models = [{"name": "XGBoost", "value": "xgboost", "check": True}, {"name": "RNN", "value": "rnn", "check": False}, {"name": "LSTM", "value": "lstm", "check": False}]
+    indis = [
+        {"name": "Close Price", "value": "close", "check": True},
+        {"name": "Rate Price of Change", "value": "roc", "check": False},
+        {"name": "Bollinger Bands", "value": "bb", "check": False},
+        {"name": "Moving Avarage", "value": "ma", "check": False},
+        {"name": "Standard Deviation", "value": "sd", "check:": False},
+        {"name": "Relative Strength Index", "value": "rsi", "check:": False},
+        {"name": "MACD", "value": "macd", "check:": False},
+    ]
+
+    for indi in indis:
+        if indi['value'] in indicator:
+            indi['check'] = True
+        else:
+            indi['check'] = False
+
+    if(model == "xgboost"):
+        algo = BTCPredictionUsingXGBOOST()
+        models[0]["check"] = True
+        models[1]["check"] = False
+        models[2]["check"] = False
+    elif (model == "rnn"):
+        algo = BTCPredictionUsingRNN()
+        models[0]["check"] = False
+        models[1]["check"] = True
+        models[2]["check"] = False
+    elif (model == "lstm"):
+        algo = BTCPredictionUsingLSTM()
+        models[0]["check"] = False
+        models[1]["check"] = False
+        models[2]["check"] = True
+    print(type(algo))
+    fig_line = algo.visualize(indicator)
+    # fig_line = px.line(data_predict, x="lifeExp", y="gdpPercap", color="country", text="year", height=300)
+    # fig_line.update_traces(textposition="bottom right")
+
+    line_chart = fig_line.to_html(full_html=False, include_plotlyjs=False)
+
+    return render(request, "plotly.html", {
+                                           "line_chart" : line_chart,
+                                            "indis": indis,
+                                           "models": models,})
