@@ -18,5 +18,7 @@ Markdown
 django-filter
 django-cors-headers
 daphne
-channels["daphne"]
+channels
 xgboost
+yfinance
+django_plotly_dash

@@ -22,11 +22,13 @@ function Prediction() {
         getKlineBTCData(candle).then(res => {
             setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
         });
+        console.log(data)
     }, [candle]);
 
     useEffect(() => {
         getClosePricePredict(crypto, model, indicator).then(res => {
             setPrediction(res);
+            console.log(res);
         });
     }, [crypto, model, indicator]);
 
@@ -74,14 +76,19 @@ function Prediction() {
                     </div>
                 </div>
 
-                <div className="Prediction-body-2">
-                    <LightWeightChart
-                        theme={theme}
-                        updateTheme={updateTheme}
-                        data={data}
-                        smaCount={smaCount}
-                        prediction={prediction}
-                    ></LightWeightChart>
+                <div className="Prediction-body-2" id={theme}>
+                    <div className="Prediction-body-2-body" id={theme}>
+                        <LightWeightChart
+                            theme={theme}
+                            updateTheme={updateTheme}
+                            data={data}
+                            smaCount={smaCount}
+                            prediction={prediction}
+                            crypto={crypto}
+                            model={model}
+                            indicator={indicator}
+                        ></LightWeightChart>
+                    </div>
                 </div>
             </div>
 

@@ -1,17 +1,19 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { createChart } from "lightweight-charts";
 import ThemeColors from "./ThemeColors.js";
+import { getClosePricePredict } from "../services/RestApi.js";
 
-const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
+const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, indicator }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
-    const legend = document.createElement("div");
     const chartContainerRef = useRef(null);
     const candleStickSeriesRef = useRef(null);
     const sma5LineSeriesRef = useRef(null);
     const sma10LineSeriesRef = useRef(null);
     const sma20LineSeriesRef = useRef(null);
     const sma40LineSeriesRef = useRef(null);
+    const predictionLineSeriesRef = useRef(null);
+    const [prevPredict, setPrevPredict] = useState(null);
 
     const { lastMessage } = useWebSocket(WS_URL, {
         onOpen: (event) => {
@@ -21,6 +23,23 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
             return true;
         }
     });
+
+    function calculateSMA(data, count) {
+        const avg = function (data) {
+            let sum = 0;
+            for (let i = 0; i < data.length; i++) {
+                sum += data[i].close;
+            }
+            return sum / data.length;
+        };
+
+        const result = [];
+        for (let i = count - 1, len = data.length; i < len; i++) {
+            const val = avg(data.slice(i - count + 1, i));
+            result.push({ time: data[i].time, value: val });
+        }
+        return result;
+    };
 
     useEffect(() => {
         if (lastMessage !== null) {
@@ -36,6 +55,16 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
                 low: price.low,
                 close: price.close
             };
+            // console.log("lm", lastMessage.data)
+
+
+            if (predictionLineSeriesRef.current && prevPredict) {
+                if(modifiedPrice.time > prevPredict[prevPredict.length - 1].time)
+                    getClosePricePredict(crypto, model, indicator).then(res => {
+                        setPrevPredict([...prevPredict, res]);
+                        predictionLineSeriesRef.current.update(res);
+                    });
+            }
 
             if (candleStickSeriesRef.current) {
                 candleStickSeriesRef.current.update(modifiedPrice);
@@ -63,28 +92,79 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
         }
     }, [lastMessage, data, smaCount]);
 
-    function calculateSMA(data, count) {
-        const avg = function (data) {
-            let sum = 0;
-            for (let i = 0; i < data.length; i++) {
-                sum += data[i].close;
-            }
-            return sum / data.length;
-        };
-
-        const result = [];
-        for (let i = count - 1, len = data.length; i < len; i++) {
-            const val = avg(data.slice(i - count + 1, i));
-            result.push({ time: data[i].time, value: val });
-        }
-        return result;
-    };
-
     useEffect(() => {
         const color = theme === "dark" ? ThemeColors.darkBlue : ThemeColors.white;
         const textColor = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
 
         const chart = createChart(chartContainerRef.current);
+        const candleStickSeries = chart.addCandlestickSeries();
+        candleStickSeries.setData(data);
+        candleStickSeriesRef.current = candleStickSeries;
+
+        const predictionLineSeries = chart.addLineSeries(
+            {
+                color: ThemeColors.predictionColor,
+                lineWidth: 1
+            }
+        );
+
+        if (prediction && prediction.time !== undefined) {
+
+
+            // const predictionData = JSON.stringify(prediction);
+            const modifiedPrediction = {
+                time: prediction.time,
+                value: prediction.value
+            };
+            if(prevPredict !== null && prevPredict[prevPredict.length - 1].time > prediction.time)
+            {
+                predictionLineSeries.setData(prevPredict);
+            }
+            else {
+                setPrevPredict([modifiedPrediction]);
+                // console.log("modified", [modifiedPrediction])
+                predictionLineSeries.setData([modifiedPrediction]);
+            }
+        }
+        predictionLineSeriesRef.current = predictionLineSeries;
+        
+        chart.applyOptions({
+            layout: {
+                background: { color },
+                textColor: textColor
+            },
+            width: 1000,
+            height: 500,
+            crosshair: {
+                horzLine: {
+                    visible: false,
+                    labelVisible: false
+                },
+                vertLine: {
+                    visible: true,
+                    labelVisible: false
+                }
+            },
+            grid: {
+                horzLines: {
+                    visible: false
+                },
+                vertLines: {
+                    visible: false
+                }
+            },
+            rightPriceScale: {
+                scaleMargins: {
+                    top: 0.4,
+                    bottom: 0.2
+                },
+                borderColor: textColor
+            },
+            timeScale: {
+                borderColor: textColor,
+                timeVisible: true
+            }
+        });
 
         if (smaCount.includes("5")) {
             const sma5LineSeries = chart.addLineSeries({
@@ -126,88 +206,46 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
             sma40LineSeries.setData(smaData);
         }
 
-        chart.applyOptions({
-            layout: {
-                background: { color },
-                textColor: textColor
-            },
-            width: 1000,
-            height: 500,
-            crosshair: {
-                horzLine: {
-                    visible: false,
-                    labelVisible: false
-                },
-                vertLine: {
-                    visible: true,
-                    labelVisible: false
-                }
-            },
-            grid: {
-                vertLines: {
-                    visible: false
-                },
-                horzLines: {
-                    visible: false
-                }
-            },
-            rightPriceScale: {
-                scaleMargins: {
-                    top: 0.4,
-                    bottom: 0.2
-                },
-                borderColor: textColor
-            },
-            timeScale: {
-                borderColor: textColor,
-                timeVisible: true,
-                secondsVisible: true
-            }
-        });
-
-        const candleStickSeries = chart.addCandlestickSeries();
-        candleStickSeries.setData(data);
-        candleStickSeriesRef.current = candleStickSeries;
-
-        const symbolName = "BINANCE:BTCUSDT";
-        legend.style = `position: absolute; left: 12px; top: 12px; z-index: 1; font-size: 14px; line-height: 18px; font-weight: 300;`;
+        const legend = document.createElement("div");
+        legend.className = "legend";
+        legend.style = `position: absolute; left: 0px; top: 0px; z-index: 1;`;
         legend.style.color = textColor;
         chartContainerRef.current.appendChild(legend);
 
         const setTooltipHtml = (name, time, open, high, low, close) => {
             if (close - open >= 0) {
                 legend.innerHTML = `
-                    <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
-                    <div style="font-size: 16px; margin: 4px 0px;">
+                    <div style="font-size: 24px; margin: 4px 0px;">${name}</div>
+                    <div style="font-size: 20px; margin: 4px 0px;">
                         <span>Open</span>
                         <span style="color: ${ThemeColors.candlePositive};">${open}</span>
                         <span>High</span>
                         <span style="color: ${ThemeColors.candlePositive};">${high}</span>
                     </div>
-                    <div style="font-size: 16px; margin: 4px 0px;">
+                    <div style="font-size: 20px; margin: 4px 0px;">
                         <span>Low</span>
                         <span style="color: ${ThemeColors.candlePositive};">${low}</span>
                         <span>Close</span>
                         <span style="color: ${ThemeColors.candlePositive};">${close}</span>
                     </div>
-                    <div style="font-size: 12px; margin: 4px 0px;">${time}</div>
+                    <div style="font-size: 16px; margin: 4px 0px;">${time}</div>
                 `;
             } else {
                 legend.innerHTML = `
-                    <div style="font-size: 20px; margin: 4px 0px;">${name}</div>
-                    <div style="font-size: 16px; margin: 4px 0px;">
+                    <div style="font-size: 24px; margin: 4px 0px;">${name}</div>
+                    <div style="font-size: 20px; margin: 4px 0px;">
                         <span>Open</span>
                         <span style="color: ${ThemeColors.candleNegative};">${open}</span>
                         <span>High</span>
                         <span style="color: ${ThemeColors.candleNegative};">${high}</span>
                     </div>
-                    <div style="font-size: 16px; margin: 4px 0px;">
+                    <div style="font-size: 20px; margin: 4px 0px;">
                         <span>Low</span>
                         <span style="color: ${ThemeColors.candleNegative};">${low}</span>
                         <span>Close</span>
                         <span style="color: ${ThemeColors.candleNegative};">${close}</span>
                     </div>
-                    <div style="font-size: 12px; margin: 4px 0px;">${time}</div>
+                    <div style="font-size: 16px; margin: 4px 0px;">${time}</div>
                 `;
             }
         };
@@ -220,23 +258,25 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
                 );
 
                 const bar = validCrosshairPoint ? param.seriesData.get(candleStickSeries) : lastIndex;
+                if (bar) {
+                    const time = new Date(0);
+                    time.setUTCSeconds(bar.time);
+                    const day = time.getUTCDate();
+                    const month = time.toLocaleString("default", { month: "long" });
+                    const year = time.getUTCFullYear();
+                    const hours = time.getUTCHours().toString().padStart(2, "0");
+                    const minutes = time.getUTCMinutes().toString().padStart(2, "0");
 
-                const time = new Date(0);
-                time.setUTCSeconds(bar.time);
-                const day = time.getUTCDate();
-                const month = time.toLocaleString("default", { month: "long" });
-                const year = time.getUTCFullYear();
-                const hours = time.getUTCHours().toString().padStart(2, "0");
-                const minutes = time.getUTCMinutes().toString().padStart(2, "0");
+                    const open = bar.open.toFixed(2);
+                    const high = bar.high.toFixed(2);
+                    const low = bar.low.toFixed(2);
+                    const close = bar.close.toFixed(2);
 
-                const open = bar.open.toFixed(2);
-                const high = bar.high.toFixed(2);
-                const low = bar.low.toFixed(2);
-                const close = bar.close.toFixed(2);
+                    const symbolName = "BINANCE:BTCUSDT";
+                    const formattedTime = `${day} ${month} ${year} ${hours}:${minutes}`;
 
-                const formattedTime = `${day} ${month} ${year} ${hours}:${minutes}`;
-
-                setTooltipHtml(symbolName, formattedTime, open, high, low, close);
+                    setTooltipHtml(symbolName, formattedTime, open, high, low, close);
+                }
             };
 
             chart.subscribeCrosshairMove(updateLegend);
@@ -244,13 +284,13 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
         }
 
         return () => {
+            legend.remove();
             chart.remove();
         };
-        // eslint-disable-next-line
-    }, [theme, data, smaCount]);
+    }, [theme, data, smaCount, prediction]);
 
     return (
-        <div style={{ position: "relative" }} ref={chartContainerRef}></div>
+        <div className="chartContainerRef" style={{ position: "relative" }} ref={chartContainerRef}></div>
     );
 };
 

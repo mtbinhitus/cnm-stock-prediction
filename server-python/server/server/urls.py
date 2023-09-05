@@ -23,8 +23,8 @@ from app.views import MLModelStatusViewSet
 from app.views import MLRequestViewSet
 from app.views import PredictView
 from app.views import BinanceAPI
-
-
+from django.views.generic import TemplateView
+from app.views import plotly
 router = DefaultRouter(trailing_slash=False)
 router.register(r"endpoints", EndpointViewSet, basename="endpoints")
 router.register(r"mlmodels", MLModelViewSet, basename="mlmodels")
@@ -37,4 +37,6 @@ urlpatterns = [
     re_path(r"^api/v1/(?P<endpoint_name>.+)/predict$", PredictView.as_view(), name="predict"),
     re_path(r"^api/v1/klines$", BinanceAPI.as_view(), name="kline"),
     path('admin/', admin.site.urls),
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
+    path('plotly/', plotly, name='plotly'),
 ]

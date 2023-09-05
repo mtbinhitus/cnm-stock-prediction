@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'ml',
     'corsheaders',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,9 @@ ROOT_URLCONF = 'server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,6 +97,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 ASGI_APPLICATION = 'server.asgi.application'
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 CHANNEL_LAYERS = {
     'default': {

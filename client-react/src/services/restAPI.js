@@ -33,6 +33,10 @@ export async function getClosePricePredict(crypto, model, indicator) {
             "indicator": indicator
         })
         .then((res) => {
+            let timeMillis = res.data["time"];
+            let timeUTC = new Date(timeMillis);
+            timeUTC.setHours(timeUTC.getHours() + 7);
+            res.data["time"] = timeUTC.getTime() / 1000;
             return { time: res.data["time"], value: res.data["prediction"] };
         })
         .catch((error) => {
