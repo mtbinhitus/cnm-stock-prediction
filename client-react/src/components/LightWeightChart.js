@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { createChart } from "lightweight-charts";
 import ThemeColors from "./ThemeColors.js";
+import { getClosePricePredict } from "../services/RestApi.js";
 
-const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
+const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, indicator }) => {
     const WS_URL = "ws://localhost:8000/ws/socket-server/";
     const chartContainerRef = useRef(null);
     const candleStickSeriesRef = useRef(null);
@@ -11,6 +12,8 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
     const sma10LineSeriesRef = useRef(null);
     const sma20LineSeriesRef = useRef(null);
     const sma40LineSeriesRef = useRef(null);
+    const predictionLineSeriesRef = useRef(null);
+    const [prevPredict, setPrevPredict] = useState(null);
 
     const { lastMessage } = useWebSocket(WS_URL, {
         onOpen: (event) => {
@@ -52,6 +55,16 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
                 low: price.low,
                 close: price.close
             };
+            // console.log("lm", lastMessage.data)
+
+
+            if (predictionLineSeriesRef.current && prevPredict) {
+                if(modifiedPrice.time > prevPredict[prevPredict.length - 1].time)
+                    getClosePricePredict(crypto, model, indicator).then(res => {
+                        setPrevPredict([...prevPredict, res]);
+                        predictionLineSeriesRef.current.update(res);
+                    });
+            }
 
             if (candleStickSeriesRef.current) {
                 candleStickSeriesRef.current.update(modifiedPrice);
@@ -88,6 +101,33 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
         candleStickSeries.setData(data);
         candleStickSeriesRef.current = candleStickSeries;
 
+        const predictionLineSeries = chart.addLineSeries(
+            {
+                color: ThemeColors.predictionColor,
+                lineWidth: 1
+            }
+        );
+
+        if (prediction && prediction.time !== undefined) {
+
+
+            // const predictionData = JSON.stringify(prediction);
+            const modifiedPrediction = {
+                time: prediction.time,
+                value: prediction.value
+            };
+            if(prevPredict !== null && prevPredict[prevPredict.length - 1].time > prediction.time)
+            {
+                predictionLineSeries.setData(prevPredict);
+            }
+            else {
+                setPrevPredict([modifiedPrediction]);
+                // console.log("modified", [modifiedPrediction])
+                predictionLineSeries.setData([modifiedPrediction]);
+            }
+        }
+        predictionLineSeriesRef.current = predictionLineSeries;
+        
         chart.applyOptions({
             layout: {
                 background: { color },
@@ -218,24 +258,25 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
                 );
 
                 const bar = validCrosshairPoint ? param.seriesData.get(candleStickSeries) : lastIndex;
+                if (bar) {
+                    const time = new Date(0);
+                    time.setUTCSeconds(bar.time);
+                    const day = time.getUTCDate();
+                    const month = time.toLocaleString("default", { month: "long" });
+                    const year = time.getUTCFullYear();
+                    const hours = time.getUTCHours().toString().padStart(2, "0");
+                    const minutes = time.getUTCMinutes().toString().padStart(2, "0");
 
-                const time = new Date(0);
-                time.setUTCSeconds(bar.time);
-                const day = time.getUTCDate();
-                const month = time.toLocaleString("default", { month: "long" });
-                const year = time.getUTCFullYear();
-                const hours = time.getUTCHours().toString().padStart(2, "0");
-                const minutes = time.getUTCMinutes().toString().padStart(2, "0");
+                    const open = bar.open.toFixed(2);
+                    const high = bar.high.toFixed(2);
+                    const low = bar.low.toFixed(2);
+                    const close = bar.close.toFixed(2);
 
-                const open = bar.open.toFixed(2);
-                const high = bar.high.toFixed(2);
-                const low = bar.low.toFixed(2);
-                const close = bar.close.toFixed(2);
+                    const symbolName = "BINANCE:BTCUSDT";
+                    const formattedTime = `${day} ${month} ${year} ${hours}:${minutes}`;
 
-                const symbolName = "BINANCE:BTCUSDT";
-                const formattedTime = `${day} ${month} ${year} ${hours}:${minutes}`;
-
-                setTooltipHtml(symbolName, formattedTime, open, high, low, close);
+                    setTooltipHtml(symbolName, formattedTime, open, high, low, close);
+                }
             };
 
             chart.subscribeCrosshairMove(updateLegend);
@@ -246,7 +287,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction }) => {
             legend.remove();
             chart.remove();
         };
-    }, [theme, data, smaCount]);
+    }, [theme, data, smaCount, prediction]);
 
     return (
         <div className="chartContainerRef" style={{ position: "relative" }} ref={chartContainerRef}></div>
