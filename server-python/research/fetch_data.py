@@ -66,8 +66,8 @@ def fetch_data_yfinance(token, period, interval, xgboost=False):
     df.dropna(inplace=True)
     if xgboost is True:
         df.to_csv(f"data_train/{token}_1m_xgboost.csv")
-    df.to_csv(f"data_train/{token}_1m.csv")
+    else: df.to_csv(f"data_train/{token}_1m.csv")
     print("Done Loading Data")
 
-fetch_data_yfinance('BTCUSDT', period=1, interval="1m")
-fetch_data_yfinance('BTCUSDT', period=10, interval="1m", xgboost=True)
+fetch_data_yfinance('BTCUSDT', period=7, interval="1m")
+fetch_data_yfinance('BTCUSDT', period=5, interval="1m", xgboost=True)

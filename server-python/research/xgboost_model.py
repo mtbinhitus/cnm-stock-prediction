@@ -34,8 +34,7 @@ def mda(y_true, y_pred, t=12):
     return K.mean(K.cast(d, K.floatx()))
 
 def training_model(token, name, indicator):
-    test_size  = 0.15
-    valid_size = 0.15
+    test_size  = 0.2
     pre_day = 60
     indicator.sort()
     # Load data for 1year to train 1m interval
@@ -47,7 +46,8 @@ def training_model(token, name, indicator):
     df = df.sort_index(ascending=True, axis=0)
     df = pd.DataFrame(df)
     df.index = range(len(df))
-
+    df['close_forecast'] = df['close'].shift(-1, axis=0)
+    # df.dropna(inplace=True)
     print(df)
     print("Done Loading Data")
 
@@ -63,7 +63,7 @@ def training_model(token, name, indicator):
     # cols_x = ['close', f'SMA_{ma_1}', f'SMA_{ma_2}', f'SMA_{ma_3}', f'EMA_{sma_1}', f'SD_{ma_1}', f'SD_{ma_3}', 'macd', 'macd_signal',
     #           f'middleband_{ma_3}', f'upperband_{ma_3}', f'lowerband_{ma_3}', f'RSI_{ma_2}']
     # indicator = ['bb', 'close', 'macd', 'roc', 'rsi', 'sd', 'ma']
-    cols_x = ['close']
+    cols_x = ['close', 'close_forecast']
     for i in indicator:
         if(i == 'close'):
             cols_x.extend(['open', 'high', 'low'])
@@ -82,25 +82,19 @@ def training_model(token, name, indicator):
         
 
     test_split_idx  = int(df.shape[0] * (1-test_size))
-    valid_split_idx = int(df.shape[0] * (1-(valid_size+test_size)))
 
-    train_df  = df.loc[:valid_split_idx].copy()
-    valid_df  = df.loc[valid_split_idx+1:test_split_idx].copy()
+    train_df  = df.loc[:test_split_idx].copy()
     test_df   = df.loc[test_split_idx+1:].copy()
 
     train_df = train_df[cols_x]
-    valid_df = valid_df[cols_x]
     test_df  = test_df[cols_x]
     
     # Split into features and labels
-    y_train = train_df['close'].copy()
-    X_train = train_df.copy().drop('close', axis='columns')
+    y_train = train_df['close_forecast'].copy()
+    X_train = train_df.drop(columns=['close_forecast'])
 
-    y_valid = valid_df['close'].copy()
-    X_valid = valid_df.copy().drop('close', axis='columns')
-
-    y_test  = test_df['close'].copy()
-    X_test  = test_df.copy().drop('close', axis='columns')
+    y_test  = test_df['close_forecast'].copy()
+    X_test  = test_df.drop(columns=['close_forecast'])
     X_test.info()
     X_train.info()
 
@@ -166,7 +160,7 @@ def training_model(token, name, indicator):
     # fig.show()
 
     # Make Prediction
-    next_day = test_df.copy().drop('close', axis='columns').tail(1)
+    next_day = test_df.copy().drop('close_forecast', axis='columns').tail(2)
     next_day_pred = model.predict(next_day)
     next_day_close = next_day_pred[0]
     print(next_day_close)

@@ -1,53 +1,158 @@
-from sklearn.model_selection import GridSearchCV
-import xgboost as xgb
+import yfinance as yf
+import pandas as pd
+import datetime as dt
 # Chart drawing
 import plotly as py
 import plotly.io as pio
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-import pandas as pd
-import datetime as dt
-
 from sklearn.preprocessing import MinMaxScaler
-
+from utils import powerset
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, LSTM, SimpleRNN
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.layers import Dense, Dropout, LSTM
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import Accuracy
 from tensorflow.keras import optimizers
-from tensorflow.keras import backend as K
 import matplotlib.pyplot as plt
-from xgboost import plot_importance, plot_tree
+import xgboost as xgb
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split, GridSearchCV
-
-def rmse(y_true, y_pred):
-    return K.sqrt(K.mean(K.square(y_pred - y_true), axis=-1))
+from xgboost import plot_importance, plot_tree
 
 
-def mda(y_true, y_pred, t=12):
-    d = K.equal(K.sign(y_true[t: ] - y_true[:-t]),
-                K.sign(y_pred[t: ] - y_pred[:-t]))
-    return K.mean(K.cast(d, K.floatx()))
-
-def training_model(token):
-    test_size  = 0.15
-    valid_size = 0.15
+def visualize_model_lstm_rnn(token, name, indicator):
+    test_size  = 0.2
     pre_day = 60
-
+    indicator.sort()
     # Load data for 1year to train 1m interval
-
+    indicator_str = '_'.join(indicator)
     df = pd.read_csv(f"./data_train/{token}_1m.csv")
-    df["Datetime"]=pd.to_datetime(df.Datetime,format="mixed")
-    df.index=df['Datetime']
+    df["date"]=pd.to_datetime(df.date,format="mixed")
+    df.index=df['date']
+
+    df = df.sort_index(ascending=True, axis=0)
+    df = pd.DataFrame(df)
+
+    print(df)
+    print("Done Loading Data")
+    test_split_idx  = int(df.shape[0] * (1-test_size) - pre_day - 1)
+    n = 5
+    ma_1 = 7
+    ma_2 = 14
+    ma_3 = 21
+    ema_1 = 9
+    # Process Data
+    scala_x = MinMaxScaler(feature_range=(0, 1))
+    scala_y = MinMaxScaler(feature_range=(0, 1))
+    # cols_x = ['close', f'SMA_{ma_1}', f'SMA_{ma_2}', f'SMA_{ma_3}', f'SD_{ma_1}', f'SD_{ma_3}',
+    #           f'MiddleBand_{ma_3}', f'UpperBand_{ma_3}', f'LowerBand_{ma_3}', f'RSI_{ma_2}']
+    cols_x = []
+    for i in indicator:
+        if(i == 'bb'):
+                cols_x.extend([f'middleband_{ma_3}', f'upperband_{ma_3}', f'lowerband_{ma_3}'])
+        elif (i == 'close'):
+            cols_x.append('close')
+        elif (i == 'macd'):
+            cols_x.extend(['macd', 'macd_signal'])
+        elif (i == 'roc'):
+            cols_x.append(f'roc_{n}')
+        elif (i == 'rsi'):
+            cols_x.append(f'rsi_{ma_2}')
+        elif (i == 'sd'):
+            cols_x.extend([f'sd_{ma_1}', f'sd_{ma_3}'])
+        elif (i == 'ma'):
+            cols_x.extend([f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}'])
+
+    cols_y = ['close']
+    scaled_data_x = scala_x.fit_transform(df[cols_x].values.reshape(-1, len(cols_x)))
+    scaled_data_y = scala_y.fit_transform(df[cols_y].values.reshape(-1, len(cols_y)))
+
+    x_total = []
+    y_total = []
+
+    for i in range(pre_day, len(df)):
+        x_total.append(scaled_data_x[i-pre_day:i])
+        y_total.append(scaled_data_y[i])
+
+    x_train = np.array(x_total[:test_split_idx])
+    x_test = np.array(x_total[test_split_idx + 1:])
+    y_train = np.array(y_total[:test_split_idx])
+    y_test = np.array(y_total[test_split_idx + 1:])
+
+    print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
+
+    # Load Model
+    token_name = token.lower()
+    model = load_model(f"models/{name}/{token_name}_1m_{name}_{indicator_str}.h5")
+    print("Done Loading Model")
+
+    # Testing
+    predict_prices = model.predict(x_test)
+    predict_prices = scala_y.inverse_transform(predict_prices)
+
+    # Ploting the Stat
+    real_prices = pd.DataFrame(index=range(0, len(x_test)), columns=['date','close'])
+    valid = pd.DataFrame(index=range(0, len(x_test)), columns=['date','Predictions'])
+    for i in range(0, len(real_prices)):
+        real_prices["date"][i]=df['date'][len(df)- i - 1]
+        real_prices["close"][i]=df["close"][len(df)- i - 1]
+        valid["date"][i]=df['date'][len(df)- i - 1]
+
+    real_prices.index = real_prices['date']
+    valid.index = valid['date']
+    valid['Predictions'] = np.flip(predict_prices)
+
+    
+    fig = make_subplots(rows=2, cols=1)
+    fig.add_trace(go.Scatter(x=df.date, y=df.close,
+                            name='Truth',
+                            marker_color='LightSkyBlue'), row=1, col=1)
+
+    fig.add_trace(go.Scatter(x=valid.date,
+                            y=valid.Predictions,
+                            name='Prediction',
+                            marker_color='MediumPurple'), row=1, col=1)
+
+    fig.add_trace(go.Scatter(x=valid.date,
+                            y=real_prices.close,
+                            name='Truth',
+                            marker_color='LightSkyBlue',
+                            showlegend=False), row=2, col=1)
+
+    fig.add_trace(go.Scatter(x=valid.date,
+                            y=valid.Predictions,
+                            name='Prediction',
+                            marker_color='MediumPurple',
+                            showlegend=False), row=2, col=1)
+
+    fig.show()
+
+    # Make Prediction
+    x_predict = df[len(df)-pre_day:][cols_x].values.reshape(-1, len(cols_x))
+    x_predict = scala_x.transform(x_predict)
+    x_predict = np.array(x_predict)
+    x_predict = x_predict.reshape(1, x_predict.shape[0], len(cols_x))
+    prediction = model.predict(x_predict)
+    prediction = scala_y.inverse_transform(prediction)
+    print(prediction)
+    
+def visualize_model_xgboost(token, name, indicator):
+    test_size  = 0.2
+    pre_day = 60
+    indicator.sort()
+    # Load data for 1year to train 1m interval
+    indicator_str = '_'.join(indicator)
+    df = pd.read_csv(f"./data_train/{token}_1m.csv")
+    df["date"]=pd.to_datetime(df.date,format="mixed")
+    df.index=df['date']
 
     df = df.sort_index(ascending=True, axis=0)
     df = pd.DataFrame(df)
     df.index = range(len(df))
-
+    df['close_forecast'] = df['close'].shift(-1, axis=0)
+    # df.dropna(inplace=True)
     print(df)
     print("Done Loading Data")
 
@@ -55,81 +160,79 @@ def training_model(token):
     ma_1 = 7
     ma_2 = 14
     ma_3 = 21
-    sma_1 = 9
+    ema_1 = 9
     # Process Data
     scala_x = MinMaxScaler(feature_range=(0, 1))
     scala_y = MinMaxScaler(feature_range=(0, 1))
-    cols_x = ['Close', f'SMA_{ma_1}', f'SMA_{ma_2}', f'SMA_{ma_3}', f'EMA_{sma_1}', f'SD_{ma_1}', f'SD_{ma_3}', 'MACD', 'MACD_signal',
-              f'MiddleBand_{ma_3}', f'UpperBand_{ma_3}', f'LowerBand_{ma_3}', f'RSI_{ma_2}']
-    cols_y = ['Close']
+
+    # cols_x = ['close', f'SMA_{ma_1}', f'SMA_{ma_2}', f'SMA_{ma_3}', f'EMA_{sma_1}', f'SD_{ma_1}', f'SD_{ma_3}', 'macd', 'macd_signal',
+    #           f'middleband_{ma_3}', f'upperband_{ma_3}', f'lowerband_{ma_3}', f'RSI_{ma_2}']
+    # indicator = ['bb', 'close', 'macd', 'roc', 'rsi', 'sd', 'ma']
+    cols_x = ['close', 'close_forecast']
+    for i in indicator:
+        if(i == 'close'):
+            cols_x.extend(['open', 'high', 'low'])
+        if(i == 'bb'):
+            cols_x.extend([f'middleband_{ma_3}', f'upperband_{ma_3}', f'lowerband_{ma_3}'])
+        elif (i == 'macd'):
+            cols_x.extend(['macd', 'macd_signal'])
+        elif (i == 'roc'):
+            cols_x.append(f'roc_{n}')
+        elif (i == 'rsi'):
+            cols_x.append(f'rsi_{ma_2}')
+        elif (i == 'sd'):
+            cols_x.extend([f'sd_{ma_1}', f'sd_{ma_3}'])
+        elif (i == 'ma'):
+            cols_x.extend([f'sma_{ma_1}', f'sma_{ma_2}', f'sma_{ma_3}', f'ema_{ema_1}'])
+        
 
     test_split_idx  = int(df.shape[0] * (1-test_size))
-    valid_split_idx = int(df.shape[0] * (1-(valid_size+test_size)))
 
-    train_df  = df.loc[:valid_split_idx].copy()
-    valid_df  = df.loc[valid_split_idx+1:test_split_idx].copy()
+    train_df  = df.loc[:test_split_idx].copy()
     test_df   = df.loc[test_split_idx+1:].copy()
 
-    # Drop unnecessary columns
-    drop_cols = ['Datetime', 'Volume', 'Open', 'Low', 'High', 'Volume', 'Dividends', 'Stock Splits']
-
-    train_df = train_df.drop(columns=drop_cols)
-    valid_df = valid_df.drop(columns=drop_cols)
-    test_df  = test_df.drop(columns=drop_cols)
+    train_df = train_df[cols_x]
+    test_df  = test_df[cols_x]
     
     # Split into features and labels
-    y_train = train_df['Close'].copy()
-    X_train = train_df.copy()
+    y_train = train_df['close_forecast'].copy()
+    X_train = train_df.drop(columns=['close_forecast'])
 
-    y_valid = valid_df['Close'].copy()
-    X_valid = valid_df.copy()
-
-    y_test  = test_df['Close'].copy()
-    X_test  = test_df.copy()
+    y_test  = test_df['close_forecast'].copy()
+    X_test  = test_df.drop(columns=['close_forecast'])
     X_test.info()
     X_train.info()
 
-    # Fine-tune XGBoostRegressor
-    parameters = {
-    'n_estimators': [100, 200, 300, 400],
-    'learning_rate': [0.001, 0.005, 0.01, 0.05],
-    'max_depth': [8, 10, 12, 15],
-    'gamma': [0.001, 0.005, 0.01, 0.02],
-    'random_state': [42]
-    }
-
-    eval_set = [(X_train, y_train), (X_valid, y_valid)]
+    token_name = token.lower()
     model = xgb.XGBRegressor()
-   
-    model.load_model(f"models/{token}_1m_xgboost.json")
+    model.load_model(f"models/{name}/{token_name}_1m_{name}_{indicator_str}.json")
+    plot_importance(model)
 
     # Calculate and visualize predictions
     y_pred = model.predict(X_test)
     print(f'y_true = {np.array(y_test)[:5]}')
     print(f'y_pred = {y_pred[:5]}')
 
-    print(f'mean_squared_error = {mean_squared_error(y_test, y_pred)}')
-
     predicted_prices = df.loc[test_split_idx+1:].copy()
-    predicted_prices['Close'] = y_pred
+    predicted_prices['close'] = y_pred
 
     fig = make_subplots(rows=2, cols=1)
-    fig.add_trace(go.Scatter(x=df.Datetime, y=df.Close,
+    fig.add_trace(go.Scatter(x=df.date, y=df.close,
                             name='Truth',
                             marker_color='LightSkyBlue'), row=1, col=1)
 
-    fig.add_trace(go.Scatter(x=predicted_prices.Datetime,
-                            y=predicted_prices.Close,
+    fig.add_trace(go.Scatter(x=predicted_prices.date,
+                            y=predicted_prices.close,
                             name='Prediction',
                             marker_color='MediumPurple'), row=1, col=1)
 
-    fig.add_trace(go.Scatter(x=predicted_prices.Datetime,
+    fig.add_trace(go.Scatter(x=predicted_prices.date,
                             y=y_test,
                             name='Truth',
                             marker_color='LightSkyBlue',
                             showlegend=False), row=2, col=1)
 
-    fig.add_trace(go.Scatter(x=predicted_prices.Datetime,
+    fig.add_trace(go.Scatter(x=predicted_prices.date,
                             y=y_pred,
                             name='Prediction',
                             marker_color='MediumPurple',
@@ -137,8 +240,19 @@ def training_model(token):
 
     fig.show()
 
-# symbols = ["BTC-USD", "ETH-USD", "ADA-USD"]
-symbols = ["BTC-USD"]
+    # Make Prediction
+    next_day = test_df.copy().drop('close_forecast', axis='columns').tail(2)
+    next_day_pred = model.predict(next_day)
+    next_day_close = next_day_pred[0]
+    print(next_day_close)
 
-for token in symbols:
-    training_model(token)
+# symbols = ["BTCUSDT", "ETHUSDT", "ETHUSDT"]
+symbols = ["BTCUSDT"]
+# indicator = ['bb', 'close', 'macd', 'roc', 'rsi', 'sd', 'ma']
+indicators = ['bb', 'close', 'macd', 'roc', 'rsi', 'sd', 'ma']
+model = ['xgboost', 'rnn', 'lstm']
+indicators.sort()
+name = "lstm"
+
+visualize_model_lstm_rnn("BTCUSDT", "lstm", indicators)
+visualize_model_xgboost("BTCUSDT", "xgboost", indicators)

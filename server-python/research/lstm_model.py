@@ -112,29 +112,29 @@ def training_model(token, name, indicator):
     valid['Predictions'] = np.flip(predict_prices)
 
     
-    fig = make_subplots(rows=2, cols=1)
-    fig.add_trace(go.Scatter(x=df.date, y=df.close,
-                            name='Truth',
-                            marker_color='LightSkyBlue'), row=1, col=1)
+    # fig = make_subplots(rows=2, cols=1)
+    # fig.add_trace(go.Scatter(x=df.date, y=df.close,
+    #                         name='Truth',
+    #                         marker_color='LightSkyBlue'), row=1, col=1)
 
-    fig.add_trace(go.Scatter(x=valid.date,
-                            y=valid.Predictions,
-                            name='Prediction',
-                            marker_color='MediumPurple'), row=1, col=1)
+    # fig.add_trace(go.Scatter(x=valid.date,
+    #                         y=valid.Predictions,
+    #                         name='Prediction',
+    #                         marker_color='MediumPurple'), row=1, col=1)
 
-    fig.add_trace(go.Scatter(x=valid.date,
-                            y=real_prices.close,
-                            name='Truth',
-                            marker_color='LightSkyBlue',
-                            showlegend=False), row=2, col=1)
+    # fig.add_trace(go.Scatter(x=valid.date,
+    #                         y=real_prices.close,
+    #                         name='Truth',
+    #                         marker_color='LightSkyBlue',
+    #                         showlegend=False), row=2, col=1)
 
-    fig.add_trace(go.Scatter(x=valid.date,
-                            y=valid.Predictions,
-                            name='Prediction',
-                            marker_color='MediumPurple',
-                            showlegend=False), row=2, col=1)
+    # fig.add_trace(go.Scatter(x=valid.date,
+    #                         y=valid.Predictions,
+    #                         name='Prediction',
+    #                         marker_color='MediumPurple',
+    #                         showlegend=False), row=2, col=1)
 
-    fig.show()
+    # fig.show()
 
     # Make Prediction
     x_predict = df[len(df)-pre_day:][cols_x].values.reshape(-1, len(cols_x))
@@ -148,7 +148,7 @@ def training_model(token, name, indicator):
 # symbols = ["BTCUSDT", "ETHUSDT", "ETHUSDT"]
 symbols = ["BTCUSDT"]
 # indicator = ['bb', 'close', 'macd', 'roc', 'rsi', 'sd', 'ma']
-indicators = ['bb']
+indicators = ['bb', 'close', 'macd', 'roc', 'rsi', 'sd', 'ma']
 model = ['xgboost', 'rnn', 'lstm']
 indicators.sort()
 name = "lstm"
