@@ -157,7 +157,12 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                         onChange={handleSmaCount}
                                         value="5"
                                         label="5 data points"
-                                        control={<Checkbox variant="theme" />}
+                                        control={
+                                            <Checkbox
+                                                variant="theme"
+                                                checked={smaCount.includes("5")}
+                                            ></Checkbox>
+                                        }
                                         style={{ color: textColor }}
                                     ></FormControlLabel>
                                 </FormGroup>
@@ -169,7 +174,12 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                         onChange={handleSmaCount}
                                         value="10"
                                         label="10 data points"
-                                        control={<Checkbox variant="theme" />}
+                                        control={
+                                            <Checkbox
+                                                variant="theme"
+                                                checked={smaCount.includes("10")}
+                                            ></Checkbox>
+                                        }
                                         style={{ color: textColor }}
                                     ></FormControlLabel>
                                 </FormGroup>
@@ -181,7 +191,12 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                         onChange={handleSmaCount}
                                         value="20"
                                         label="20 data points"
-                                        control={<Checkbox variant="theme" />}
+                                        control={
+                                            <Checkbox
+                                                variant="theme"
+                                                checked={smaCount.includes("20")}
+                                            ></Checkbox>
+                                        }
                                         style={{ color: textColor }}
                                     ></FormControlLabel>
                                 </FormGroup>
@@ -193,7 +208,12 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                         onChange={handleSmaCount}
                                         value="40"
                                         label="40 data points"
-                                        control={<Checkbox variant="theme" />}
+                                        control={
+                                            <Checkbox
+                                                variant="theme"
+                                                checked={smaCount.includes("40")}
+                                            ></Checkbox>
+                                        }
                                         style={{ color: textColor }}
                                     ></FormControlLabel>
                                 </FormGroup>
