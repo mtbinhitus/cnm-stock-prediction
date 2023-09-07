@@ -268,6 +268,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                         label="TransTE"
                                         control={<Radio variant="theme" />}
                                         style={{ color: textColor }}
+                                        disabled
                                     ></FormControlLabel>
                                 </RadioGroup>
                             </div>

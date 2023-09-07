@@ -164,12 +164,12 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
 
             if (prevPredict !== null && prevPredict[prevPredict.length - 1].time > prediction.time) {
                 predictionLineSeriesRef.current.setData(prevPredict);
-            }
-            else {
+            } else {
                 setPrevPredict([modifiedPrediction]);
                 predictionLineSeriesRef.current.setData([modifiedPrediction]);
             }
         }
+        // eslint-disable-next-line
     }, [prediction]);
 
     useEffect(() => {
@@ -256,7 +256,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
             if (smaCount.includes(period)) {
                 if (!seriesRef.current) {
                     seriesRef.current = chartRef.current.addLineSeries({
-                        color,
+                        color: color,
                         lineWidth: 1
                     });
 
@@ -307,13 +307,14 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
             }
 
             if (predictionLineSeriesRef.current && prevPredict) {
-                if (modifiedPrice.time > prevPredict[prevPredict.length - 1].time)
+                if (modifiedPrice.time > prevPredict[prevPredict.length - 1].time) {
                     getClosePricePredict(crypto, model, indicator).then(res => {
                         setPrevPredict([...prevPredict, res]);
                         if (res.time !== undefined) {
                             predictionLineSeriesRef.current.update(res);
                         }
                     });
+                }
             }
 
             if (smaCount.includes("5") && sma5LineSeriesRef.current) {
@@ -336,6 +337,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
                 sma40LineSeriesRef.current.update(smaData[0]);
             }
         }
+        // eslint-disable-next-line
     }, [lastMessage, newData, smaCount]);
 
     return (
