@@ -362,11 +362,11 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                 <FormGroup>
                                     <FormControlLabel
                                         onChange={handleIndicator}
-                                        value="sma"
+                                        value="ma"
                                         label="Moving Average"
                                         control={
                                             <Checkbox
-                                                disabled={indicator.length === 1 && indicator.includes("sma")}
+                                                disabled={indicator.length === 1 && indicator.includes("ma")}
                                                 variant="theme"
                                             ></Checkbox>
                                         }

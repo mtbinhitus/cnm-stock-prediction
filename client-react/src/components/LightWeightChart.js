@@ -141,32 +141,24 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
         legendRef.current.style.color = textColor;
         chartContainerRef.current.appendChild(legendRef.current);
 
-        const predictionLineSeries = chartRef.current.addLineSeries(
-            {
-                color: ThemeColors.predictionColor,
-                lineWidth: 1
-            }
-        );
+        predictionLineSeriesRef.current = chartRef.current.addLineSeries({
+            color: ThemeColors.predictionColor,
+            lineWidth: 1
+        });
 
         if (prediction && prediction.time !== undefined) {
-
-
-            // const predictionData = JSON.stringify(prediction);
             const modifiedPrediction = {
                 time: prediction.time,
                 value: prediction.value
             };
             if (prevPredict !== null && prevPredict[prevPredict.length - 1].time > prediction.time) {
-                predictionLineSeries.setData(prevPredict);
+                predictionLineSeriesRef.current.setData(prevPredict);
             }
             else {
                 setPrevPredict([modifiedPrediction]);
-                // console.log("modified", [modifiedPrediction])
-                predictionLineSeries.setData([modifiedPrediction]);
+                predictionLineSeriesRef.current.setData([modifiedPrediction]);
             }
         }
-        predictionLineSeriesRef.current = predictionLineSeries;
-
 
         return () => {
             legendRef.current.remove();
@@ -253,34 +245,102 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
         }
     }, [newData]);
 
+    // Create smaLine
     useEffect(() => {
-        function manageSMA(chartRef, seriesRef, data, period, color) {
-            if (smaCount.includes(period)) {
-                if (!seriesRef.current) {
-                    seriesRef.current = chartRef.current.addLineSeries({
-                        color,
+        if (smaCount.includes("5")) {
+            if (!sma5LineSeriesRef.current) {
+                console.log("Add 5");
+                sma5LineSeriesRef.current = chartRef.current.addLineSeries({
+                    color: ThemeColors.sma5Color,
+                    lineWidth: 1
+                });
+
+                const smaData = calculateSMA(data.slice(0, data.length - 1), 5);
+                sma5LineSeriesRef.current.setData(smaData);
+            }
+            else {
+                if (!sma10LineSeriesRef.current && !smaCount.includes("10")) {
+                    console.log("Create 5")
+                    sma5LineSeriesRef.current = chartRef.current.addLineSeries({
+                        color: ThemeColors.sma5Color,
                         lineWidth: 1
                     });
 
-                    const smaData = calculateSMA(data.slice(0, data.length - 1), period);
-                    seriesRef.current.setData(smaData);
-                }
-            }
-            else {
-                if (seriesRef.current) {
-                    chartRef.current.removeSeries(seriesRef.current);
-                    seriesRef.current = null;
+                    const smaData = calculateSMA(data.slice(0, data.length - 1), 5);
+                    sma5LineSeriesRef.current.setData(smaData);
                 }
             }
         }
 
-        manageSMA(chartRef, sma5LineSeriesRef, data, "5", ThemeColors.sma5Color);
-        manageSMA(chartRef, sma10LineSeriesRef, data, "10", ThemeColors.sma10Color);
-        manageSMA(chartRef, sma20LineSeriesRef, data, "20", ThemeColors.sma20Color);
-        manageSMA(chartRef, sma40LineSeriesRef, data, "40", ThemeColors.sma40Color);
+        if (smaCount.includes("10")) {
+            if (!sma10LineSeriesRef.current) {
+                console.log("Add 10");
+                sma10LineSeriesRef.current = chartRef.current.addLineSeries({
+                    color: ThemeColors.sma10Color,
+                    lineWidth: 1
+                });
+
+                const smaData = calculateSMA(data.slice(0, data.length - 1), 10);
+                sma10LineSeriesRef.current.setData(smaData);
+            }
+            else {
+                if (!sma5LineSeriesRef.current && !smaCount.includes("5")) {
+                    console.log("Create 10")
+                    sma10LineSeriesRef.current = chartRef.current.addLineSeries({
+                        color: ThemeColors.sma10Color,
+                        lineWidth: 1
+                    });
+
+                    const smaData = calculateSMA(data.slice(0, data.length - 1), 10);
+                    sma10LineSeriesRef.current.setData(smaData);
+                }
+            }
+        }
     }, [data, smaCount]);
 
+    // Handle smaLine when changing data
+    useEffect(() => {
+        if (smaCount.includes("5") && smaCount.includes("10")) {
+            if (sma5LineSeriesRef.current) {
+                sma5LineSeriesRef.current = chartRef.current.addLineSeries({
+                    color: ThemeColors.sma5Color,
+                    lineWidth: 1
+                });
 
+                const smaData = calculateSMA(data.slice(0, data.length - 1), 5);
+                sma5LineSeriesRef.current.setData(smaData);
+            }
+
+            if (sma10LineSeriesRef.current) {
+                sma10LineSeriesRef.current = chartRef.current.addLineSeries({
+                    color: ThemeColors.sma10Color,
+                    lineWidth: 1
+                });
+
+                const smaData = calculateSMA(data.slice(0, data.length - 1), 10);
+                sma10LineSeriesRef.current.setData(smaData);
+            }
+        }
+    }, [data]);
+
+    // Remove smaLine
+    useEffect(() => {
+        if (!smaCount.includes("5")) {
+            if (sma5LineSeriesRef.current) {
+                console.log("Remove 5");
+                chartRef.current.removeSeries(sma5LineSeriesRef.current);
+                sma5LineSeriesRef.current = null;
+            }
+        }
+
+        if (!smaCount.includes("10")) {
+            if (sma10LineSeriesRef.current) {
+                console.log("Remove 10");
+                chartRef.current.removeSeries(sma10LineSeriesRef.current);
+                sma10LineSeriesRef.current = null;
+            }
+        }
+    }, [data, smaCount]);
 
     useEffect(() => {
         if (lastMessage !== null) {
@@ -308,7 +368,6 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
             if (candleStickSeriesRef.current) {
                 candleStickSeriesRef.current.update(modifiedPrice);
             }
-
 
             if (predictionLineSeriesRef.current && prevPredict) {
                 if (modifiedPrice.time > prevPredict[prevPredict.length - 1].time)
