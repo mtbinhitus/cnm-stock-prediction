@@ -230,7 +230,8 @@ class BTCPredictionUsingLSTM:
         valid.index = valid['date']
         valid['Predictions'] = np.flip(predict_prices)
 
-        fig = make_subplots(rows=2, cols=1)
+        fig = make_subplots(rows=3, cols=1, subplot_titles=("Overview", "RSI & MACD", "Prediction"))
+        
         fig.add_trace(go.Scatter(x=df.date, y=df.close,
                                 name='Truth',
                                 marker_color='LightSkyBlue'), row=1, col=1)
@@ -244,13 +245,36 @@ class BTCPredictionUsingLSTM:
                                 y=real_prices.close,
                                 name='Truth',
                                 marker_color='LightSkyBlue',
-                                showlegend=False), row=2, col=1)
+                                showlegend=False), row=3, col=1)
 
         fig.add_trace(go.Scatter(x=valid.date,
                                 y=valid.Predictions,
                                 name='Prediction',
                                 marker_color='MediumPurple',
-                                showlegend=False), row=2, col=1)
+                                showlegend=False), row=3, col=1)
+        
+        fig.add_trace(go.Scatter(x=df.date, y=df.sma_7, name='SMA 7'), row=1, col=1)
+        fig.add_trace(go.Scatter(x=df.date, y=df.sma_14, name='SMA 14'), row=1, col=1)
+        fig.add_trace(go.Scatter(x=df.date, y=df.sma_21, name='SMA 21'), row=1, col=1)
+        fig.add_trace(go.Scatter(x=df.date, y=df.ema_9, name='EMA 9'), row=1, col=1)
+        fig.add_trace(go.Scatter(x=df.date, y=df.rsi_14, name='RSI 14'),  row=2, col=1)
+        fig.add_trace(go.Scatter(x=df.date, y=df['macd'], name='MACD'), row=2, col=1)
+        fig.add_trace(go.Scatter(x=df.date, y=df['macd_signal'], name='Signal line'), row=2, col=1)
+        fig.add_trace(go.Scatter(x = df['date'],
+                         y = df['upperband_21'],
+                         line_color = 'gray',
+                         line = {'dash': 'dash'},
+                         name = 'upper band',
+                         opacity = 0.2),
+              row = 1, col = 1)
+        fig.add_trace(go.Scatter(x = df['date'],
+                         y = df['lowerband_21'],
+                         line_color = 'gray',
+                         line = {'dash': 'dash'},
+                         fill = 'tonexty',
+                         name = 'lower band',
+                         opacity = 0.2),
+              row = 1, col = 1)
         fig.update_layout(height=800, autosize=True)
         # fig.show()
         return fig

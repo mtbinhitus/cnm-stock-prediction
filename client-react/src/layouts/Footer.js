@@ -33,14 +33,16 @@ function Footer({ theme }) {
                 <BottomNavigationAction
                     variant="hover"
                     label="Github"
-                    href="/"
+                    href="https://github.com/mtbinhitus/cnm-stock-prediction"
+                    target="_blank" rel="noopener noreferrer"
                     icon={<GitHubIcon />}
                 ></BottomNavigationAction>
 
                 <BottomNavigationAction
                     variant="hover"
                     label="Demo"
-                    href="/"
+                    href="https://drive.google.com/drive/folders/1i25SXU7x9VsUxhcuKBtMTy3WVfSCu1vx?usp=drive_link"
+                    target="_blank" rel="noopener noreferrer"
                     icon={<OndemandVideoIcon />}
                 ></BottomNavigationAction>
             </BottomNavigation>

@@ -141,6 +141,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
         chartContainerRef.current.appendChild(legendRef.current);
 
         predictionLineSeriesRef.current = chartRef.current.addLineSeries({
+            title: "Close Prediction",
             color: ThemeColors.predictionColor,
             lineWidth: 1
         });
@@ -149,7 +150,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
             legendRef.current.remove();
             chartRef.current.remove();
         };
-    }, []);
+    }, [data]);
 
     useEffect(() => {
         candleStickSeriesRef.current.setData(data);
@@ -170,7 +171,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
             }
         }
         // eslint-disable-next-line
-    }, [prediction]);
+    }, [data, prediction]);
 
     useEffect(() => {
         const color = theme === "dark" ? ThemeColors.darkBlue : ThemeColors.white;
@@ -256,6 +257,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
             if (smaCount.includes(period)) {
                 if (!seriesRef.current) {
                     seriesRef.current = chartRef.current.addLineSeries({
+                        title: "SMA(" + period + ")",
                         color: color,
                         lineWidth: 1
                     });
@@ -272,11 +274,20 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
                 }
             }
         }
-
-        manageSMA(chartRef, sma5LineSeriesRef, data, "5", ThemeColors.sma5Color);
-        manageSMA(chartRef, sma10LineSeriesRef, data, "10", ThemeColors.sma10Color);
-        manageSMA(chartRef, sma20LineSeriesRef, data, "20", ThemeColors.sma20Color);
-        manageSMA(chartRef, sma40LineSeriesRef, data, "40", ThemeColors.sma40Color);
+        
+        if(data.length >= newData.length)
+        {
+            manageSMA(chartRef, sma5LineSeriesRef, data, "5", ThemeColors.sma5Color);
+            manageSMA(chartRef, sma10LineSeriesRef, data, "10", ThemeColors.sma10Color);
+            manageSMA(chartRef, sma20LineSeriesRef, data, "20", ThemeColors.sma20Color);
+            manageSMA(chartRef, sma40LineSeriesRef, data, "40", ThemeColors.sma40Color);
+        }
+        else {
+            manageSMA(chartRef, sma5LineSeriesRef, newData, "5", ThemeColors.sma5Color);
+            manageSMA(chartRef, sma10LineSeriesRef, newData, "10", ThemeColors.sma10Color);
+            manageSMA(chartRef, sma20LineSeriesRef, newData, "20", ThemeColors.sma20Color);
+            manageSMA(chartRef, sma40LineSeriesRef, newData, "40", ThemeColors.sma40Color);
+        }
     }, [data, smaCount]);
 
     useEffect(() => {

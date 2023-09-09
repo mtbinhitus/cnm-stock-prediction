@@ -14,12 +14,13 @@
 <body>
 
     <div class="container">
+        <h2>Visualizing Machine Learning Models</h2>
         <form method="post">
             {% csrf_token %}
-            <div class="row" style="display: flex; align-items: center; justify-content: flex-start;">
+            <div class="row" style="display: flex; align-items: flex-start; justify-content: flex-start;">
                 <h4>Model: </h4>
                 {% for model in models %}
-                <div class="form-check">
+                <div class="form-check col-1" style="margin: 2px 2px;">
                     <input class="form-check-input" type="radio" name="model" value="{{model.value}}"
                         id="{{model.value}}" {% if model.check %}checked{% endif %}>
                     <label class="form-check-label" for="{{model.value}}">
@@ -28,10 +29,10 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="row" style="display: flex; align-items: center; justify-content: center;">
+            <div class="row" style="display: flex; align-items: flex-start; justify-content: flex-start;">
                 <h4>Indicator: </h4>
                 {% for indi in indis %}
-                <div class="form-check">
+                <div class="form-check col-2" style="margin: 2px 2px;">
                     <input class="form-check-input" type="checkbox" name="indicator" value="{{indi.value}}" id="{{indi.value}}" {% if indi.check %}checked{% endif %}>
                     <label class="form-check-label" for="{{indi.value}}">
                         {{indi.name}} {{indi.checked}}
@@ -39,7 +40,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="submit" class="row btn btn-outline-primary">Submit</button>
+            <button type="submit" class="row btn btn-outline-primary" style="margin: 10px 0px;">Submit</button>
         </form>
     </div>
 

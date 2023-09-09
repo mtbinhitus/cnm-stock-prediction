@@ -38,5 +38,5 @@ urlpatterns = [
     re_path(r"^api/v1/klines$", BinanceAPI.as_view(), name="kline"),
     path('admin/', admin.site.urls),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
-    path('plotly/', plotly, name='plotly'),
+    path('visualize/', plotly, name='plotly'),
 ]
