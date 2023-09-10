@@ -22,7 +22,6 @@ function Prediction() {
         getKlineBTCData(candle).then(res => {
             setData(res.sort((a, b) => a.time > b.time ? 1 : -1));
         });
-        setSmaCount(['0']);
     }, [candle]);
 
     useEffect(() => {
