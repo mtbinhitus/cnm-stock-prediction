@@ -272,6 +272,6 @@ class BTCPredictionUsingRNN:
                          name = 'lower band',
                          opacity = 0.2),
               row = 1, col = 1)
-        fig.update_layout(height=800, autosize=True)
+        fig.update_layout(height=1400, autosize=True)
         # fig.show()
         return fig
