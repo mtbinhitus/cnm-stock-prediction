@@ -34,10 +34,10 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    cd cnm-stock-prediction/client-react
    ```
 
-   If you are already in `cnm-stock-prediction`.
+   If you are already in `cnm-stock-prediction`:
 
    ```
-    cd client-react
+   cd client-react
    ```
 
 3. Install dependencies:
@@ -62,10 +62,10 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    cd cnm-stock-prediction/server-python
    ```
 
-   If you are already in `cnm-stock-prediction`.
+   If you are already in `cnm-stock-prediction`:
 
    ```
-    cd server-python
+   cd server-python
    ```
 
 8. Install dependencies:
@@ -74,15 +74,15 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    pip install -r requirements.txt
    ```
 
-9. Follow this tutorial to create your API Keys on Binance:
+9. Follow this tutorial to create your API keys on Binance:
 
    ```
    https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072
    ```
 
-10. Create a `.env` file from `.env.example`, insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`
+10. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
 
-![Binance API Keys](images/binance_key.png)
+    ![binance_keys](images/binance_key.png)
 
 11. Navigate to the `server` folder:
 
