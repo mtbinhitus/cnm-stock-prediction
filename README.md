@@ -90,7 +90,13 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
     cd server
     ```
 
-12. Start the Backend:
+12. Propagating changes to models :
+
+    ```
+    python manage.py migrate
+    ```
+
+13. Start the Backend:
 
     ```
     python manage.py runserver
