@@ -74,27 +74,27 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    pip install -r requirements.txt
    ```
 
-9. Follow this tutorial to create your API keys on Binance:
+9. Navigate to the `server` folder:
 
    ```
-   https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072
+   cd server
    ```
 
-10. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
-
-    ![binance_keys](images/binance_key.png)
-
-11. Navigate to the `server` folder:
-
-    ```
-    cd server
-    ```
-
-12. Propagating changes to models :
+10. Propagating changes to models :
 
     ```
     python manage.py migrate
     ```
+
+11. Follow this tutorial to create your API keys on Binance:
+
+    ```
+    https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072
+    ```
+
+12. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
+
+    ![binance_keys](images/binance_key.png)
 
 13. Start the Backend:
 
