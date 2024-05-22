@@ -99,15 +99,16 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
 
     return (
         <ThemeProvider theme={themeMUI}>
-            <div className="menu-1" style={{ display: "flex" }}>
+            <div className="menu-1" style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ borderRight: `1px solid ${seperateLineColor}` }}>
-                    <FormControl>
+                    <FormControl id="menu-1-1">
                         <FormLabel style={{ color: textColor, fontWeight: 600 }}>Number of candles</FormLabel>
                         <div style={{ display: "flex" }}>
                             <div>
-                                <RadioGroup row value={candle} onChange={handleCandle}>
+                                <RadioGroup sx={{ flexWrap: "nowrap" }} row value={candle} onChange={handleCandle}>
                                     <div style={{ marginRight: "20px" }}>
                                         <FormControlLabel
+                                            id="menu-1-2"
                                             value="250"
                                             label="250 candles"
                                             control={<Radio variant="theme" />}
@@ -117,6 +118,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
 
                                     <div style={{ marginRight: "20px" }}>
                                         <FormControlLabel
+                                            id="menu-1-2"
                                             value="500"
                                             label="500 candles"
                                             control={<Radio variant="theme" />}
@@ -126,6 +128,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
 
                                     <div style={{ marginRight: "20px" }}>
                                         <FormControlLabel
+                                            id="menu-1-2"
                                             value="1000"
                                             label="1000 candles"
                                             control={<Radio variant="theme" />}
@@ -135,6 +138,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
 
                                     <div>
                                         <FormControlLabel
+                                            id="menu-1-2"
                                             value="2000"
                                             label="2000 candles"
                                             control={<Radio variant="theme" />}
@@ -148,12 +152,13 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                 </div>
 
                 <div>
-                    <FormControl>
+                    <FormControl id="menu-1-1">
                         <FormLabel style={{ color: textColor, fontWeight: 600 }}>Simple moving average</FormLabel>
                         <div style={{ display: "flex" }}>
                             <div style={{ marginRight: "20px" }}>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleSmaCount}
                                         value="5"
                                         label="5 data points"
@@ -171,6 +176,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                             <div style={{ marginRight: "20px" }}>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleSmaCount}
                                         value="10"
                                         label="10 data points"
@@ -188,6 +194,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                             <div style={{ marginRight: "20px" }}>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleSmaCount}
                                         value="20"
                                         label="20 data points"
@@ -205,6 +212,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                             <div>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleSmaCount}
                                         value="40"
                                         label="40 data points"
@@ -223,14 +231,15 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                 </div>
             </div>
 
-            <div className="menu-2" style={{ display: "flex", borderTop: `1px solid ${seperateLineColor}` }}>
+            <div className="menu-2" style={{ display: "flex", justifyContent: "space-between", borderTop: `1px solid ${seperateLineColor}` }}>
                 <div style={{ borderRight: `1px solid ${seperateLineColor}` }}>
-                    <FormControl>
+                    <FormControl id="menu-1-1">
                         <FormLabel style={{ color: textColor, fontWeight: 600 }}>Crypto</FormLabel>
                         <div style={{ display: "flex" }}>
                             <div>
                                 <RadioGroup value={crypto} onChange={handleCrypto}>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         value="btcusdt"
                                         label="BTCUSDT"
                                         control={<Radio variant="theme" />}
@@ -238,6 +247,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                     ></FormControlLabel>
 
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         value="ethusdt"
                                         label="ETHUSDT"
                                         control={<Radio variant="theme" />}
@@ -251,12 +261,13 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                 </div>
 
                 <div style={{ borderRight: `1px solid ${seperateLineColor}` }}>
-                    <FormControl>
+                    <FormControl id="menu-1-1">
                         <FormLabel style={{ color: textColor, fontWeight: 600 }}>Model</FormLabel>
                         <div style={{ display: "flex" }}>
                             <div style={{ marginRight: "20px" }}>
                                 <RadioGroup value={model} onChange={handleModel}>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         value="lstm"
                                         label="LSTM"
                                         control={<Radio variant="theme" />}
@@ -264,6 +275,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                     ></FormControlLabel>
 
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         value="transte"
                                         label="TransTE"
                                         control={<Radio variant="theme" />}
@@ -276,6 +288,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                             <div>
                                 <RadioGroup value={model} onChange={handleModel}>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         value="rnn"
                                         label="RNN"
                                         control={<Radio variant="theme" />}
@@ -283,6 +296,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                     ></FormControlLabel>
 
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         value="xgboost"
                                         label="XGBoost"
                                         control={<Radio variant="theme" />}
@@ -295,12 +309,13 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                 </div>
 
                 <div>
-                    <FormControl>
+                    <FormControl id="menu-1-1">
                         <FormLabel style={{ color: textColor, fontWeight: 600 }}>Indicator</FormLabel>
                         <div style={{ display: "flex" }}>
                             <div style={{ marginRight: "20px" }}>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="bb"
                                         label="Bollinger Bands"
@@ -315,6 +330,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                     ></FormControlLabel>
 
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="roc"
                                         label="Rate of Change"
@@ -332,6 +348,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                             <div style={{ marginRight: "20px" }}>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="close"
                                         label="Closing Price"
@@ -345,6 +362,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                     ></FormControlLabel>
 
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="rsi"
                                         label="Relative Strength Index"
@@ -362,6 +380,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                             <div style={{ marginRight: "20px" }}>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="ma"
                                         label="Moving Average"
@@ -375,6 +394,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                     ></FormControlLabel>
 
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="sd"
                                         label="Standard Deviation"
@@ -392,6 +412,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                             <div>
                                 <FormGroup>
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="macd"
                                         label="Moving Average C/D"
@@ -405,6 +426,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                     ></FormControlLabel>
 
                                     <FormControlLabel
+                                        id="menu-1-2"
                                         onChange={handleIndicator}
                                         value="ic"
                                         label="Ichimoku Cloud"
