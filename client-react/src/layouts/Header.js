@@ -111,10 +111,10 @@ function Header({ updateTheme, theme, showSearchBar }) {
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <ThemeProvider theme={themeMUI}>
-                <AppBar position="static">
-                    <Container maxWidth="xl">
+                <AppBar position="static" sx={{ background: "transparent" }}>
+                    <Container id="header-1-1" maxWidth="xl">
                         <Toolbar disableGutters>
-                            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                            <Box id="header-1-3" sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                                 <Button
                                     className="button"
                                     variant={theme}
@@ -129,7 +129,7 @@ function Header({ updateTheme, theme, showSearchBar }) {
                             </Box>
 
                             {showSearchBar && <form onSubmit={handleSubmit}>
-                                <Search style={{ background: "transparent", border: `1px solid ${borderColor}`, borderRadius: "0px" }}>
+                                <Search id="header-1-2" style={{ background: "transparent", border: `1px solid ${borderColor}`, borderRadius: "0px" }}>
                                     <SearchIconWrapper>
                                         <SearchIcon style={{ color: color }} />
                                     </SearchIconWrapper>
