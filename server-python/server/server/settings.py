@@ -17,7 +17,6 @@ import dotenv
 BASE_DIR_env = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(BASE_DIR_env, "../../.env")
 dotenv.load_dotenv(dotenv_path)
-print(os.getenv("VPS_IP"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-@m#w=qbxea3i5)9sm3%a3bn+(leyj%gpxq@wh*wi60srzph$zx"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
