@@ -42,6 +42,15 @@ CORS_ORIGIN_WHITELIST = (
     os.getenv("VPS_IP"),
 )
 
+CORS_ALLOW_ORIGINS = (
+    "http://localhost:3000",  # for localhost (REACT Default)
+    "http://192.168.0.50:3000",  # for network
+    "http://localhost:8080",  # for localhost (Developlemt)
+    "http://192.168.0.50:8080",  # for network (Development)
+    "http://localhost:3001",
+    os.getenv("VPS_IP"),
+)
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",  # for localhost (REACT Default)
     "http://192.168.0.50:3000",  # for network
