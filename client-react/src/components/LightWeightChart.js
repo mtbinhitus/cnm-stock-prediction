@@ -5,7 +5,7 @@ import ThemeColors from "./ThemeColors.js";
 import { getClosePricePredict } from "../services/RestApi.js";
 
 const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, indicator }) => {
-    const WS_URL = "ws://localhost:8000/ws/socket-server/";
+    const ws_url = process.env.WS_URL;
     const chartContainerRef = useRef(null);
     const chartRef = useRef(null);
     const legendRef = useRef(null);
@@ -25,7 +25,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
         }
     }, [data]);
 
-    const { lastMessage } = useWebSocket(WS_URL, {
+    const { lastMessage } = useWebSocket(ws_url, {
         onOpen: (event) => {
             console.log("socket", event.type);
         },
