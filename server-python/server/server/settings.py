@@ -43,7 +43,7 @@ CORS_ORIGIN_WHITELIST = (
     "http://localhost:8080",  # for localhost (Developlemt)
     "http://192.168.0.50:8080",  # for network (Development)
     "http://localhost:3001",
-    "os.getenv("VPS_IP")",
+    os.getenv("VPS_IP"),
 )
 
 CORS_ALLOWED_ORIGINS = (
@@ -52,7 +52,7 @@ CORS_ALLOWED_ORIGINS = (
     "http://localhost:8080",  # for localhost (Developlemt)
     "http://192.168.0.50:8080",  # for network (Development)
     "http://localhost:3001",
-    "os.getenv("VPS_IP")",
+    os.getenv("VPS_IP"),
 )
 
 CSRF_TRUSTED_ORIGINS = [
@@ -60,7 +60,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://192.168.0.50:3000",  # for network
     "http://localhost:8080",  # for localhost (Developlemt)
     "http://192.168.0.50:8080",  # for network (Development)
-    "os.getenv("VPS_IP")",
+    os.getenv("VPS_IP"),
 ]
 
 
