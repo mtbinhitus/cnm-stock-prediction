@@ -2,7 +2,7 @@ numpy
 pandas
 plotly
 scikit-learn
-tensorflow
+tensorflow-cpu
 keras
 Flask
 dash
