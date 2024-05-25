@@ -5,7 +5,7 @@ import ThemeColors from "./ThemeColors.js";
 import { getClosePricePredict } from "../services/RestApi.js";
 
 const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, indicator }) => {
-    const WS_URL = "ws://localhost:8000/ws/socket-server/";
+    const WS_URL = process.env.REACT_APP_WS_URL;
     const chartContainerRef = useRef(null);
     const chartRef = useRef(null);
     const legendRef = useRef(null);
