@@ -46,17 +46,21 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    npm install
    ```
 
-4. Start the frontend:
+4. Create a `.env` file from the `.env.example` file, you can decide what IP and port you want your React app to fetch data from:
+
+   ![react_url](images/react_url.png)
+
+5. Start the frontend:
 
    ```
    npm start
    ```
 
-5. Wait for the code to compile, the application will run on `localhost:3000`.
+6. Wait for the code to compile, the application will run on `localhost:3000`.
 
-6. Open another terminal.
+7. Open another terminal.
 
-7. Navigate to the `server-python` folder:
+8. Navigate to the `server-python` folder:
 
    ```
    cd cnm-stock-prediction/server-python
@@ -68,35 +72,35 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    cd server-python
    ```
 
-8. Install dependencies:
+9. Install dependencies:
 
    ```
    pip install -r requirements.txt
    ```
 
-9. Navigate to the `server` folder:
+10. Navigate to the `server` folder:
 
-   ```
-   cd server
-   ```
+    ```
+    cd server
+    ```
 
-10. Propagating changes to models :
+11. Propagating changes to models :
 
     ```
     python manage.py migrate
     ```
 
-11. Follow this tutorial to create your API keys on Binance:
+12. Follow this tutorial to create your API keys on Binance:
 
     ```
     https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072
     ```
 
-12. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
+13. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
 
     ![binance_keys](images/binance_key.png)
 
-13. Start the Backend:
+14. Start the Backend:
 
     ```
     python manage.py runserver
