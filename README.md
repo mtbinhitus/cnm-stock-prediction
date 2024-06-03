@@ -84,23 +84,29 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
     cd server
     ```
 
-11. Propagating changes to models :
+11. Create initial migrations:
+
+    ```
+    python manage.py makemigrations
+    ```
+
+12. Apply migrations:
 
     ```
     python manage.py migrate
     ```
 
-12. Follow this tutorial to create your API keys on Binance:
+13. Follow this tutorial to create your API keys on Binance:
 
     ```
     https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072
     ```
 
-13. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
+14. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
 
     ![binance_keys](images/binance_key.png)
 
-14. Start the Backend:
+15. Start the Backend:
 
     ```
     python manage.py runserver
