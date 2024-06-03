@@ -148,6 +148,8 @@ body {
 .App-footer {
   width: 100%;
   height: 400px;
+  display: flex;
+  flex-direction: row;
 }
 
 .App-footer-1 {
@@ -161,6 +163,21 @@ body {
 }
 
 .App-footer-1 #tradingview_widget_wrapper div {
+  width: 100%;
+  height: 100%;
+}
+
+.App-footer-2 {
+  width: 100%;
+  height: 400px;
+}
+
+.App-footer-2 #tradingview_widget_wrapper {
+  width: 100%;
+  height: 110%;
+}
+
+.App-footer-2 #tradingview_widget_wrapper div {
   width: 100%;
   height: 100%;
 }
