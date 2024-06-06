@@ -1,6 +1,6 @@
 # [CSC13115 - Modern Software Development Technologies] Final Group Project
 
-## Topic: Stock and Coin Price Analysis and Prediction Dashboard using Machine Learning
+## Topic: TradingView Widgets Dashboard And Bitcoin Price Prediction Using Machine Learning
 
 ### Overview
 

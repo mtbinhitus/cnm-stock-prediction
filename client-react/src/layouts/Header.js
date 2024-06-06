@@ -124,7 +124,7 @@ function Header({ updateTheme, theme, showSearchBar }) {
                                     className="button"
                                     variant={theme}
                                     href="/"
-                                >Market</Button>
+                                >Dashboard</Button>
 
                                 <Button
                                     className="button"
