@@ -1,10 +1,10 @@
 # [CSC13115 - Modern Software Development Technologies] Final Group Project
 
-## Topic: TradingView Widgets Dashboard And Bitcoin Price Prediction Using Machine Learning
+## Topic: TradingView Widgets Dashboard And Bitcoin Price Prediction
 
 ### Overview
 
-This repository hosts the final group project for CSC13115 - Modern Software Development Technologies. The project focuses on developing a dashboard page for analyzing and predicting the prices of stocks and coins utilizing machine learning techniques.
+The project aims to create an overview dashboard using TradingView Widgets and to predict Bitcoin prices utilizing machine learning algorithms.
 
 ### Group Members
 
@@ -12,13 +12,23 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
 2. **Mai Thanh Bình** - 1753030
 3. **Lương Trường Thịnh** - 19127559
 
-### Features
+### Preview
 
-- **Data Visualization:** Presenting historical price data and trends through interactive charts and graphs.
-- **Machine Learning Models:** Implementing predictive models to forecast future prices based on historical data.
-- **User-Friendly Interface:** Designing an intuitive dashboard interface for easy navigation and analysis.
-- **Customization Options:** Providing users with options to customize and personalize their dashboard experience.
-- **Responsive Design:** Ensuring compatibility with various devices and screen sizes for seamless user experience.
+1. Dashboard page with light theme:
+
+   ![dashboard_light](images/dashboard_light.png)
+
+2. Dashboard page with dark theme:
+
+   ![dashboard_dark](images/dashboard_dark.png)
+
+3. Prediction page with light theme:
+
+   ![prediction_light](images/prediction_light.png)
+
+4. Prediction page with dark theme:
+
+   ![prediction_dark](images/prediction_dark.png)
 
 ### Installation
 

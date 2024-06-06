@@ -18,10 +18,10 @@ body {
   --predictionColor: #046fe8;
   --placeholderLight: grey;
   --placeholderDark: darkgrey;
-  --sma5Color: #ffb74d;
-  --sma10Color: #845ec2;
-  --sma20Color: #ff8a65;
-  --sma40Color: #56ccf2;
+  --sma5Color: #f39c12;
+  --sma10Color: #dc7633;
+  --sma20Color: #845ec2;
+  --sma40Color: #dd33bb;
 }
 
 #root {
