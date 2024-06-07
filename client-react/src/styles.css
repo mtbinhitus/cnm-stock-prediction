@@ -214,6 +214,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: auto;
+  width: 1230px;
 }
 
 #light.Prediction-body-1-body {
@@ -241,6 +242,7 @@ body {
   align-items: center;
   padding: 26px;
   margin: auto;
+  width: 1178px;
 }
 
 #light.Prediction-body-2-body {
