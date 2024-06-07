@@ -2,15 +2,19 @@
 
 ## Topic: TradingView Widgets Dashboard and Bitcoin Price Prediction
 
-### Overview
-
-The project aims to create an overview dashboard using TradingView Widgets and to predict Bitcoin prices utilizing machine learning algorithms.
-
 ### Group Members
 
 1. Tăng Trường Long - 18127139
 2. Mai Thanh Bình - 1753030
 3. Lương Trường Thịnh - 19127559
+
+### Demo App
+
+Check out the app at [https://app1.longproxd.com](https://app1.longproxd.com).
+
+### Overview
+
+The project aims to create an overview dashboard using TradingView Widgets and to predict Bitcoin prices utilizing machine learning algorithms.
 
 ### Preview
 
