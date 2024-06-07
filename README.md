@@ -1,6 +1,6 @@
 # [CSC13115 - Modern Software Development Technologies] Final Group Project
 
-## Topic: TradingView Widgets Dashboard And Bitcoin Price Prediction
+## Topic: TradingView Widgets Dashboard and Bitcoin Price Prediction
 
 ### Overview
 
@@ -32,51 +32,51 @@ The project aims to create an overview dashboard using TradingView Widgets and t
 
 ### Features
 
-0. Overall:
+1. Overall:
 
-- [x] Responsive UI: User-friendly interface that scales well across various screen sizes.
-- [x] Theme Toggle: Switch between dark and light themes.
+   - [x] Responsive UI: User-friendly interface that scales well across various screen sizes.
+   - [x] Theme Toggle: Switch between dark and light themes.
 
-1. Dashboard page:
+2. Dashboard page:
 
-- [x] Dashboard Integration: Incorporates TradingView Widgets for real-time data visualization.
-- [x] Search Functionality: Enter symbols such as `BINANCE:BTCUSDT` or `NASDAQ:AAPL`.
-- [ ] Autocomplete Search: Currently, TradingView API doesn't provide a list of symbols, so you must know the exact symbol to search. Alternatively, use the search inside the chart widget.
+   - [x] Dashboard Integration: Incorporates TradingView Widgets for real-time data visualization.
+   - [x] Search Functionality: Enter symbols such as `BINANCE:BTCUSDT` or `NASDAQ:AAPL`.
+   - [ ] Autocomplete Search: Currently, TradingView API doesn't provide a list of symbols, so you must know the exact symbol to search. Alternatively, use the search inside the chart widget.
 
-2. Prediction page:
+3. Prediction page:
 
-- [x] Lightweight Charts Implementation: Uses Lightweight Charts for improved visualization over traditional Python Plotly visualizations.
-- [x] Price Prediction: Utilizes machine learning algorithms to predict future prices.
-- [ ] Prediction History: Currently, prediction history resets upon page reload or site exit. Future plans include adding Redis for caching past predictions
-- [ ] Up-to-Date Model: The current trained model is based on data up to September 2023. While it can still predict future prices, significant price changes since then may affect accuracy. Future updates may include AutoML for frequent model retraining.
-- [x] Conditional Menu: Customize options to suit your preferences.
-  - Number of Candles: TradingView limits real-time candles to around 2400.
-    - [x] 250 candles
-    - [x] 500 candles
-    - [x] 1000 candles
-    - [x] 2000 candles
-  - Simple Moving Average: Various SMA options for reference and comparison.
-    - [x] 5 data points
-    - [x] 10 data points
-    - [x] 20 data points
-    - [x] 40 data points
-  - Crypto Support: Currently supports Bitcoin with plans to expand.
-    - [x] Bitcoin
-    - [ ] Ethereum
-  - Model Types: Different machine learning algorithms.
-    - [x] Long short-term memory
-    - [x] Recurrent neural network
-    - [x] eXtreme Gradient Boosting
-    - [ ] Transformers and Time Embeddings
-  - Techinal idicators: Various technical indicators available.
-    - [x] Bollinger Bands: Technical indicator.
-    - [x] Closing Price
-    - [x] Moving Average
-    - [x] Moving Average Convergence/Divergence
-    - [x] Rate Of Change
-    - [x] Relative Strength Index
-    - [x] Standard Deviation
-    - [ ] Ichimoku Cloud
+   - [x] Lightweight Charts Implementation: Uses Lightweight Charts for improved visualization over traditional Python Plotly visualizations.
+   - [x] Price Prediction: Utilizes machine learning algorithms to predict future prices.
+   - [ ] Prediction History: Currently, prediction history resets upon page reload or site exit. Future plans include adding Redis for caching past predictions.
+   - [ ] Up-to-Date Model: The current trained model is based on data up to September 2023. While it can still predict future prices, significant price changes since then may affect accuracy. Future updates may include AutoML for frequent model retraining.
+   - [x] Conditional Menu: Customize options to suit your preferences.
+     - Number of Candles: TradingView limits real-time candles to around 2400.
+       - [x] 250 candles
+       - [x] 500 candles
+       - [x] 1000 candles
+       - [x] 2000 candles
+     - Simple Moving Average: Various SMA options for reference and comparison.
+       - [x] 5 data points
+       - [x] 10 data points
+       - [x] 20 data points
+       - [x] 40 data points
+     - Crypto Support: Currently supports Bitcoin with plans to expand.
+       - [x] Bitcoin
+       - [ ] Ethereum
+     - Model Types: Different machine learning algorithms.
+       - [x] Long short-term memory
+       - [x] Recurrent neural network
+       - [x] eXtreme Gradient Boosting
+       - [ ] Transformers and Time Embeddings
+     - Technical Indicators: Various technical indicators available.
+       - [x] Bollinger Bands
+       - [x] Closing Price
+       - [x] Moving Average
+       - [x] Moving Average Convergence/Divergence
+       - [x] Rate of change
+       - [x] Relative Strength Index
+       - [x] Standard Deviation
+       - [ ] Ichimoku Cloud
 
 ### Installation
 
@@ -114,7 +114,7 @@ The project aims to create an overview dashboard using TradingView Widgets and t
    npm start
    ```
 
-6. Wait for the code to compile, the application will run on `localhost:3000`.
+6. Wait for the code to compile; the application will run on `localhost:3000`.
 
 7. Open another terminal.
 
@@ -160,11 +160,11 @@ The project aims to create an overview dashboard using TradingView Widgets and t
     https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072
     ```
 
-14. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
+14. Create a `.env` file from the `.env.example` file, then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
 
     ![binance_keys](images/binance_key.png)
 
-15. Start the Backend:
+15. Start the backend:
 
     ```
     python manage.py runserver
