@@ -64,16 +64,16 @@ The project aims to create an overview dashboard using TradingView Widgets and t
        - [x] Bitcoin
        - [ ] Ethereum
      - Model Types: Different machine learning algorithms.
-       - [x] Long short-term memory
-       - [x] Recurrent neural network
-       - [x] eXtreme Gradient Boosting
+       - [x] Long Short-Term Memory
+       - [x] Recurrent Neural Network
+       - [x] Extreme Gradient Boosting
        - [ ] Transformers and Time Embeddings
      - Technical Indicators: Various technical indicators available.
        - [x] Bollinger Bands
        - [x] Closing Price
        - [x] Moving Average
        - [x] Moving Average Convergence/Divergence
-       - [x] Rate of change
+       - [x] Rate of Change
        - [x] Relative Strength Index
        - [x] Standard Deviation
        - [ ] Ichimoku Cloud
@@ -169,3 +169,7 @@ The project aims to create an overview dashboard using TradingView Widgets and t
     ```
     python manage.py runserver
     ```
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
