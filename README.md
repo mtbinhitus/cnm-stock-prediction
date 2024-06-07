@@ -8,9 +8,9 @@ The project aims to create an overview dashboard using TradingView Widgets and t
 
 ### Group Members
 
-1. **Tăng Trường Long** - 18127139
-2. **Mai Thanh Bình** - 1753030
-3. **Lương Trường Thịnh** - 19127559
+1. Tăng Trường Long - 18127139
+2. Mai Thanh Bình - 1753030
+3. Lương Trường Thịnh - 19127559
 
 ### Preview
 
@@ -29,6 +29,54 @@ The project aims to create an overview dashboard using TradingView Widgets and t
 4. Prediction page with dark theme:
 
    ![prediction_dark](images/prediction_dark.png)
+
+### Features
+
+0. Overall:
+
+- [x] Responsive UI: User-friendly interface that scales well across various screen sizes.
+- [x] Theme Toggle: Switch between dark and light themes.
+
+1. Dashboard page:
+
+- [x] Dashboard Integration: Incorporates TradingView Widgets for real-time data visualization.
+- [x] Search Functionality: Enter symbols such as `BINANCE:BTCUSDT` or `NASDAQ:AAPL`.
+- [ ] Autocomplete Search: Currently, TradingView API doesn't provide a list of symbols, so you must know the exact symbol to search. Alternatively, use the search inside the chart widget.
+
+2. Prediction page:
+
+- [x] Lightweight Charts Implementation: Uses Lightweight Charts for improved visualization over traditional Python Plotly visualizations.
+- [x] Price Prediction: Utilizes machine learning algorithms to predict future prices.
+- [ ] Prediction History: Currently, prediction history resets upon page reload or site exit. Future plans include adding Redis for caching past predictions
+- [ ] Up-to-Date Model: The current trained model is based on data up to September 2023. While it can still predict future prices, significant price changes since then may affect accuracy. Future updates may include AutoML for frequent model retraining.
+- [x] Conditional Menu: Customize options to suit your preferences.
+  - Number of Candles: TradingView limits real-time candles to around 2400.
+    - [x] 250 candles
+    - [x] 500 candles
+    - [x] 1000 candles
+    - [x] 2000 candles
+  - Simple Moving Average: Various SMA options for reference and comparison.
+    - [x] 5 data points
+    - [x] 10 data points
+    - [x] 20 data points
+    - [x] 40 data points
+  - Crypto Support: Currently supports Bitcoin with plans to expand.
+    - [x] Bitcoin
+    - [ ] Ethereum
+  - Model Types: Different machine learning algorithms.
+    - [x] Long short-term memory
+    - [x] Recurrent neural network
+    - [x] eXtreme Gradient Boosting
+    - [ ] Transformers and Time Embeddings
+  - Techinal idicators: Various technical indicators available.
+    - [x] Bollinger Bands: Technical indicator.
+    - [x] Closing Price
+    - [x] Moving Average
+    - [x] Moving Average Convergence/Divergence
+    - [x] Rate Of Change
+    - [x] Relative Strength Index
+    - [x] Standard Deviation
+    - [ ] Ichimoku Cloud
 
 ### Installation
 
