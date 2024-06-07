@@ -18,10 +18,10 @@ body {
   --predictionColor: #046fe8;
   --placeholderLight: grey;
   --placeholderDark: darkgrey;
-  --sma5Color: #ffb74d;
-  --sma10Color: #845ec2;
-  --sma20Color: #ff8a65;
-  --sma40Color: #56ccf2;
+  --sma5Color: #f39c12;
+  --sma10Color: #dc7633;
+  --sma20Color: #845ec2;
+  --sma40Color: #dd33bb;
 }
 
 #root {
@@ -82,7 +82,7 @@ body {
   height: 100%;
 }
 
-/* Market page */
+/* Dashboard page */
 
 .App-header {
   width: 100%;
@@ -148,6 +148,8 @@ body {
 .App-footer {
   width: 100%;
   height: 400px;
+  display: flex;
+  flex-direction: row;
 }
 
 .App-footer-1 {
@@ -161,6 +163,21 @@ body {
 }
 
 .App-footer-1 #tradingview_widget_wrapper div {
+  width: 100%;
+  height: 100%;
+}
+
+.App-footer-2 {
+  width: 100%;
+  height: 400px;
+}
+
+.App-footer-2 #tradingview_widget_wrapper {
+  width: 100%;
+  height: 110%;
+}
+
+.App-footer-2 #tradingview_widget_wrapper div {
   width: 100%;
   height: 100%;
 }

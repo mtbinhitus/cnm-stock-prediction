@@ -1,24 +1,86 @@
 # [CSC13115 - Modern Software Development Technologies] Final Group Project
 
-## Topic: Stock and Coin Price Analysis and Prediction Dashboard using Machine Learning
-
-### Overview
-
-This repository hosts the final group project for CSC13115 - Modern Software Development Technologies. The project focuses on developing a dashboard page for analyzing and predicting the prices of stocks and coins utilizing machine learning techniques.
+## Topic: TradingView Widgets Dashboard and Bitcoin Price Prediction
 
 ### Group Members
 
-1. **Tăng Trường Long** - 18127139
-2. **Mai Thanh Bình** - 1753030
-3. **Lương Trường Thịnh** - 19127559
+1. Tăng Trường Long - 18127139
+2. Mai Thanh Bình - 1753030
+3. Lương Trường Thịnh - 19127559
+
+### Demo App
+
+Check out the app at [https://app1.longproxd.com](https://app1.longproxd.com).
+
+### Overview
+
+The project aims to create an overview dashboard using TradingView Widgets and to predict Bitcoin prices utilizing machine learning algorithms.
+
+### Preview
+
+1. Dashboard page with light theme:
+
+   ![dashboard_light](images/dashboard_light.png)
+
+2. Dashboard page with dark theme:
+
+   ![dashboard_dark](images/dashboard_dark.png)
+
+3. Prediction page with light theme:
+
+   ![prediction_light](images/prediction_light.png)
+
+4. Prediction page with dark theme:
+
+   ![prediction_dark](images/prediction_dark.png)
 
 ### Features
 
-- **Data Visualization:** Presenting historical price data and trends through interactive charts and graphs.
-- **Machine Learning Models:** Implementing predictive models to forecast future prices based on historical data.
-- **User-Friendly Interface:** Designing an intuitive dashboard interface for easy navigation and analysis.
-- **Customization Options:** Providing users with options to customize and personalize their dashboard experience.
-- **Responsive Design:** Ensuring compatibility with various devices and screen sizes for seamless user experience.
+1. Overall:
+
+   - [x] Responsive UI: User-friendly interface that scales well across various screen sizes.
+   - [x] Theme Toggle: Switch between dark and light themes.
+
+2. Dashboard page:
+
+   - [x] Dashboard Integration: Incorporates TradingView Widgets for real-time data visualization.
+   - [x] Search Functionality: Enter symbols such as `BINANCE:BTCUSDT` or `NASDAQ:AAPL`.
+   - [ ] Autocomplete Search: Currently, TradingView API doesn't provide a list of symbols, so you must know the exact symbol to search. Alternatively, use the search inside the chart widget.
+
+3. Prediction page:
+
+   - [x] Lightweight Charts Implementation: Uses Lightweight Charts for improved visualization over traditional Python Plotly visualizations.
+   - [x] Price Prediction: Utilizes machine learning algorithms to predict future prices.
+   - [ ] Prediction History: Currently, prediction history resets upon page reload or site exit. Future plans include adding Redis for caching past predictions.
+   - [ ] Up-to-Date Model: The current trained model is based on data up to September 2023. While it can still predict future prices, significant price changes since then may affect accuracy. Future updates may include AutoML for frequent model retraining.
+   - [x] Conditional Menu: Customize options to suit your preferences.
+     - Number of Candles: TradingView limits real-time candles to around 2400.
+       - [x] 250 candles
+       - [x] 500 candles
+       - [x] 1000 candles
+       - [x] 2000 candles
+     - Simple Moving Average: Various SMA options for reference and comparison.
+       - [x] 5 data points
+       - [x] 10 data points
+       - [x] 20 data points
+       - [x] 40 data points
+     - Crypto Support: Currently supports Bitcoin with plans to expand.
+       - [x] Bitcoin
+       - [ ] Ethereum
+     - Model Types: Different machine learning algorithms.
+       - [x] Long Short-Term Memory
+       - [x] Recurrent Neural Network
+       - [x] Extreme Gradient Boosting
+       - [ ] Transformers and Time Embeddings
+     - Technical Indicators: Various technical indicators available.
+       - [x] Bollinger Bands
+       - [x] Closing Price
+       - [x] Moving Average
+       - [x] Moving Average Convergence/Divergence
+       - [x] Rate of Change
+       - [x] Relative Strength Index
+       - [x] Standard Deviation
+       - [ ] Ichimoku Cloud
 
 ### Installation
 
@@ -46,17 +108,21 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    npm install
    ```
 
-4. Start the frontend:
+4. Create a `.env` file from the `.env.example` file, you can decide what IP and port you want your React app to fetch data from:
+
+   ![react_url](images/react_url.png)
+
+5. Start the frontend:
 
    ```
    npm start
    ```
 
-5. Wait for the code to compile, the application will run on `localhost:3000`.
+6. Wait for the code to compile; the application will run on `localhost:3000`.
 
-6. Open another terminal.
+7. Open another terminal.
 
-7. Navigate to the `server-python` folder:
+8. Navigate to the `server-python` folder:
 
    ```
    cd cnm-stock-prediction/server-python
@@ -68,36 +134,46 @@ This repository hosts the final group project for CSC13115 - Modern Software Dev
    cd server-python
    ```
 
-8. Install dependencies:
+9. Install dependencies:
 
    ```
    pip install -r requirements.txt
    ```
 
-9. Navigate to the `server` folder:
+10. Navigate to the `server` folder:
 
-   ```
-   cd server
-   ```
+    ```
+    cd server
+    ```
 
-10. Propagating changes to models :
+11. Create initial migrations:
+
+    ```
+    python manage.py makemigrations
+    ```
+
+12. Apply migrations:
 
     ```
     python manage.py migrate
     ```
 
-11. Follow this tutorial to create your API keys on Binance:
+13. Follow this tutorial to create your API keys on Binance:
 
     ```
     https://www.binance.com/en/support/faq/how-to-create-api-keys-on-binance-360002502072
     ```
 
-12. Create a `.env` file from the `.env.example` file then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
+14. Create a `.env` file from the `.env.example` file, then insert your `BINANCE_API_KEY` and `BINANCE_API_SECRET_KEY`:
 
     ![binance_keys](images/binance_key.png)
 
-13. Start the Backend:
+15. Start the backend:
 
     ```
     python manage.py runserver
     ```
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

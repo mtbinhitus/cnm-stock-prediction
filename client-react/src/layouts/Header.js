@@ -14,6 +14,9 @@ import "../styles.css";
 
 export const ThemeContext = createContext(null);
 
+let color;
+let borderColor;
+
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -42,15 +45,17 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: "inherit",
     "& .MuiInputBase-input": {
+        background: borderColor,
+        borderRadius: "19.5px",
         padding: theme.spacing(1, 1, 1, 0),
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create("width"),
         width: "100%",
         [theme.breakpoints.up("sm")]: {
             width: "20ch",
-            "&:focus": {
-                width: "30ch"
-            }
+            // "&:focus": {
+            //     width: "30ch"
+            // }
         }
     }
 }));
@@ -61,8 +66,8 @@ function Header({ updateTheme, theme, showSearchBar }) {
         updateTheme(newTheme);
     };
 
-    const color = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
-    const borderColor = theme === "dark" ? ThemeColors.darkBlue2 : ThemeColors.grayishBlue2;
+    color = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
+    borderColor = theme === "dark" ? ThemeColors.darkBlue2 : ThemeColors.grayishBlue2;
 
     const commonButtonStyle = {
         fontWeight: 600,
@@ -119,7 +124,7 @@ function Header({ updateTheme, theme, showSearchBar }) {
                                     className="button"
                                     variant={theme}
                                     href="/"
-                                >Market</Button>
+                                >Dashboard</Button>
 
                                 <Button
                                     className="button"
@@ -129,9 +134,9 @@ function Header({ updateTheme, theme, showSearchBar }) {
                             </Box>
 
                             {showSearchBar && <form onSubmit={handleSubmit}>
-                                <Search id="header-1-2" style={{ background: "transparent", border: `1px solid ${borderColor}`, borderRadius: "0px" }}>
+                                <Search id="header-1-2" style={{ background: "transparent" }}>
                                     <SearchIconWrapper>
-                                        <SearchIcon style={{ color: color }} />
+                                        <SearchIcon style={{ color: color, zIndex: 1, opacity: 0.42 }} />
                                     </SearchIconWrapper>
 
                                     <StyledInputBase

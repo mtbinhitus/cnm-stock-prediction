@@ -251,7 +251,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                         value="ethusdt"
                                         label="ETHUSDT"
                                         control={<Radio variant="theme" />}
-                                        style={{ color: textColor }}
+                                        style={{ color: textColor, textDecoration: "line-through" }}
                                         disabled
                                     ></FormControlLabel>
                                 </RadioGroup>
@@ -279,7 +279,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                         value="transte"
                                         label="TransTE"
                                         control={<Radio variant="theme" />}
-                                        style={{ color: textColor }}
+                                        style={{ color: textColor, textDecoration: "line-through" }}
                                         disabled
                                     ></FormControlLabel>
                                 </RadioGroup>
@@ -436,7 +436,7 @@ const ChartMenu = ({ theme, candle, smaCount, crypto, model, indicator, setCandl
                                                 variant="theme"
                                             ></Checkbox>
                                         }
-                                        style={{ color: textColor }}
+                                        style={{ color: textColor, textDecoration: "line-through" }}
                                         disabled
                                     ></FormControlLabel>
                                 </FormGroup>
