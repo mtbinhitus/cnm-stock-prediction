@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { AdvancedRealTimeChart, CompanyProfile, SymbolInfo, Timeline } from "react-ts-tradingview-widgets";
+import { AdvancedRealTimeChart, CompanyProfile, SymbolInfo, Timeline, FundamentalData } from "react-ts-tradingview-widgets";
 import Header from "../layouts/Header.js";
 import Footer from "../layouts/Footer.js";
 import "../styles.css";
@@ -98,8 +98,20 @@ function Homepage() {
                         isTransparent="true"
                         copyrightStyles={styles}
                         feedMode="symbol"
-                        displayMode="compact"
+                        displayMode="regular"
                     ></Timeline>
+                </div>
+
+                <div className="App-footer-2">
+                    <FundamentalData
+                        symbol={symbol2}
+                        autosize="true"
+                        locale="en"
+                        colorTheme={theme}
+                        isTransparent="true"
+                        copyrightStyles={styles}
+                        displayMode="regular"
+                    ></FundamentalData>
                 </div>
             </div>
 

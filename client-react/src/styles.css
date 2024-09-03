@@ -18,10 +18,10 @@ body {
   --predictionColor: #046fe8;
   --placeholderLight: grey;
   --placeholderDark: darkgrey;
-  --sma5Color: #ffb74d;
-  --sma10Color: #845ec2;
-  --sma20Color: #ff8a65;
-  --sma40Color: #56ccf2;
+  --sma5Color: #f39c12;
+  --sma10Color: #dc7633;
+  --sma20Color: #845ec2;
+  --sma40Color: #dd33bb;
 }
 
 #root {
@@ -82,7 +82,7 @@ body {
   height: 100%;
 }
 
-/* Market page */
+/* Dashboard page */
 
 .App-header {
   width: 100%;
@@ -148,6 +148,8 @@ body {
 .App-footer {
   width: 100%;
   height: 400px;
+  display: flex;
+  flex-direction: row;
 }
 
 .App-footer-1 {
@@ -161,6 +163,21 @@ body {
 }
 
 .App-footer-1 #tradingview_widget_wrapper div {
+  width: 100%;
+  height: 100%;
+}
+
+.App-footer-2 {
+  width: 100%;
+  height: 400px;
+}
+
+.App-footer-2 #tradingview_widget_wrapper {
+  width: 100%;
+  height: 110%;
+}
+
+.App-footer-2 #tradingview_widget_wrapper div {
   width: 100%;
   height: 100%;
 }
@@ -197,6 +214,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: auto;
+  width: 1230px;
 }
 
 #light.Prediction-body-1-body {
@@ -224,6 +242,7 @@ body {
   align-items: center;
   padding: 26px;
   margin: auto;
+  width: 1178px;
 }
 
 #light.Prediction-body-2-body {
@@ -236,47 +255,35 @@ body {
 
 /* MUI css override */
 
-.MuiBox-root.css-i9gxme {
-  background: inherit !important;
-}
-
-.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-hip9hq-MuiPaper-root-MuiAppBar-root {
-  background: inherit !important;
-}
-
 @media (min-width: 1536px) {
-  .css-19r6kue-MuiContainer-root {
+  #header-1-1 {
     max-width: none !important;
   }
 }
 
 @media (min-width: 600px) {
-  .css-19r6kue-MuiContainer-root {
+  #header-1-1 {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
 }
 
 @media (min-width: 600px) {
-  .css-1orzy9s {
+  #header-1-2 {
     margin-right: 20px !important;
   }
 }
 
-.css-j204z7-MuiFormControlLabel-root {
-  margin-right: 0px !important;
-}
-
-.css-1nrlq1o-MuiFormControl-root {
+#menu-1-1 {
   margin: 20px !important;
 }
 
-.MuiFormGroup-root.MuiFormGroup-row.css-qfz70r-MuiFormGroup-root {
-  flex-wrap: nowrap !important;
+#menu-1-2 {
+  margin-right: 0px !important;
 }
 
 @media (min-width: 0px) {
-  .css-1t6c9ts {
+  #header-1-3 {
     display: block !important;
   }
 }

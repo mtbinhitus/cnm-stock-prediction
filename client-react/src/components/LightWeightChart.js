@@ -5,7 +5,7 @@ import ThemeColors from "./ThemeColors.js";
 import { getClosePricePredict } from "../services/RestApi.js";
 
 const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, indicator }) => {
-    const WS_URL = "ws://localhost:8000/ws/socket-server/";
+    const WS_URL = process.env.REACT_APP_WS_URL;
     const chartContainerRef = useRef(null);
     const chartRef = useRef(null);
     const legendRef = useRef(null);
@@ -95,7 +95,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
 
         chartRef.current = createChart(chartContainerRef.current);
         chartRef.current.applyOptions({
-            width: 1000,
+            width: 1178,
             height: 500,
             layout: {
                 background: { color },
@@ -208,7 +208,7 @@ const LightWeightChart = ({ theme, smaCount, data, prediction, crypto, model, in
         const textColor = theme === "dark" ? ThemeColors.grayishBlue : ThemeColors.darkBlue;
 
         chartRef.current.applyOptions({
-            width: 1000,
+            width: 1178,
             height: 500,
             layout: {
                 background: { color },
