@@ -127,10 +127,10 @@ def training_model(token, name, indicator):
 
     # Calculate and visualize predictions
     y_pred = model.predict(X_test)
-    print(f'y_true = {np.array(y_test)[:5]}')
-    print(f'y_pred = {y_pred[:5]}')
+    print(f'y_true = {np.array(y_test)[-5:]}')
+    print(f'y_pred = {y_pred[-5:]}')
 
-    print(f'mean_squared_error = {mean_squared_error(y_test, y_pred)}')
+    print(f'mean_squared_error = {mean_squared_error(y_test[:-1], y_pred[:-1])}')
 
     predicted_prices = df.loc[test_split_idx+1:].copy()
     predicted_prices['close'] = y_pred

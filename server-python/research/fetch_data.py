@@ -69,5 +69,5 @@ def fetch_data_yfinance(token, period, interval, xgboost=False):
     else: df.to_csv(f"data_train/{token}_1m.csv")
     print("Done Loading Data")
 
-fetch_data_yfinance('BTCUSDT', period=7, interval="1m")
+fetch_data_yfinance('BTCUSDT', period=2, interval="1m")
 fetch_data_yfinance('BTCUSDT', period=5, interval="1m", xgboost=True)
