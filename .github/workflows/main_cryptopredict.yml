@@ -62,6 +62,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: django-app
+          path: server-python  # <-- Giải nén artifact vào đúng thư mục này
       
       - name: Login to Azure
         uses: azure/login@v2
