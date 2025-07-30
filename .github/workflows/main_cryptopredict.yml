@@ -24,23 +24,31 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Create and start virtual environment
+      - name: Change directory to server-python/Create and start virtual environment
+        working-directory: ./server-python
         run: |
           python -m venv venv
           source venv/bin/activate
+          pip install --upgrade pip
       
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Collect static files
+        working-directory: ./server-python
+        run: |
+          source venv/bin/activate
+          python manage.py collectstatic --noinput
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
-          name: python-app
+          name: django-app
           path: |
-            .
-            !venv/
+            server-python
+            !server-python/venv
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,7 +61,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: python-app
+          name: django-app
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -68,4 +76,5 @@ jobs:
         with:
           app-name: 'cryptopredict'
           slot-name: 'Production'
+          package: ./server-python
           
