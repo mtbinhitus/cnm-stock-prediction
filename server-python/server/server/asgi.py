@@ -25,49 +25,6 @@ application = ProtocolTypeRouter({
     )
 })
 
-# ML registry
-from ml.registry import MLRegistry
-from ml.btc_sticker.btc_lstm import BTCPredictionUsingLSTM
-from ml.btc_sticker.btc_rnn import BTCPredictionUsingRNN
-from ml.btc_sticker.btc_xgboost import BTCPredictionUsingXGBOOST
-try:
-    # create ML registry
-    registry = MLRegistry()
-    # BTCLSTM
-    lstm = BTCPredictionUsingLSTM()
-    # add to ML registry
-    print("Import Model")
-    registry.add_algorithm(endpoint_name="btcsticker",
-                            algorithm_object=lstm,
-                            algorithm_name="btcusdt_lstm",
-                            algorithm_status="production",
-                            algorithm_version="0.0.1",
-                            owner="Binh Mai",
-                            algorithm_description="LSTM model to predict close price of BTCUSDT.")
-    
-    # BTCRNN
-    rnn = BTCPredictionUsingRNN()
-    registry.add_algorithm(endpoint_name="btcsticker",
-                            algorithm_object=rnn,
-                            algorithm_name="btcusdt_rnn",
-                            algorithm_status="production",
-                            algorithm_version="0.0.1",
-                            owner="Binh Mai",
-                            algorithm_description="RNN model to predict close price of BTCUSDT.")
-    
-    # BTCXGBoost
-    xgboost = BTCPredictionUsingXGBOOST()
-    registry.add_algorithm(endpoint_name="btcsticker",
-                            algorithm_object=xgboost,
-                            algorithm_name="btcusdt_xgboost",
-                            algorithm_status="production",
-                            algorithm_version="0.0.1",
-                            owner="Binh Mai",
-                            algorithm_description="XGBoost model to predict close price of BTCUSDT.")
-except Exception as e:
-    print("Exception while loading the algorithms to the registry,", str(e))
-
-
 from threading import Thread
 from ml.api.binance_websocket import BinanceAPIManager
 import ml.api.utils as utils
@@ -117,6 +74,49 @@ class RealTimeThread(Thread):
         return self._return
 
 import sys
+# ML registry
+from ml.registry import MLRegistry
+from ml.btc_sticker.btc_lstm import BTCPredictionUsingLSTM
+from ml.btc_sticker.btc_rnn import BTCPredictionUsingRNN
+from ml.btc_sticker.btc_xgboost import BTCPredictionUsingXGBOOST
+# create ML registry
+registry = MLRegistry()
+
 if len(sys.argv) > 1 and sys.argv[1] in ["runserver", "daphne", "uvicorn"]:
+    try:
+        # BTCLSTM
+        lstm = BTCPredictionUsingLSTM()
+        # add to ML registry
+        print("Import Model")
+        registry.add_algorithm(endpoint_name="btcsticker",
+                                algorithm_object=lstm,
+                                algorithm_name="btcusdt_lstm",
+                                algorithm_status="production",
+                                algorithm_version="0.0.1",
+                                owner="Binh Mai",
+                                algorithm_description="LSTM model to predict close price of BTCUSDT.")
+        
+        # BTCRNN
+        rnn = BTCPredictionUsingRNN()
+        registry.add_algorithm(endpoint_name="btcsticker",
+                                algorithm_object=rnn,
+                                algorithm_name="btcusdt_rnn",
+                                algorithm_status="production",
+                                algorithm_version="0.0.1",
+                                owner="Binh Mai",
+                                algorithm_description="RNN model to predict close price of BTCUSDT.")
+        
+        # BTCXGBoost
+        xgboost = BTCPredictionUsingXGBOOST()
+        registry.add_algorithm(endpoint_name="btcsticker",
+                                algorithm_object=xgboost,
+                                algorithm_name="btcusdt_xgboost",
+                                algorithm_status="production",
+                                algorithm_version="0.0.1",
+                                owner="Binh Mai",
+                                algorithm_description="XGBoost model to predict close price of BTCUSDT.")
+    except Exception as e:
+        print("Exception while loading the algorithms to the registry,", str(e))
+
     btc_socket = RealTimeThread()
     btc_socket.start()

@@ -17,6 +17,7 @@ import dotenv
 BASE_DIR_env = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(BASE_DIR_env, "../../.env")
 dotenv.load_dotenv(dotenv_path)
+print(dotenv_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,6 +36,8 @@ ALLOWED_HOSTS = ["*"]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+
+print("Loaded VPS_IP from .env:", os.getenv("VPS_IP"))
 
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000",  # for localhost (REACT Default)
@@ -55,11 +58,13 @@ CORS_ALLOWED_ORIGINS = (
 )
 
 CSRF_TRUSTED_ORIGINS = [
+   origin for origin in [
     "http://localhost:3000",  # for localhost (REACT Default)
     "http://192.168.0.50:3000",  # for network
     "http://localhost:8080",  # for localhost (Developlemt)
     "http://192.168.0.50:8080",  # for network (Development)
     os.getenv("VPS_IP"),
+   ] if origin
 ]
 
 
