@@ -98,8 +98,8 @@ class RealTimeThread(Thread):
             
             try:
                 loop = asyncio.get_event_loop()
-                for sig in (signal.SIGINT, signal.SIGTERM):
-                    loop.add_signal_handler(sig, loop.stop)
+                # for sig in (signal.SIGINT, signal.SIGTERM):
+                #     loop.add_signal_handler(sig, loop.stop)
                     
                 asyncio.ensure_future(instance.task_btcusdt_socket())
                 loop.run_forever()
@@ -116,5 +116,7 @@ class RealTimeThread(Thread):
         Thread.join(self, *args)
         return self._return
 
-btc_socket = RealTimeThread()
-btc_socket.start()
+import sys
+if len(sys.argv) > 1 and sys.argv[1] in ["runserver", "daphne", "uvicorn"]:
+    btc_socket = RealTimeThread()
+    btc_socket.start()

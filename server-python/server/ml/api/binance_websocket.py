@@ -28,8 +28,14 @@ class BinanceAPIManager():
 
         async with ds as kline_socket:
             while True:
-                res = await kline_socket.recv()
-                await self.handle_socket_message(res)
+                try:
+                    res = await kline_socket.recv()
+                    await self.handle_socket_message(res)
+                except Exception as e:
+                    print("[ERROR]", e)
+                    break
+                
+        await client.close_connection()
 
     async def handle_socket_message(self, msg):
         # define how to process incoming WebSocket messages
