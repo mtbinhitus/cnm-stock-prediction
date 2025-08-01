@@ -13,6 +13,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VPS_IP: http://127.0.0.1:3000
     permissions:
       contents: read #This is required for actions/checkout
 
