@@ -10,6 +10,7 @@ import numpy as np
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import json
+import asyncio
 
 class BinanceAPIManager():
     def __init__(self, api_key, api_secret, api_endpoint):

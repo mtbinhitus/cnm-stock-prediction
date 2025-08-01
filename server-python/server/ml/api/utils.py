@@ -7,6 +7,10 @@ import time
 # input - key_name: the name of the enviroment variable that you want to get.
 # output - the value of the environment. if the value is not available the fn will return "None"
 def get_env_variable(key_name):
+    if os.getenv("WEBSITE_HOSTNAME"):  # Azure sẽ set biến này
+        print("Running on Azure Web App")
+    else:
+        print("Running locally")
     dotenv_path = Path('../.env')
     print(dotenv_path)
     is_done= load_dotenv(dotenv_path=dotenv_path)

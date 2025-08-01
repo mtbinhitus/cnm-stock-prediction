@@ -39,6 +39,12 @@ jobs:
         working-directory: ./server-python/server
         run: |
           python manage.py collectstatic --noinput
+      
+      - name: Run migrations
+        working-directory: ./server-python/server
+        run: |
+          python manage.py makemigrations
+          python manage.py migrate
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 

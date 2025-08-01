@@ -74,6 +74,7 @@ import ml.api.utils as utils
 import datetime as dt
 import pandas as pd
 import asyncio
+import signal
 
 class RealTimeThread(Thread):
     def __init__(self, group=None, target=None, name=None,
@@ -97,6 +98,9 @@ class RealTimeThread(Thread):
             
             try:
                 loop = asyncio.get_event_loop()
+                for sig in (signal.SIGINT, signal.SIGTERM):
+                    loop.add_signal_handler(sig, loop.stop)
+                    
                 asyncio.ensure_future(instance.task_btcusdt_socket())
                 loop.run_forever()
             except KeyboardInterrupt:
