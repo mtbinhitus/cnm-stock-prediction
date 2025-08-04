@@ -81,6 +81,8 @@ from ml.btc_sticker.btc_rnn import BTCPredictionUsingRNN
 from ml.btc_sticker.btc_xgboost import BTCPredictionUsingXGBOOST
 # create ML registry
 registry = MLRegistry()
+if any(cmd in sys.argv[0] or cmd in " ".join(sys.argv) for cmd in ["runserver", "daphne", "uvicorn"]):
+    print("Argv start log: " + sys.argv[1])
 
 if len(sys.argv) > 1 and sys.argv[1] in ["runserver", "daphne", "uvicorn"]:
     try:
